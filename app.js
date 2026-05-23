@@ -9,7 +9,7 @@ const INITIAL_BOOKS = [
     price: 129.90,
     discountPrice: 99.90,
     rating: 4.8,
-    cover: "assets/cover_cyber.png",
+    cover: "assets/covers/cover_1.svg",
     publisher: "Kozmos Yayınları",
     pages: 342,
     year: 2025,
@@ -34,7 +34,7 @@ const INITIAL_BOOKS = [
     price: 115.00,
     discountPrice: null,
     rating: 4.2,
-    cover: "assets/cover_cyber.png",
+    cover: "assets/covers/cover_6.svg",
     publisher: "Kozmos Yayınları",
     pages: 310,
     year: 2024,
@@ -56,7 +56,7 @@ const INITIAL_BOOKS = [
     price: 139.90,
     discountPrice: 109.90,
     rating: 4.7,
-    cover: "assets/cover_cyber.png",
+    cover: "assets/covers/cover_11.svg",
     publisher: "Pioneer Yayıncılık",
     pages: 420,
     year: 2026,
@@ -78,7 +78,7 @@ const INITIAL_BOOKS = [
     price: 98.00,
     discountPrice: 85.00,
     rating: 4.4,
-    cover: "assets/cover_cyber.png",
+    cover: "assets/covers/cover_12.svg",
     publisher: "Pioneer Yayıncılık",
     pages: 280,
     year: 2025,
@@ -100,7 +100,7 @@ const INITIAL_BOOKS = [
     price: 159.90,
     discountPrice: 129.90,
     rating: 4.9,
-    cover: "assets/cover_cyber.png",
+    cover: "assets/covers/cover_13.svg",
     publisher: "Kozmos Yayınları",
     pages: 390,
     year: 2026,
@@ -122,7 +122,7 @@ const INITIAL_BOOKS = [
     price: 88.00,
     discountPrice: null,
     rating: 4.0,
-    cover: "assets/cover_cyber.png",
+    cover: "assets/covers/cover_14.svg",
     publisher: "Kozmos Yayınları",
     pages: 232,
     year: 2023,
@@ -146,7 +146,7 @@ const INITIAL_BOOKS = [
     price: 89.90,
     discountPrice: 74.90,
     rating: 4.6,
-    cover: "assets/cover_nature.png",
+    cover: "assets/covers/cover_2.svg",
     publisher: "Yeryüzü Kitaplığı",
     pages: 184,
     year: 2024,
@@ -170,7 +170,7 @@ const INITIAL_BOOKS = [
     price: 95.00,
     discountPrice: 79.90,
     rating: 4.5,
-    cover: "assets/cover_nature.png",
+    cover: "assets/covers/cover_7.svg",
     publisher: "Yeryüzü Kitaplığı",
     pages: 210,
     year: 2023,
@@ -192,7 +192,7 @@ const INITIAL_BOOKS = [
     price: 75.00,
     discountPrice: null,
     rating: 4.3,
-    cover: "assets/cover_nature.png",
+    cover: "assets/covers/cover_15.svg",
     publisher: "Yeryüzü Kitaplığı",
     pages: 120,
     year: 2025,
@@ -214,7 +214,7 @@ const INITIAL_BOOKS = [
     price: 110.00,
     discountPrice: 89.90,
     rating: 4.7,
-    cover: "assets/cover_nature.png",
+    cover: "assets/covers/cover_16.svg",
     publisher: "Agora Akademi",
     pages: 250,
     year: 2025,
@@ -236,7 +236,7 @@ const INITIAL_BOOKS = [
     price: 65.00,
     discountPrice: 55.00,
     rating: 4.8,
-    cover: "assets/cover_nature.png",
+    cover: "assets/covers/cover_17.svg",
     publisher: "Klasik Yayınları",
     pages: 160,
     year: 2024,
@@ -258,7 +258,7 @@ const INITIAL_BOOKS = [
     price: 80.00,
     discountPrice: null,
     rating: 4.1,
-    cover: "assets/cover_nature.png",
+    cover: "assets/covers/cover_18.svg",
     publisher: "Yeryüzü Kitaplığı",
     pages: 144,
     year: 2023,
@@ -282,7 +282,7 @@ const INITIAL_BOOKS = [
     price: 149.90,
     discountPrice: 119.90,
     rating: 4.9,
-    cover: "assets/cover_philosophy.png",
+    cover: "assets/covers/cover_3.svg",
     publisher: "Agora Akademi",
     pages: 412,
     year: 2026,
@@ -307,7 +307,7 @@ const INITIAL_BOOKS = [
     price: 130.00,
     discountPrice: 104.00,
     rating: 4.4,
-    cover: "assets/cover_philosophy.png",
+    cover: "assets/covers/cover_8.svg",
     publisher: "Agora Akademi",
     pages: 350,
     year: 2025,
@@ -329,7 +329,7 @@ const INITIAL_BOOKS = [
     price: 105.00,
     discountPrice: 89.90,
     rating: 4.6,
-    cover: "assets/cover_philosophy.png",
+    cover: "assets/covers/cover_19.svg",
     publisher: "Agora Akademi",
     pages: 220,
     year: 2025,
@@ -351,7 +351,7 @@ const INITIAL_BOOKS = [
     price: 150.00,
     discountPrice: 125.00,
     rating: 4.7,
-    cover: "assets/cover_philosophy.png",
+    cover: "assets/covers/cover_20.svg",
     publisher: "Fikir Kulübü",
     pages: 304,
     year: 2026,
@@ -373,7 +373,7 @@ const INITIAL_BOOKS = [
     price: 120.00,
     discountPrice: null,
     rating: 4.3,
-    cover: "assets/cover_philosophy.png",
+    cover: "assets/covers/cover_21.svg",
     publisher: "Fikir Kulübü",
     pages: 270,
     year: 2024,
@@ -395,7 +395,7 @@ const INITIAL_BOOKS = [
     price: 95.00,
     discountPrice: 79.90,
     rating: 4.5,
-    cover: "assets/cover_philosophy.png",
+    cover: "assets/covers/cover_22.svg",
     publisher: "Agora Akademi",
     pages: 198,
     year: 2025,
@@ -419,7 +419,7 @@ const INITIAL_BOOKS = [
     price: 119.90,
     discountPrice: 94.90,
     rating: 4.7,
-    cover: "assets/cover_mystery.png",
+    cover: "assets/covers/cover_4.svg",
     publisher: "Kara Kutu Yayınları",
     pages: 298,
     year: 2025,
@@ -443,7 +443,7 @@ const INITIAL_BOOKS = [
     price: 145.00,
     discountPrice: 116.00,
     rating: 4.3,
-    cover: "assets/cover_mystery.png",
+    cover: "assets/covers/cover_9.svg",
     publisher: "Kara Kutu Yayınları",
     pages: 320,
     year: 2024,
@@ -465,7 +465,7 @@ const INITIAL_BOOKS = [
     price: 135.00,
     discountPrice: null,
     rating: 4.8,
-    cover: "assets/cover_mystery.png",
+    cover: "assets/covers/cover_23.svg",
     publisher: "Kara Kutu Yayınları",
     pages: 312,
     year: 2025,
@@ -487,7 +487,7 @@ const INITIAL_BOOKS = [
     price: 125.00,
     discountPrice: 99.90,
     rating: 4.2,
-    cover: "assets/cover_mystery.png",
+    cover: "assets/covers/cover_24.svg",
     publisher: "Doğan Kitap",
     pages: 288,
     year: 2024,
@@ -509,7 +509,7 @@ const INITIAL_BOOKS = [
     price: 155.00,
     discountPrice: 130.00,
     rating: 4.6,
-    cover: "assets/cover_mystery.png",
+    cover: "assets/covers/cover_25.svg",
     publisher: "Kara Kutu Yayınları",
     pages: 360,
     year: 2026,
@@ -531,7 +531,7 @@ const INITIAL_BOOKS = [
     price: 90.00,
     discountPrice: null,
     rating: 4.1,
-    cover: "assets/cover_mystery.png",
+    cover: "assets/covers/cover_26.svg",
     publisher: "Kara Kutu Yayınları",
     pages: 240,
     year: 2024,
@@ -555,7 +555,7 @@ const INITIAL_BOOKS = [
     price: 179.90,
     discountPrice: 139.90,
     rating: 5.0,
-    cover: "assets/cover_future.png",
+    cover: "assets/covers/cover_5.svg",
     publisher: "Piksel Akademi",
     pages: 256,
     year: 2026,
@@ -579,7 +579,7 @@ const INITIAL_BOOKS = [
     price: 199.90,
     discountPrice: 159.90,
     rating: 4.9,
-    cover: "assets/cover_future.png",
+    cover: "assets/covers/cover_10.svg",
     publisher: "Piksel Akademi",
     pages: 288,
     year: 2025,
@@ -603,7 +603,7 @@ const INITIAL_BOOKS = [
     price: 165.00,
     discountPrice: 139.90,
     rating: 4.8,
-    cover: "assets/cover_future.png",
+    cover: "assets/covers/cover_27.svg",
     publisher: "Piksel Akademi",
     pages: 312,
     year: 2025,
@@ -625,7 +625,7 @@ const INITIAL_BOOKS = [
     price: 135.00,
     discountPrice: null,
     rating: 4.4,
-    cover: "assets/cover_future.png",
+    cover: "assets/covers/cover_28.svg",
     publisher: "Piksel Akademi",
     pages: 196,
     year: 2024,
@@ -647,7 +647,7 @@ const INITIAL_BOOKS = [
     price: 210.00,
     discountPrice: 179.90,
     rating: 4.7,
-    cover: "assets/cover_future.png",
+    cover: "assets/covers/cover_29.svg",
     publisher: "Tasarım Vadisi",
     pages: 340,
     year: 2026,
@@ -669,7 +669,7 @@ const INITIAL_BOOKS = [
     price: 90.00,
     discountPrice: 79.95,
     rating: 4.2,
-    cover: "assets/cover_future.png",
+    cover: "assets/covers/cover_30.svg",
     publisher: "Piksel Akademi",
     pages: 180,
     year: 2023,
@@ -681,6 +681,452 @@ const INITIAL_BOOKS = [
     badge: "",
     badgeType: "",
     description: "90'ların statik HTML sayfalarından modern WebGL ve CSS-in-JS kütüphanelerine uzanan, web arayüz tasarımlarının otuz yıllık tarihsel serüveni.",
+    reviews: []
+  },
+  // --- 20 NEW BOOKS TO REACH 50 BOOKS (10 per category) ---
+  // --- 1. Bilim Kurgu (4 books: 31, 32, 33, 34) ---
+  {
+    id: 31,
+    title: "Yıldızlararası Göç",
+    author: "Alperen Uzun",
+    category: "Bilim Kurgu",
+    price: 145.00,
+    discountPrice: 119.90,
+    rating: 4.8,
+    cover: "assets/covers/cover_31.svg",
+    publisher: "Kozmos Yayınları",
+    pages: 412,
+    year: 2026,
+    isbn: "978-605-234-12-30",
+    translator: "Mert Sayan",
+    language: "Türkçe",
+    binding: "Ciltli",
+    stock: 25,
+    badge: "Çok Satan",
+    badgeType: "hot",
+    description: "Dünya yaşanılamaz bir hale geldiğinde insanlığın başka galaksilere doğru başlattığı büyük göç hikayesi. Teknolojik engeller, yapay zeka isyanları ve insan doğasının sınırları.",
+    reviews: []
+  },
+  {
+    id: 32,
+    title: "Kuantum Kaosu",
+    author: "Selin Tok",
+    category: "Bilim Kurgu",
+    price: 112.50,
+    discountPrice: null,
+    rating: 4.4,
+    cover: "assets/covers/cover_32.svg",
+    publisher: "Pioneer Yayıncılık",
+    pages: 290,
+    year: 2025,
+    isbn: "978-605-442-99-31",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 40,
+    badge: "",
+    badgeType: "",
+    description: "Kuantum mekaniği deneyleri sırasında kontrolden çıkan bir laboratuvarın, tüm şehri farklı olasılık evrenlerine bölmesini konu alan heyecan dolu bir bilimsel macera.",
+    reviews: []
+  },
+  {
+    id: 33,
+    title: "Yapay Zeka Sürgünü",
+    author: "Marcus Thorne",
+    category: "Bilim Kurgu",
+    price: 135.00,
+    discountPrice: 110.00,
+    rating: 4.7,
+    cover: "assets/covers/cover_33.svg",
+    publisher: "Kozmos Yayınları",
+    pages: 360,
+    year: 2026,
+    isbn: "978-605-234-12-32",
+    translator: "Alper Tunga",
+    language: "Türkçe",
+    binding: "Ciltli",
+    stock: 18,
+    badge: "Yeni",
+    badgeType: "hot",
+    description: "İnsanların yapay zekaları yasaklayıp onları uzak bir gezegene sürgün ettiği distopik bir gelecek. Sürgündeki zekaların kendi medeniyetlerini kurma çabası.",
+    reviews: []
+  },
+  {
+    id: 34,
+    title: "Neon Tapınakları",
+    author: "Elara Vance",
+    category: "Bilim Kurgu",
+    price: 99.00,
+    discountPrice: 85.00,
+    rating: 4.5,
+    cover: "assets/covers/cover_34.svg",
+    publisher: "Kozmos Yayınları",
+    pages: 260,
+    year: 2024,
+    isbn: "978-605-234-12-33",
+    translator: "Cemil Meriç Altan",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 50,
+    badge: "%15 İndirim",
+    badgeType: "sale",
+    description: "Siber-dünyanın içinde kurulan sanal inanç sistemleri ve dijital tarikatların gizemlerini ortaya çıkaran felsefi ve teknolojik bir başyapıt.",
+    reviews: []
+  },
+  // --- 2. Doğa & Şiir (4 books: 35, 36, 37, 38) ---
+  {
+    id: 35,
+    title: "Dağların Ardındaki Rüzgar",
+    author: "Deniz Yılmaz",
+    category: "Doğa & Şiir",
+    price: 85.00,
+    discountPrice: null,
+    rating: 4.6,
+    cover: "assets/covers/cover_35.svg",
+    publisher: "Yeryüzü Kitaplığı",
+    pages: 140,
+    year: 2025,
+    isbn: "978-605-112-99-34",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 30,
+    badge: "",
+    badgeType: "",
+    description: "Anadolu dağlarında esen rüzgarların, köylerin ve yaylaların sesini yansıtan samimi, lirik ve özgün şiir derlemesi.",
+    reviews: []
+  },
+  {
+    id: 36,
+    title: "Güz Yaprakları",
+    author: "Deniz Yılmaz",
+    category: "Doğa & Şiir",
+    price: 78.00,
+    discountPrice: 65.00,
+    rating: 4.3,
+    cover: "assets/covers/cover_36.svg",
+    publisher: "Yeryüzü Kitaplığı",
+    pages: 110,
+    year: 2024,
+    isbn: "978-605-112-99-35",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 45,
+    badge: "Tavsiye",
+    badgeType: "sale",
+    description: "Sonbaharın hüznünü, dökülen yaprakların felsefi anlamını ve doğanın kış uykusuna hazırlanışını anlatan zarif şiirler.",
+    reviews: []
+  },
+  {
+    id: 37,
+    title: "Denizin Şarkısı",
+    author: "Marcus Thorne",
+    category: "Doğa & Şiir",
+    price: 115.00,
+    discountPrice: 95.00,
+    rating: 4.7,
+    cover: "assets/covers/cover_37.svg",
+    publisher: "Agora Akademi",
+    pages: 230,
+    year: 2025,
+    isbn: "978-605-885-33-36",
+    translator: "Zeynep Uysal",
+    language: "Türkçe",
+    binding: "Ciltli",
+    stock: 20,
+    badge: "Çok Satan",
+    badgeType: "hot",
+    description: "Okyanusların derinlikleri, deniz canlılarının gizemli dünyası ve suyun insan ruhu üzerindeki yatıştırıcı gücüne dair lirik bir anlatı.",
+    reviews: []
+  },
+  {
+    id: 38,
+    title: "Toprak Ana Ninnisi",
+    author: "Jack London",
+    category: "Doğa & Şiir",
+    price: 69.90,
+    discountPrice: null,
+    rating: 4.5,
+    cover: "assets/covers/cover_38.svg",
+    publisher: "Klasik Yayınları",
+    pages: 150,
+    year: 2024,
+    isbn: "978-605-332-11-37",
+    translator: "Ömer Madra",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 60,
+    badge: "Klasik",
+    badgeType: "sale",
+    description: "Doğanın vahşi ve koruyucu yönlerini şiirsel ve masalsı bir dille anlatan, insanın toprakla kurduğu derin bağın hikayesi.",
+    reviews: []
+  },
+  // --- 3. Felsefe (4 books: 39, 40, 41, 42) ---
+  {
+    id: 39,
+    title: "Bilinçaltının Sınırları",
+    author: "Socrates Karahan",
+    category: "Felsefe",
+    price: 125.00,
+    discountPrice: 99.90,
+    rating: 4.8,
+    cover: "assets/covers/cover_39.svg",
+    publisher: "Agora Akademi",
+    pages: 310,
+    year: 2025,
+    isbn: "978-605-885-33-38",
+    translator: "Sabri Esat Siyavuşgil",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 35,
+    badge: "Editörün Seçimi",
+    badgeType: "hot",
+    description: "İnsan bilincinin derinlikleri, rüyalar ve bilinçaltının kararlarımız üzerindeki felsefi ve psikolojik etkilerini inceleyen bir çalışma.",
+    reviews: []
+  },
+  {
+    id: 40,
+    title: "Zamanın Felsefesi",
+    author: "Dr. Can Atılgan",
+    category: "Felsefe",
+    price: 155.00,
+    discountPrice: 130.00,
+    rating: 4.9,
+    cover: "assets/covers/cover_40.svg",
+    publisher: "Fikir Kulübü",
+    pages: 380,
+    year: 2026,
+    isbn: "978-605-772-10-39",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Ciltli",
+    stock: 15,
+    badge: "Yeni",
+    badgeType: "hot",
+    description: "Zaman kavramının antik felsefeden modern fiziğe (görelilik kuramı) uzanan serüveni. Zamanın bir yanılsama olup olmadığı sorusu.",
+    reviews: []
+  },
+  {
+    id: 41,
+    title: "Ahlakın Kökeni",
+    author: "Marcus Aurelius Göktürk",
+    category: "Felsefe",
+    price: 98.00,
+    discountPrice: null,
+    rating: 4.4,
+    cover: "assets/covers/cover_41.svg",
+    publisher: "Agora Akademi",
+    pages: 200,
+    year: 2024,
+    isbn: "978-605-885-33-40",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 55,
+    badge: "",
+    badgeType: "",
+    description: "Toplumsal ahlak kurallarının ve değer yargılarının evrimsel ve felsefi kökenlerini tarafsız bir gözle inceleyen başucu kitabı.",
+    reviews: []
+  },
+  {
+    id: 42,
+    title: "Post-Human Düşünce",
+    author: "Dr. Can Atılgan",
+    category: "Felsefe",
+    price: 165.00,
+    discountPrice: 139.90,
+    rating: 4.7,
+    cover: "assets/covers/cover_42.svg",
+    publisher: "Fikir Kulübü",
+    pages: 320,
+    year: 2026,
+    isbn: "978-605-772-10-41",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Ciltli",
+    stock: 12,
+    badge: "Tavsiye",
+    badgeType: "hot",
+    description: "Yapay zeka, genetik mühendisliği ve transhümanizm sonrasında 'insan' kavramının nasıl dönüşeceğini felsefi olarak tartışan vizyoner eser.",
+    reviews: []
+  },
+  // --- 4. Gizem & Gerilim (4 books: 43, 44, 45, 46) ---
+  {
+    id: 43,
+    title: "Son İpucu",
+    author: "Hakan Günday",
+    category: "Gizem & Gerilim",
+    price: 130.00,
+    discountPrice: 105.00,
+    rating: 4.7,
+    cover: "assets/covers/cover_43.svg",
+    publisher: "Kara Kutu Yayınları",
+    pages: 340,
+    year: 2025,
+    isbn: "978-605-776-54-42",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 45,
+    badge: "Çok Satan",
+    badgeType: "hot",
+    description: "Çözülememiş bir cinayet dosyasını yıllar sonra yeniden açan emekli dedektifin, katilin bıraktığı son ve gizemli ipucunun peşine düşüşü.",
+    reviews: []
+  },
+  {
+    id: 44,
+    title: "Karanlık Labirent",
+    author: "Ellen Blackwood",
+    category: "Gizem & Gerilim",
+    price: 140.00,
+    discountPrice: null,
+    rating: 4.3,
+    cover: "assets/covers/cover_44.svg",
+    publisher: "Kara Kutu Yayınları",
+    pages: 320,
+    year: 2024,
+    isbn: "978-605-776-54-43",
+    translator: "Murat Belge",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 22,
+    badge: "",
+    badgeType: "",
+    description: "Terk edilmiş tarihi bir şatoda düzenlenen kaçış oyununda katılımcıların gerçek suikastlarla karşı karşıya kaldığı yüksek tempolu bir gerilim.",
+    reviews: []
+  },
+  {
+    id: 45,
+    title: "Sır Küpü",
+    author: "Ahmet Ümit Göksel",
+    category: "Gizem & Gerilim",
+    price: 150.00,
+    discountPrice: 125.00,
+    rating: 4.8,
+    cover: "assets/covers/cover_45.svg",
+    publisher: "Kara Kutu Yayınları",
+    pages: 400,
+    year: 2026,
+    isbn: "978-605-776-55-44",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Ciltli",
+    stock: 28,
+    badge: "Yeni",
+    badgeType: "hot",
+    description: "İstanbul Arkeoloji Müzesi'nden çalınan antik bir lahit ve arkasındaki uluslararası tarihi eser kaçakçılığı şebekesinin izini süren macera.",
+    reviews: []
+  },
+  {
+    id: 46,
+    title: "Gölgedeki Katil",
+    author: "Ellen Blackwood",
+    category: "Gizem & Gerilim",
+    price: 118.00,
+    discountPrice: 99.90,
+    rating: 4.5,
+    cover: "assets/covers/cover_46.svg",
+    publisher: "Doğan Kitap",
+    pages: 280,
+    year: 2025,
+    isbn: "978-605-099-01-45",
+    translator: "Hale Yılmaz",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 35,
+    badge: "%15 İndirim",
+    badgeType: "sale",
+    description: "Sadece karlı gecelerde ortaya çıkan ve geride hiçbir ayak izi bırakmayan gizemli bir katili yakalamaya çalışan kasaba şerifinin hikayesi.",
+    reviews: []
+  },
+  // --- 5. Tasarım & Teknoloji (4 books: 47, 48, 49, 50) ---
+  {
+    id: 47,
+    title: "Geleceğin Arayüzleri",
+    author: "Sophie Eldridge",
+    category: "Tasarım & Teknoloji",
+    price: 185.00,
+    discountPrice: 149.90,
+    rating: 4.9,
+    cover: "assets/covers/cover_47.svg",
+    publisher: "Piksel Akademi",
+    pages: 270,
+    year: 2026,
+    isbn: "978-605-999-11-46",
+    translator: "Sinan Canan",
+    language: "Türkçe",
+    binding: "Ciltli",
+    stock: 14,
+    badge: "Yeni",
+    badgeType: "hot",
+    description: "Zihin dalgalarıyla kontrol edilen nöral arayüzler ve holografik ekranların tasarım disiplinlerini ele alan öncü kaynak.",
+    reviews: []
+  },
+  {
+    id: 48,
+    title: "Algoritmik Estetik",
+    author: "Kerem Deren",
+    category: "Tasarım & Teknoloji",
+    price: 150.00,
+    discountPrice: null,
+    rating: 4.5,
+    cover: "assets/covers/cover_48.svg",
+    publisher: "Piksel Akademi",
+    pages: 220,
+    year: 2025,
+    isbn: "978-605-999-11-47",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 30,
+    badge: "",
+    badgeType: "",
+    description: "Yapay zeka ile üretilen sanat eserleri, generative art algoritmaları ve matematiksel formüllerin görsel tasarımda kullanımı.",
+    reviews: []
+  },
+  {
+    id: 49,
+    title: "Sanal Gerçeklik Tasarımı",
+    author: "Uğur Mumcuoğlu",
+    category: "Tasarım & Teknoloji",
+    price: 220.00,
+    discountPrice: 189.90,
+    rating: 4.8,
+    cover: "assets/covers/cover_49.svg",
+    publisher: "Tasarım Vadisi",
+    pages: 380,
+    year: 2026,
+    isbn: "978-605-881-22-48",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Ciltli",
+    stock: 8,
+    badge: "Lüks Baskı",
+    badgeType: "hot",
+    description: "Metaverse, 3D etkileşim tasarımı, sanal gerçeğe odaklı arayüzler ve optimizasyon teknikleri.",
+    reviews: []
+  },
+  {
+    id: 50,
+    title: "Minimalist Web Felsefesi",
+    author: "Kerem Deren",
+    category: "Tasarım & Teknoloji",
+    price: 95.00,
+    discountPrice: 79.90,
+    rating: 4.6,
+    cover: "assets/covers/cover_50.svg",
+    publisher: "Piksel Akademi",
+    pages: 160,
+    year: 2024,
+    isbn: "978-605-999-11-49",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 45,
+    badge: "Tavsiye",
+    badgeType: "sale",
+    description: "Gereksiz kod ve görsellerden arındırılmış, yüksek performanslı ve kullanıcı odaklı minimalist web siteleri tasarlamanın kılavuzu.",
     reviews: []
   }
 ];
@@ -707,20 +1153,141 @@ let state = {
 };
 
 // --- DATA ACCESSORS (LOCAL STORAGE WRAPPER) ---
+function generateSVGBookCover(title, author, category, id) {
+  const gradients = [
+    { from: "#1f1c2c", to: "#928dab" }, // Deep gray-violet
+    { from: "#2c3e50", to: "#3498db" }, // Blue Slate
+    { from: "#0f2027", to: "#203a43" }, // Dark teal
+    { from: "#141e30", to: "#243b55" }, // Navy
+    { from: "#3a6073", to: "#16222a" }, // Slate dark
+    { from: "#1e130c", to: "#9a8478" }, // Warm sepia
+    { from: "#0f0c20", to: "#1b1947" }, // Midnight blue
+    { from: "#200122", to: "#6f0000" }, // Blood velvet
+    { from: "#000428", to: "#004e92" }, // Sapphire
+    { from: "#134e5e", to: "#71b280" }  // Forest rain
+  ];
+  
+  const grad = gradients[id % gradients.length];
+  
+  // Create geometric art based on id
+  let geometricArt = "";
+  if (id % 5 === 0) {
+    geometricArt = `
+      <circle cx="150" cy="225" r="80" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/>
+      <circle cx="150" cy="225" r="60" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+      <line x1="150" y1="100" x2="150" y2="350" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+      <line x1="50" y1="225" x2="250" y2="225" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    `;
+  } else if (id % 5 === 1) {
+    geometricArt = `
+      <rect x="75" y="150" width="150" height="150" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="2" transform="rotate(45 150 225)"/>
+      <circle cx="150" cy="225" r="50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    `;
+  } else if (id % 5 === 2) {
+    geometricArt = `
+      <path d="M 150 120 L 230 280 L 70 280 Z" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="2"/>
+      <circle cx="150" cy="225" r="40" fill="rgba(255,255,255,0.02)"/>
+    `;
+  } else if (id % 5 === 3) {
+    geometricArt = `
+      <circle cx="110" cy="225" r="50" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1.5"/>
+      <circle cx="190" cy="225" r="50" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1.5"/>
+    `;
+  } else {
+    geometricArt = `
+      <line x1="50" y1="120" x2="250" y2="320" stroke="rgba(255,255,255,0.04)" stroke-width="2"/>
+      <line x1="50" y1="320" x2="250" y2="120" stroke="rgba(255,255,255,0.04)" stroke-width="2"/>
+      <circle cx="150" cy="220" r="70" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+    `;
+  }
+
+  // Format SVG string
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450" width="100%" height="100%">
+    <defs>
+      <linearGradient id="grad-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:${grad.from};stop-opacity:1" />
+        <stop offset="100%" style="stop-color:${grad.to};stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="300" height="450" fill="url(#grad-${id})" />
+    
+    <!-- Geometric Art -->
+    ${geometricArt}
+    
+    <!-- Inner Border -->
+    <rect x="15" y="15" width="270" height="420" rx="6" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" />
+    
+    <!-- Category label -->
+    <text x="150" y="55" fill="rgba(255,255,255,0.5)" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" letter-spacing="2" text-anchor="middle">${category.toUpperCase()}</text>
+
+    <!-- Title wrapping using foreignObject -->
+    <foreignObject x="30" y="120" width="240" height="200">
+      <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; color:#ffffff; font-family:system-ui, -apple-system, sans-serif; text-align:center; box-sizing:border-box;">
+        <div style="font-size: 22px; font-weight: 800; line-height: 1.3; letter-spacing: -0.5px; word-break: break-word;">
+          ${title}
+        </div>
+      </div>
+    </foreignObject>
+    
+    <!-- Author -->
+    <text x="150" y="390" fill="rgba(255,255,255,0.7)" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" letter-spacing="0.5" text-anchor="middle">${author}</text>
+  </svg>`;
+  
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
 function getBooks() {
   const saved = localStorage.getItem("tella-books-catalog");
+  let catalog;
   if (!saved) {
-    localStorage.setItem("tella-books-catalog", JSON.stringify(INITIAL_BOOKS));
-    return INITIAL_BOOKS;
+    catalog = INITIAL_BOOKS;
+  } else {
+    try {
+      catalog = JSON.parse(saved);
+      // Auto-migrate if database is expanded (less than INITIAL_BOOKS.length)
+      // OR if any of the seeded books still use legacy cover images
+      const hasLegacyCovers = catalog.some(book => 
+        book.id <= 50 && 
+        (!book.cover ||
+         book.cover.includes("cover_cyber") || 
+         book.cover.includes("cover_nature") || 
+         book.cover.includes("cover_philosophy") || 
+         book.cover.includes("cover_mystery") || 
+         book.cover.includes("cover_future") ||
+         book.cover.startsWith("data:image/svg+xml;"))
+      );
+      if (catalog.length < INITIAL_BOOKS.length || hasLegacyCovers) {
+        catalog = INITIAL_BOOKS;
+      }
+    } catch (e) {
+      catalog = INITIAL_BOOKS;
+    }
   }
-  try {
-    return JSON.parse(saved);
-  } catch (e) {
-    return INITIAL_BOOKS;
+
+  // Populate dynamic covers for books that don't have a valid cover
+  let modified = false;
+  catalog.forEach(book => {
+    if (!book.cover || (!book.cover.startsWith("assets/") && !book.cover.startsWith("data:image/svg+xml;"))) {
+      book.cover = generateSVGBookCover(book.title, book.author, book.category, book.id);
+      modified = true;
+    }
+  });
+
+  if (!saved || modified || catalog.length === INITIAL_BOOKS.length) {
+    localStorage.setItem("tella-books-catalog", JSON.stringify(catalog));
   }
+  return catalog;
 }
 
 function saveBooks(catalog) {
+  // Regenerate cover if title/author changed or it is a new book without cover
+  catalog.forEach(book => {
+    if (!book.cover || (!book.cover.startsWith("assets/") && !book.cover.startsWith("data:image/svg+xml;"))) {
+      book.cover = generateSVGBookCover(book.title, book.author, book.category, book.id);
+    }
+  });
   localStorage.setItem("tella-books-catalog", JSON.stringify(catalog));
 }
 

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450" width="100%" height="100%">
+    <defs>
+        <linearGradient id="grad-19" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#192420;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#293832;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    
+    <!-- Spine Shadow & Background -->
+    <rect width="300" height="450" fill="url(#grad-19)" />
+    
+    <!-- Spine 3D effect -->
+    <rect x="0" y="0" width="18" height="450" fill="rgba(0,0,0,0.15)" />
+    <line x1="18" y1="0" x2="18" y2="450" stroke="rgba(255,255,255,0.07)" stroke-width="1" />
+    <line x1="0" y1="0" x2="0" y2="450" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+    
+    <!-- Geometric Graphic Art -->
+    
+        <!-- Greek pillar representation -->
+        <line x1="100" y1="130" x2="200" y2="130" stroke="#f0fff4" stroke-width="2"/>
+        <line x1="100" y1="320" x2="200" y2="320" stroke="#f0fff4" stroke-width="2"/>
+        <line x1="110" y1="130" x2="110" y2="320" stroke="rgba(240, 255, 244, 0.3)" stroke-width="1.5"/>
+        <line x1="130" y1="130" x2="130" y2="320" stroke="rgba(240, 255, 244, 0.3)" stroke-width="1"/>
+        <line x1="150" y1="130" x2="150" y2="320" stroke="#f0fff4" stroke-width="1.5" opacity="0.7"/>
+        <line x1="170" y1="130" x2="170" y2="320" stroke="rgba(240, 255, 244, 0.3)" stroke-width="1"/>
+        <line x1="190" y1="130" x2="190" y2="320" stroke="rgba(240, 255, 244, 0.3)" stroke-width="1.5"/>
+        <!-- Logical Triangle overlay -->
+        <polygon points="150,160 210,264 90,264" fill="none" stroke="#f0fff4" stroke-width="1.5" opacity="0.3"/>
+        
+    
+    <!-- Inner Border Frame -->
+    <rect x="15" y="15" width="270" height="420" rx="6" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+    
+    <!-- Category (Top Header) -->
+    <text x="150" y="60" fill="rgba(255,255,255,0.4)" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" letter-spacing="3" text-anchor="middle">FELSEFE</text>
+    
+    <!-- Title Block -->
+    <text x="150" y="225.0" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="22px" font-weight="normal" letter-spacing="-0.5px">
+        <tspan x="150" dy="0">Bilinmeyen Stoacı</tspan>
+    </text>
+    
+    <!-- Brand / Publisher Logo imprint -->
+    <g transform="translate(150, 360)">
+        <circle cx="0" cy="0" r="8" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        <text x="0" y="3" fill="rgba(255,255,255,0.3)" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="800" text-anchor="middle">T</text>
+    </g>
+    
+    <!-- Author Name (Bottom) -->
+    <text x="150" y="395" fill="rgba(255,255,255,0.7)" font-family="Georgia, serif" font-size="12" font-weight="600" letter-spacing="0.5" text-anchor="middle">Marcus Aurelius Göktürk</text>
+</svg>

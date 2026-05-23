@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450" width="100%" height="100%">
+    <defs>
+        <linearGradient id="grad-31" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#0a1128;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#102a43;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    
+    <!-- Spine Shadow & Background -->
+    <rect width="300" height="450" fill="url(#grad-31)" />
+    
+    <!-- Spine 3D effect -->
+    <rect x="0" y="0" width="18" height="450" fill="rgba(0,0,0,0.15)" />
+    <line x1="18" y1="0" x2="18" y2="450" stroke="rgba(255,255,255,0.07)" stroke-width="1" />
+    <line x1="0" y1="0" x2="0" y2="450" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+    
+    <!-- Geometric Graphic Art -->
+    
+        <circle cx="150" cy="225" r="75" fill="none" stroke="rgba(56, 190, 201, 0.4)" stroke-width="1.5" />
+        <circle cx="150" cy="225" r="55" fill="none" stroke="rgba(56, 190, 201, 0.4)" stroke-width="1" stroke-dasharray="4,4" />
+        <circle cx="150" cy="225" r="35" fill="none" stroke="#38bec9" stroke-width="0.75" />
+        <line x1="150" y1="80" x2="150" y2="370" stroke="rgba(56, 190, 201, 0.4)" stroke-width="0.5" />
+        <line x1="40" y1="225" x2="260" y2="225" stroke="rgba(56, 190, 201, 0.4)" stroke-width="0.5" />
+        <circle cx="150" cy="150" r="3" fill="#38bec9" />
+        <circle cx="150" cy="300" r="3" fill="#38bec9" />
+        <circle cx="75" cy="225" r="3" fill="#38bec9" />
+        <circle cx="225" cy="225" r="3" fill="#38bec9" />
+        
+    
+    <!-- Inner Border Frame -->
+    <rect x="15" y="15" width="270" height="420" rx="6" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+    
+    <!-- Category (Top Header) -->
+    <text x="150" y="60" fill="rgba(255,255,255,0.4)" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" letter-spacing="3" text-anchor="middle">BILIM KURGU</text>
+    
+    <!-- Title Block -->
+    <text x="150" y="211.0" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="22px" font-weight="800" letter-spacing="-0.5px">
+        <tspan x="150" dy="0">Yıldızlararası</tspan><tspan x="150" dy="28px">Göç</tspan>
+    </text>
+    
+    <!-- Brand / Publisher Logo imprint -->
+    <g transform="translate(150, 360)">
+        <circle cx="0" cy="0" r="8" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        <text x="0" y="3" fill="rgba(255,255,255,0.3)" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="800" text-anchor="middle">T</text>
+    </g>
+    
+    <!-- Author Name (Bottom) -->
+    <text x="150" y="395" fill="rgba(255,255,255,0.7)" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" letter-spacing="0.5" text-anchor="middle">Alperen Uzun</text>
+</svg>
