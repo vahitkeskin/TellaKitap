@@ -58,12 +58,21 @@
           <span id="cart-badge" class="badge" style="display: none;">0</span>
         </button>
 
-        <button id="mobile-menu-btn" class="icon-btn mobile-only-btn" title="Menü">
-          <i class="fas fa-bars"></i>
+        <button id="mobile-search-toggle-btn" class="icon-btn mobile-only-btn" title="Arama Yap">
+          <i class="fas fa-search"></i>
         </button>
       </div>
     </div>
   </header>
+
+  <!-- Mobile Search Overlay (Toggled via search icon on mobile) -->
+  <div id="mobile-search-overlay" class="mobile-search-overlay">
+    <div class="container">
+      <i class="fas fa-search search-icon"></i>
+      <input type="search" id="mobile-search-input" class="search-bar" placeholder="Kitap veya yazar arayın..." autocomplete="off">
+      <div id="mobile-search-suggestions" class="search-suggestions"></div>
+    </div>
+  </div>
 
   <!-- ================= SPA VIEWS CONTAINER ================= -->
   <main>
@@ -437,32 +446,6 @@
     </div>
   </footer>
 
-  <!-- --- MOBILE NAVIGATION DRAWER --- -->
-  <div id="mobile-nav-backdrop" class="drawer-backdrop"></div>
-  <aside id="mobile-nav-drawer" class="mobile-nav-drawer">
-    <div class="mobile-nav-header">
-      <a href="#" class="logo" onclick="closeMobileNav(); switchView('home');">
-        <i class="fas fa-book-open"></i>
-        <span>Tella<span class="gradient-text">Kitap</span></span>
-      </a>
-      <button id="close-mobile-nav-btn" class="close-btn" title="Kapat"><i class="fas fa-times"></i></button>
-    </div>
-    
-    <div class="mobile-search-wrapper">
-      <i class="fas fa-search search-icon"></i>
-      <input type="search" id="mobile-search-input" class="search-bar" placeholder="Kitap veya yazar arayın..." autocomplete="off">
-      <div id="mobile-search-suggestions" class="search-suggestions"></div>
-    </div>
-    
-    <ul class="mobile-nav-links">
-      <li><span class="mobile-nav-link active" data-view="home">Ana Sayfa</span></li>
-      <li><span class="mobile-nav-link" data-view="shop">Kitaplar</span></li>
-      <li><span class="mobile-nav-link" data-view="about">Hakkımızda</span></li>
-      <li><span class="mobile-nav-link" data-view="contact">İletişim</span></li>
-      <li><a href="admin.html" class="mobile-nav-link"><i class="fas fa-lock" style="font-size:0.8rem; margin-right:2px;"></i> Panel</a></li>
-    </ul>
-  </aside>
-
   <!-- --- SHOPPING CART DRAWER --- -->
   <div id="cart-backdrop" class="drawer-backdrop"></div>
   <aside id="cart-drawer" class="cart-drawer">
@@ -629,6 +612,32 @@
   </dialog>
 
 
+
+  <!-- --- MOBILE BOTTOM NAVIGATION --- -->
+  <nav class="mobile-bottom-nav">
+    <div class="mobile-bottom-nav-item active" data-target="home">
+      <i class="fas fa-home"></i>
+      <span>Ana Sayfa</span>
+    </div>
+    <div class="mobile-bottom-nav-item" data-target="shop">
+      <i class="fas fa-th-large"></i>
+      <span>Kitaplar</span>
+    </div>
+    <div class="mobile-bottom-nav-item" id="mobile-nav-wishlist">
+      <i class="fas fa-heart"></i>
+      <span>Favoriler</span>
+      <span id="mobile-wishlist-badge" class="nav-badge" style="display: none;">0</span>
+    </div>
+    <div class="mobile-bottom-nav-item" id="mobile-nav-cart">
+      <i class="fas fa-shopping-bag"></i>
+      <span>Sepetim</span>
+      <span id="mobile-cart-badge" class="nav-badge" style="display: none;">0</span>
+    </div>
+    <div class="mobile-bottom-nav-item" id="mobile-nav-admin">
+      <i class="fas fa-user-shield"></i>
+      <span>Panel</span>
+    </div>
+  </nav>
 
   <!-- --- MAIN SCRIPT --- -->
   <script src="app.js"></script>

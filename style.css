@@ -2662,6 +2662,9 @@ footer {
   :root {
     --header-height: 70px;
   }
+  body {
+    padding-bottom: 60px; /* Spacing for bottom nav bar */
+  }
   .container {
     padding: 0 1.2rem;
   }
@@ -2697,108 +2700,145 @@ footer {
     max-width: 280px;
     margin: 0 auto 1.5rem auto;
   }
+  .sticky-buy-bar {
+    bottom: 60px !important; /* Sit exactly on top of bottom nav */
+  }
+  .mobile-bottom-nav {
+    display: flex !important;
+  }
 }
 
-/* --- MOBILE NAVIGATION DRAWER --- */
-.mobile-nav-drawer {
+/* --- MOBILE BOTTOM NAVIGATION --- */
+.mobile-bottom-nav {
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
-  width: 320px;
-  max-width: 100vw;
-  height: 100vh;
-  z-index: 200;
+  right: 0;
+  height: 60px;
   background: var(--bg-surface-solid);
-  border-right: 1px solid var(--border-color);
-  box-shadow: var(--drawer-shadow);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  border-top: 1px solid var(--border-color);
+  display: none;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 150;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.mobile-bottom-nav-item {
   display: flex;
   flex-direction: column;
-  transform: translateX(-100%);
-  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  padding: 1.5rem 2rem;
-  gap: 1.5rem;
-}
-
-.mobile-nav-drawer.open {
-  transform: translateX(0);
-}
-
-.mobile-nav-header {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 1rem;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.65rem;
+  font-weight: 700;
+  gap: 3px;
+  flex: 1;
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.mobile-search-wrapper {
+.mobile-bottom-nav-item i {
+  font-size: 1.2rem;
+}
+
+.mobile-bottom-nav-item:active {
+  transform: scale(0.92);
+}
+
+.mobile-bottom-nav-item.active {
+  color: var(--accent-secondary);
+}
+
+.mobile-bottom-nav-item .nav-badge {
+  position: absolute;
+  top: 5px;
+  right: 22%;
+  background: var(--accent-color);
+  color: #ffffff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 10px;
+  min-width: 14px;
+  text-align: center;
+  border: 1.5px solid var(--bg-surface-solid);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* --- MOBILE SEARCH OVERLAY --- */
+.mobile-search-overlay {
+  position: fixed;
+  top: 70px; /* Matches mobile header height */
+  left: 0;
+  width: 100vw;
+  height: 56px;
+  background: var(--bg-surface-solid);
+  border-bottom: 1px solid var(--border-color);
+  display: none;
+  align-items: center;
+  z-index: 90;
+  padding: 0 1.2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  animation: slideDownOverlay 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideDownOverlay {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.mobile-search-overlay.open {
+  display: flex;
+}
+
+.mobile-search-overlay .container {
   position: relative;
   width: 100%;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
-.mobile-search-wrapper .search-bar {
+.mobile-search-overlay .search-bar {
   width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  padding: 0.55rem 1rem 0.55rem 2.4rem;
   background: var(--bg-app);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
-  height: 42px;
+  border-radius: 10px;
+  height: 38px;
   color: var(--text-primary);
   font-size: 0.85rem;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.2s ease;
 }
 
-.mobile-search-wrapper .search-bar:focus {
+.mobile-search-overlay .search-bar:focus {
   border-color: var(--accent-color);
 }
 
-.mobile-search-wrapper .search-icon {
+.mobile-search-overlay .search-icon {
   position: absolute;
-  left: 1rem;
+  left: 0.9rem;
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
-.mobile-search-wrapper .search-suggestions {
+.mobile-search-overlay .search-suggestions {
   position: absolute;
-  top: 100%;
+  top: 42px;
   left: 0;
   width: 100%;
   background: var(--bg-surface-solid);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
-  margin-top: 0.5rem;
-  z-index: 10;
-  max-height: 250px;
+  border-radius: 10px;
+  margin-top: 0.3rem;
+  z-index: 120;
+  max-height: 240px;
   overflow-y: auto;
   box-shadow: var(--card-shadow);
   display: none;
-}
-
-.mobile-nav-links {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-.mobile-nav-link {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  text-decoration: none;
-  cursor: pointer;
-  display: block;
-  padding: 0.5rem 0;
-  transition: color 0.3s ease, padding-left 0.3s ease;
-}
-
-.mobile-nav-link:hover,
-.mobile-nav-link.active {
-  color: var(--accent-secondary);
-  padding-left: 5px;
 }

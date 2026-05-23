@@ -1430,6 +1430,11 @@ function updateHeaderHeartBadge() {
     badge.innerText = state.wishlist.length;
     badge.style.display = state.wishlist.length > 0 ? "flex" : "none";
   }
+  const mobileBadge = document.getElementById("mobile-wishlist-badge");
+  if (mobileBadge) {
+    mobileBadge.innerText = state.wishlist.length;
+    mobileBadge.style.display = state.wishlist.length > 0 ? "flex" : "none";
+  }
 }
 
 function openWishlistModal() {
@@ -1508,10 +1513,16 @@ function addToCart(bookId, quantity = 1) {
   openCartDrawer();
   
   const badge = document.getElementById("cart-badge");
+  const mobileBadge = document.getElementById("mobile-cart-badge");
   if (badge) {
     badge.classList.remove("pop");
     void badge.offsetWidth;
     badge.classList.add("pop");
+  }
+  if (mobileBadge) {
+    mobileBadge.classList.remove("pop");
+    void mobileBadge.offsetWidth;
+    mobileBadge.classList.add("pop");
   }
 }
 
@@ -1606,34 +1617,53 @@ function setupSharedEventListeners() {
     if (!e.target.closest(".search-wrapper")) {
       if (suggestionsBox) suggestionsBox.style.display = "none";
     }
-    if (!e.target.closest(".mobile-search-wrapper")) {
+    if (!e.target.closest(".mobile-search-overlay")) {
       if (mobileSuggestionsBox) mobileSuggestionsBox.style.display = "none";
     }
   });
 
-  // Mobile navigation drawer controls
-  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-  const closeMobileNavBtn = document.getElementById("close-mobile-nav-btn");
-  const mobileNavBackdrop = document.getElementById("mobile-nav-backdrop");
+  // Mobile search toggle overlay
+  const mobileSearchToggleBtn = document.getElementById("mobile-search-toggle-btn");
+  const mobileSearchOverlay = document.getElementById("mobile-search-overlay");
+  if (mobileSearchToggleBtn && mobileSearchOverlay) {
+    mobileSearchToggleBtn.addEventListener("click", () => {
+      mobileSearchOverlay.classList.toggle("open");
+      if (mobileSearchOverlay.classList.contains("open")) {
+        const input = document.getElementById("mobile-search-input");
+        if (input) input.focus();
+      }
+    });
+  }
 
-  if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", openMobileNav);
-  if (closeMobileNavBtn) closeMobileNavBtn.addEventListener("click", closeMobileNav);
-  if (mobileNavBackdrop) mobileNavBackdrop.addEventListener("click", closeMobileNav);
-
-  // SPA navigation links in mobile drawer
-  const mobileNavLinks = document.querySelectorAll(".mobile-nav-links .mobile-nav-link");
-  mobileNavLinks.forEach(link => {
-    link.addEventListener("click", (e) => {
-      if (link.getAttribute("href")) {
-        closeMobileNav();
+  // Mobile Bottom Navigation item click logic
+  const bottomNavItems = document.querySelectorAll(".mobile-bottom-nav-item");
+  bottomNavItems.forEach(item => {
+    item.addEventListener("click", (e) => {
+      const target = item.getAttribute("data-target");
+      
+      if (item.id === "mobile-nav-wishlist") {
+        openWishlistModal();
         return;
       }
-      const targetView = link.getAttribute("data-view");
-      if (targetView) {
-        closeMobileNav();
-        switchView(targetView);
-        mobileNavLinks.forEach(l => l.classList.remove("active"));
-        link.classList.add("active");
+      if (item.id === "mobile-nav-cart") {
+        openCartDrawer();
+        return;
+      }
+      if (item.id === "mobile-nav-admin") {
+        window.location.href = "admin.html";
+        return;
+      }
+      
+      const pathname = window.location.pathname;
+      if (pathname.includes("detail.html")) {
+        window.location.href = `index.html#${target}`;
+        return;
+      }
+      
+      if (target) {
+        switchView(target);
+        bottomNavItems.forEach(i => i.classList.remove("active"));
+        item.classList.add("active");
       }
     });
   });
@@ -1670,6 +1700,17 @@ function setupSharedEventListeners() {
       }
     });
   }
+
+  // Bind logo click to reset view and close search overlay
+  const logo = document.querySelector(".logo");
+  if (logo && logo.getAttribute("href") === "#") {
+    logo.addEventListener("click", (e) => {
+      e.preventDefault();
+      switchView("home");
+      closeMobileNav();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
 }
 
 // --- RENDER DYNAMIC CART Math & Progress Bar ---
@@ -1688,6 +1729,11 @@ function renderCart() {
   if (badge) {
     badge.innerText = totalQty;
     badge.style.display = totalQty > 0 ? "flex" : "none";
+  }
+  const mobileBadge = document.getElementById("mobile-cart-badge");
+  if (mobileBadge) {
+    mobileBadge.innerText = totalQty;
+    mobileBadge.style.display = totalQty > 0 ? "flex" : "none";
   }
 
   if (state.cart.length === 0) {
@@ -2029,24 +2075,9 @@ function closeCartDrawer() {
   }
 }
 
-function openMobileNav() {
-  const drawer = document.getElementById("mobile-nav-drawer");
-  const backdrop = document.getElementById("mobile-nav-backdrop");
-  if (drawer && backdrop) {
-    drawer.classList.add("open");
-    backdrop.classList.add("open");
-    document.body.style.overflow = "hidden";
-  }
-}
-
 function closeMobileNav() {
-  const drawer = document.getElementById("mobile-nav-drawer");
-  const backdrop = document.getElementById("mobile-nav-backdrop");
-  if (drawer && backdrop) {
-    drawer.classList.remove("open");
-    backdrop.classList.remove("open");
-    document.body.style.overflow = "";
-  }
+  const overlay = document.getElementById("mobile-search-overlay");
+  if (overlay) overlay.classList.remove("open");
 }
 
 
@@ -2153,6 +2184,12 @@ function switchView(viewName) {
   links.forEach(link => {
     link.classList.remove("active");
     if (link.dataset.view === viewName) link.classList.add("active");
+  });
+
+  const bottomNavItems = document.querySelectorAll(".mobile-bottom-nav-item");
+  bottomNavItems.forEach(item => {
+    item.classList.remove("active");
+    if (item.getAttribute("data-target") === viewName) item.classList.add("active");
   });
 
   // Render contents dynamically based on active view
