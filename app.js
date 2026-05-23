@@ -845,7 +845,11 @@ function toggleFavorite(bookId) {
   // Rerender lists on active page
   const pathname = window.location.pathname;
   if (!pathname.includes("detail.html") && !pathname.includes("admin.html")) {
-    renderCatalog();
+    if (state.activeView === "shop") {
+      renderCatalog();
+    } else if (state.activeView === "home") {
+      renderFeaturedBooks();
+    }
   } else if (pathname.includes("detail.html")) {
     updateDetailFavoriteButtonState(bookId);
   }
@@ -1425,9 +1429,8 @@ function initIndexPage() {
   if (hash && ["home", "shop", "about", "contact"].includes(hash)) {
     switchView(hash);
   } else {
-    // Default load renders
-    renderCatalog();
-    updatePriceFilterLimits();
+    // Default load renders: Homepage featured books
+    renderFeaturedBooks();
   }
 
   // Render surprise dice
@@ -1513,7 +1516,74 @@ function switchView(viewName) {
     if (link.dataset.view === viewName) link.classList.add("active");
   });
 
+  // Render contents dynamically based on active view
+  if (viewName === "shop") {
+    renderCatalog();
+    updatePriceFilterLimits();
+  } else if (viewName === "home") {
+    renderFeaturedBooks();
+  }
+
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderFeaturedBooks() {
+  const grid = document.getElementById("featured-books-grid");
+  if (!grid) return;
+
+  // Filter 6 featured books (e.g. rating >= 4.7)
+  const featured = BOOKS_DB.filter(b => b.rating >= 4.7).slice(0, 6);
+
+  grid.innerHTML = featured.map(book => {
+    const hasDiscount = book.discountPrice && book.discountPrice < book.price;
+    const originalFormatted = `₺${book.price.toFixed(2)}`;
+    const discountedFormatted = hasDiscount ? `₺${book.discountPrice.toFixed(2)}` : originalFormatted;
+    
+    let starsHtml = "";
+    const fullStars = Math.floor(book.rating);
+    for (let i = 1; i <= 5; i++) {
+      starsHtml += i <= fullStars ? `<i class="fas fa-star"></i>` : `<i class="far fa-star"></i>`;
+    }
+
+    const badgeHtml = book.badge ? `<div class="book-badge ${book.badgeType || ''}">${book.badge}</div>` : '';
+    const isFav = state.wishlist.includes(book.id);
+    const heartClass = isFav ? "wishlist-heart-btn active" : "wishlist-heart-btn";
+
+    return `
+      <article class="book-card glass-panel" data-id="${book.id}">
+        ${badgeHtml}
+        <button class="${heartClass}" onclick="toggleFavorite(${book.id})" title="Favorilere Ekle">
+          <i class="fas fa-heart"></i>
+        </button>
+        <div class="book-cover-container">
+          <img class="book-cover" src="${book.cover}" alt="${book.title}" loading="lazy">
+          <div class="card-actions-overlay">
+            <a href="detail.html?id=${book.id}" class="overlay-btn view-detail-btn" title="Detayları İncele">
+              <i class="fas fa-eye"></i>
+            </a>
+            <button class="overlay-btn card-add-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
+              <i class="fas fa-shopping-bag"></i>
+            </button>
+          </div>
+        </div>
+        <h3 class="book-title"><a href="detail.html?id=${book.id}">${book.title}</a></h3>
+        <p class="book-author">${book.author}</p>
+        <div class="book-rating">
+          <span class="stars">${starsHtml}</span>
+          <span>(${book.rating.toFixed(1)})</span>
+        </div>
+        <div class="book-price-wrapper">
+          <div class="prices">
+            ${hasDiscount ? `<span class="original-price">${originalFormatted}</span>` : ''}
+            <span class="current-price">${discountedFormatted}</span>
+          </div>
+          <button class="add-cart-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </article>
+    `;
+  }).join("");
 }
 
 function renderCatalog() {
