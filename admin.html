@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TellaKitap | Yönetim Paneli</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="TellaKitap Yönetim Paneli - Kitap, sipariş, yorum ve kupon yönetim sistemi.">
+  <meta name="author" content="Vahit Keskin">
+  
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- --- HEADER NAVIGATION --- -->
+  <header class="glass-panel scrolled">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-book-open"></i>
+        <span>Tella<span class="gradient-text">Kitap</span></span>
+      </a>
+
+      <nav>
+        <ul class="main-nav">
+          <li><a href="index.html" class="nav-link"><i class="fas fa-arrow-left"></i> Mağazaya Dön</a></li>
+        </ul>
+      </nav>
+      
+      <div class="header-actions">
+        <button id="theme-toggle-btn" class="icon-btn" title="Temayı Değiştir">
+          <i id="theme-icon" class="fas fa-sun"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN ADMIN LAYOUT ================= -->
+  <main class="admin-sidebar-layout">
+    
+    <!-- Login Gate (Displayed if not logged in) -->
+    <div id="admin-login-gate" class="login-page-wrapper">
+      <div class="login-card glass-panel" style="width: 420px; padding: 2.5rem;">
+        <h2 class="gradient-text" style="font-weight:800; font-size:1.8rem; text-align:center; margin-bottom: 0.5rem;">Panel Girişi</h2>
+        <p style="color:var(--text-muted); font-size:0.85rem; text-align:center; margin-bottom: 1.5rem;">Yönetici yetkilendirmesi gereklidir.</p>
+        
+        <form id="admin-login-form" class="contact-form">
+          <div class="form-group">
+            <label for="admin-username">Kullanıcı Adı</label>
+            <input type="text" id="admin-username" class="form-control" placeholder="admin" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="admin-password">Şifre</label>
+            <input type="password" id="admin-password" class="form-control" placeholder="••••" required autocomplete="off">
+          </div>
+          <button type="submit" class="gradient-btn" style="width:100%; margin-top:1rem; border-radius:10px; font-weight:700;">Giriş Yap</button>
+          <button type="button" class="secondary-btn" onclick="autoFillAdminCredentials()" style="width:100%; font-size:0.8rem; padding:0.5rem; margin-top:0.8rem; justify-content:center;">Otomatik Doldur (admin/admin)</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Admin Side Menu (Visible after Login) -->
+    <aside class="admin-sidebar">
+      <div style="padding-bottom:1.5rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border-color); text-align:center;">
+        <i class="fas fa-user-shield" style="font-size:2.5rem; color:var(--accent-secondary); margin-bottom:0.5rem; display:block;"></i>
+        <h4 style="font-weight:800;">Yönetici Paneli</h4>
+        <span style="font-size:0.75rem; color:var(--success); font-weight:600;"><i class="fas fa-circle" style="font-size:0.5rem;"></i> Çevrimiçi</span>
+      </div>
+      
+      <button class="admin-side-link admin-tab-btn active" data-tab="overview">
+        <i class="fas fa-chart-line"></i> Genel Durum
+      </button>
+      <button class="admin-side-link admin-tab-btn" data-tab="books">
+        <i class="fas fa-book-open"></i> Kitap Yönetimi
+      </button>
+      <button class="admin-side-link admin-tab-btn" data-tab="orders">
+        <i class="fas fa-shopping-cart"></i> Siparişler
+      </button>
+      <button class="admin-side-link admin-tab-btn" data-tab="comments">
+        <i class="fas fa-comments"></i> Yorumlar
+      </button>
+      <button class="admin-side-link admin-tab-btn" data-tab="coupons">
+        <i class="fas fa-ticket-alt"></i> İndirim Kuponları
+      </button>
+    </aside>
+
+    <!-- Admin Dashboard Main Panel -->
+    <section class="admin-dashboard-container" style="flex:1;">
+      <div id="admin-dashboard" style="display:none; flex-direction:column; gap:2rem; width:100%;">
+        
+        <!-- Stats overview widget -->
+        <div class="admin-stats-grid">
+          <div class="stat-card glass-panel">
+            <div class="stat-card-left">
+              <span>Toplam Satış</span>
+              <span id="stat-total-sales">₺0.00</span>
+            </div>
+            <div class="stat-card-icon"><i class="fas fa-coins"></i></div>
+          </div>
+          <div class="stat-card glass-panel">
+            <div class="stat-card-left">
+              <span>Sipariş Sayısı</span>
+              <span id="stat-total-orders">0</span>
+            </div>
+            <div class="stat-card-icon"><i class="fas fa-truck-loading"></i></div>
+          </div>
+          <div class="stat-card glass-panel">
+            <div class="stat-card-left">
+              <span>Katalog Kitapları</span>
+              <span id="stat-total-books">0</span>
+            </div>
+            <div class="stat-card-icon"><i class="fas fa-book"></i></div>
+          </div>
+          <div class="stat-card glass-panel">
+            <div class="stat-card-left">
+              <span>Bekleyen Sipariş</span>
+              <span id="stat-pending-orders">0</span>
+            </div>
+            <div class="stat-card-icon"><i class="fas fa-clock"></i></div>
+          </div>
+        </div>
+
+        <!-- Section 1: Overview Panel -->
+        <div id="admin-sec-overview" class="admin-panel-section active glass-panel" style="padding:2.5rem;">
+          <h3 style="margin-bottom:1.2rem; font-weight:800;" class="gradient-text">Son Sistem Aktivitesi</h3>
+          <div id="admin-activity-feed"></div>
+        </div>
+
+        <!-- Section 2: Books Catalog Panel -->
+        <div id="admin-sec-books" class="admin-panel-section glass-panel" style="padding:2.5rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; gap:1rem; flex-wrap:wrap;">
+            <h3 style="font-weight:800;" class="gradient-text">Katalogdaki Kitaplar</h3>
+            <button id="admin-add-book-btn" class="gradient-btn" style="padding:0.6rem 1.2rem; font-size:0.85rem;"><i class="fas fa-plus"></i> Yeni Kitap Ekle</button>
+          </div>
+          <div class="table-wrapper" style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Kapak</th>
+                  <th>Kitap Adı</th>
+                  <th>Yazar</th>
+                  <th>Kategori</th>
+                  <th>Fiyat</th>
+                  <th>İndirim</th>
+                  <th>Stok</th>
+                  <th>ISBN</th>
+                  <th>İşlemler</th>
+                </tr>
+              </thead>
+              <tbody id="admin-books-tbody">
+                <!-- books data -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 3: Orders List Panel -->
+        <div id="admin-sec-orders" class="admin-panel-section glass-panel" style="padding:2.5rem;">
+          <h3 style="margin-bottom:1.5rem; font-weight:800;" class="gradient-text">Gelen Siparişler</h3>
+          <div class="table-wrapper" style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Sipariş No</th>
+                  <th>Müşteri</th>
+                  <th>Tutar</th>
+                  <th>Tarih</th>
+                  <th>Adres</th>
+                  <th>Durum</th>
+                  <th>Durumu Güncelle</th>
+                </tr>
+              </thead>
+              <tbody id="admin-orders-tbody">
+                <!-- orders data -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 4: Review Moderation Panel -->
+        <div id="admin-sec-comments" class="admin-panel-section glass-panel" style="padding:2.5rem;">
+          <h3 style="margin-bottom:1.5rem; font-weight:800;" class="gradient-text">Okur Yorumları Moderasyonu</h3>
+          <div class="table-wrapper" style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Kitap</th>
+                  <th>Yorum Yapan</th>
+                  <th>Puan</th>
+                  <th>Mesaj</th>
+                  <th>Sil</th>
+                </tr>
+              </thead>
+              <tbody id="admin-comments-tbody">
+                <!-- reviews data -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 5: Coupons Dashboard Panel -->
+        <div id="admin-sec-coupons" class="admin-panel-section glass-panel" style="padding:2.5rem;">
+          <h3 style="margin-bottom:1.5rem; font-weight:800;" class="gradient-text">İndirim Kuponları Tanımlama</h3>
+          
+          <form id="admin-coupon-form" class="contact-form" style="display:flex; flex-direction:row; align-items:flex-end; gap:1rem; margin-bottom:2rem; background:rgba(255,255,255,0.02); padding:1.2rem; border-radius:10px; border:1px dashed var(--border-color); flex-wrap:wrap;">
+            <div class="form-group" style="flex:1; min-width:150px; margin-bottom:0;">
+              <label for="ac-code">Kupon Kodu</label>
+              <input type="text" id="ac-code" class="form-control" placeholder="Örn: VAHIT50" required autocomplete="off" style="text-transform:uppercase;">
+            </div>
+            <div class="form-group" style="flex:1; min-width:150px; margin-bottom:0;">
+              <label for="ac-value">İndirim Oranı (%)</label>
+              <input type="number" id="ac-value" class="form-control" placeholder="Örn: 50" min="0" max="100" required autocomplete="off">
+            </div>
+            <button type="submit" class="gradient-btn" style="padding:0.75rem 2rem; border-radius:10px; height: 46px;"><i class="fas fa-plus"></i> Kupon Oluştur</button>
+          </form>
+
+          <div class="table-wrapper" style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Kupon Kodu</th>
+                  <th>Oran / Tip</th>
+                  <th>Durum</th>
+                  <th>Sil</th>
+                </tr>
+              </thead>
+              <tbody id="admin-coupons-tbody">
+                <!-- coupons data -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- --- FOOTER --- -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom" style="margin-top: 0; padding: 2rem 0; border-top: 1px solid var(--border-color);">
+        <p>&copy; 2026 TellaKitap Yönetim Paneli. Tüm Hakları Saklıdır.</p>
+        <p>Vahit Keskin Showcase Project</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- --- ADMIN: ADD/EDIT BOOK DIALOG MODAL --- -->
+  <dialog id="add-book-dialog" closedby="any" aria-labelledby="add-book-title" style="max-width:720px; width: 90%;">
+    <button id="close-add-book-btn" class="dialog-close" title="Kapat"><i class="fas fa-times"></i></button>
+    <h2 id="add-book-title" class="gradient-text" style="font-weight: 800; font-size: 1.8rem; margin-bottom: 1.5rem; letter-spacing:-0.5px;">Kataloğa Kitap Ekle</h2>
+    
+    <form id="add-book-form" class="contact-form admin-dialog-form" style="display:grid; grid-template-columns: 1fr 1fr; gap:1.2rem;">
+      <div class="form-group full-width" style="grid-column: span 2; margin-bottom: 0;">
+        <label for="ab-title">Kitap Adı</label>
+        <input type="text" id="ab-title" class="form-control" placeholder="Örn: Neon Odyssey" required autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="ab-author">Yazar</label>
+        <input type="text" id="ab-author" class="form-control" placeholder="Örn: Elara Vance" required autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="ab-category">Kategori</label>
+        <select id="ab-category" class="sort-select" style="padding:0.75rem;">
+          <option value="Bilim Kurgu">Bilim Kurgu</option>
+          <option value="Doğa & Şiir">Doğa & Şiir</option>
+          <option value="Felsefe">Felsefe</option>
+          <option value="Gizem & Gerilim">Gizem & Gerilim</option>
+          <option value="Tasarım & Teknoloji">Tasarım & Teknoloji</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="ab-price">Fiyat (₺)</label>
+        <input type="number" id="ab-price" class="form-control" placeholder="Örn: 125.00" min="0" step="0.01" required autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="ab-discount">İndirimli Fiyat (₺) - Opsiyonel</label>
+        <input type="number" id="ab-discount" class="form-control" placeholder="Örn: 99.90" min="0" step="0.01" autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="ab-publisher">Yayınevi</label>
+        <input type="text" id="ab-publisher" class="form-control" placeholder="Örn: Kozmos Yayınları" required autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="ab-isbn">ISBN Kodu</label>
+        <input type="text" id="ab-isbn" class="form-control" placeholder="Örn: 978-605-234-12-1" required autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="ab-pages">Sayfa Sayısı</label>
+        <input type="number" id="ab-pages" class="form-control" placeholder="320" required autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="ab-year">Basım Yılı</label>
+        <input type="number" id="ab-year" class="form-control" placeholder="2026" required autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="ab-translator">Çevirmen (Opsiyonel)</label>
+        <input type="text" id="ab-translator" class="form-control" placeholder="Örn: Cemil Meriç Altan" autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="ab-language">Dil</label>
+        <input type="text" id="ab-language" class="form-control" value="Türkçe" required autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="ab-binding">Cilt Tipi</label>
+        <select id="ab-binding" class="sort-select" style="padding:0.75rem;">
+          <option value="Karton Kapak">Karton Kapak</option>
+          <option value="Ciltli">Ciltli</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="ab-stock">Stok Miktarı</label>
+        <input type="number" id="ab-stock" class="form-control" placeholder="45" required autocomplete="off">
+      </div>
+      <div class="form-group full-width" style="grid-column: span 2; margin-bottom: 0;">
+        <label for="ab-desc">Kitap Açıklaması</label>
+        <textarea id="ab-desc" class="form-control" rows="3" placeholder="Kitabın konusu, arka kapak yazısı..." required></textarea>
+      </div>
+      
+      <button type="submit" class="gradient-btn full-width" style="grid-column: span 2; margin-top:0.5rem; font-weight: 700; border-radius:10px;"><i class="fas fa-plus"></i> Kitabı Kataloğa Kaydet</button>
+    </form>
+  </dialog>
+
+  <!-- --- MAIN SCRIPT --- -->
+  <script src="app.js"></script>
+</body>
+</html>
