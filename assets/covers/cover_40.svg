@@ -1,50 +1,124 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450" width="100%" height="100%">
     <defs>
         <linearGradient id="grad-40" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#171621;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#2b293d;stop-opacity:1" />
+            <stop offset="0%" style="stop-color:#101017;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#242533;stop-opacity:1" />
         </linearGradient>
+        
+        <!-- 3D Cylindrical Spine Shading overlay -->
+        <linearGradient id="spine-shading" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#000000" stop-opacity="0.6"/>
+            <stop offset="2%" stop-color="#000000" stop-opacity="0.35"/>
+            <stop offset="6%" stop-color="#ffffff" stop-opacity="0.12"/>
+            <stop offset="10%" stop-color="#ffffff" stop-opacity="0.0"/>
+            <stop offset="90%" stop-color="#000000" stop-opacity="0.0"/>
+            <stop offset="97%" stop-color="#000000" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#000000" stop-opacity="0.55"/>
+        </linearGradient>
+        
+        <!-- Tactile Paper Texture Filter -->
+        <filter id="paper-texture" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="4" result="noise" />
+            <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.08 0" in="noise" result="coloredNoise" />
+            <feComposite operator="in" in2="SourceGraphic" result="composite" />
+            <feBlend mode="multiply" in="SourceGraphic" in2="coloredNoise" />
+        </filter>
     </defs>
     
-    <!-- Spine Shadow & Background -->
-    <rect width="300" height="450" fill="url(#grad-40)" />
-    
-    <!-- Spine 3D effect -->
-    <rect x="0" y="0" width="18" height="450" fill="rgba(0,0,0,0.15)" />
-    <line x1="18" y1="0" x2="18" y2="450" stroke="rgba(255,255,255,0.07)" stroke-width="1" />
-    <line x1="0" y1="0" x2="0" y2="450" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
-    
-    <!-- Geometric Graphic Art -->
-    
-        <!-- Greek pillar representation -->
-        <line x1="100" y1="130" x2="200" y2="130" stroke="#f7fafc" stroke-width="2"/>
-        <line x1="100" y1="320" x2="200" y2="320" stroke="#f7fafc" stroke-width="2"/>
-        <line x1="110" y1="130" x2="110" y2="320" stroke="rgba(247, 250, 252, 0.35)" stroke-width="1.5"/>
-        <line x1="130" y1="130" x2="130" y2="320" stroke="rgba(247, 250, 252, 0.35)" stroke-width="1"/>
-        <line x1="150" y1="130" x2="150" y2="320" stroke="#f7fafc" stroke-width="1.5" opacity="0.7"/>
-        <line x1="170" y1="130" x2="170" y2="320" stroke="rgba(247, 250, 252, 0.35)" stroke-width="1"/>
-        <line x1="190" y1="130" x2="190" y2="320" stroke="rgba(247, 250, 252, 0.35)" stroke-width="1.5"/>
-        <!-- Logical Triangle overlay -->
-        <polygon points="150,160 210,264 90,264" fill="none" stroke="#f7fafc" stroke-width="1.5" opacity="0.3"/>
+    <!-- Render everything inside a group that has the paper-texture filter applied -->
+    <g filter="url(#paper-texture)">
+        <!-- Cover Background -->
+        <rect width="300" height="450" fill="url(#grad-40)" />
         
+        <!-- Realistic spine shadow & highlights -->
+        <rect width="300" height="450" fill="url(#spine-shading)" />
+        
+        <!-- Vertical Book Joint line (Indentation fold) -->
+        <line x1="20" y1="0" x2="20" y2="450" stroke="rgba(0,0,0,0.4)" stroke-width="1.5" />
+        <line x1="21" y1="0" x2="21" y2="450" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+        
+        <!-- Spine 3D block highlights -->
+        <rect x="0" y="0" width="20" height="450" fill="rgba(255,255,255,0.03)" />
+        <line x1="0" y1="0" x2="0" y2="450" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+        
+        <!-- Graphic Illustration Art -->
+        
+        <!-- Architectural blueprint grid -->
+        <g stroke="#f8fafc" stroke-width="0.5" opacity="0.15">
+            <!-- Concentric squares -->
+            <rect x="50" y="130" width="200" height="200" fill="none"/>
+            <rect x="75" y="155" width="150" height="150" fill="none"/>
+            <rect x="100" y="180" width="100" height="100" fill="none"/>
+            <!-- Diagonals -->
+            <line x1="50" y1="130" x2="250" y2="330" />
+            <line x1="250" y1="130" x2="50" y2="330" />
+            <line x1="150" y1="60" x2="150" y2="380" />
+            <line x1="25" y1="230" x2="275" y2="230" />
+        </g>
+        
+        <!-- Pillar Architecture (Columns) -->
+        <g fill="none" stroke="#f8fafc" opacity="0.6">
+            <!-- Pediment Triangle -->
+            <polygon points="150,110 230,135 70,135" stroke-width="1.5"/>
+            <!-- Steps -->
+            <line x1="60" y1="315" x2="240" y2="315" stroke-width="2"/>
+            <line x1="50" y1="322" x2="250" y2="322" stroke-width="2.5"/>
+            <line x1="40" y1="330" x2="260" y2="330" stroke-width="3"/>
+            <!-- 4 Columns -->
+            <!-- Col 1 -->
+            <rect x="80" y="135" width="14" height="180" stroke-width="1"/>
+            <line x1="87" y1="135" x2="87" y2="315" stroke-width="0.5"/>
+            <!-- Col 2 -->
+            <rect x="115" y="135" width="14" height="180" stroke-width="1"/>
+            <line x1="122" y1="135" x2="122" y2="315" stroke-width="0.5"/>
+            <!-- Col 3 -->
+            <rect x="171" y="135" width="14" height="180" stroke-width="1"/>
+            <line x1="178" y1="135" x2="178" y2="315" stroke-width="0.5"/>
+            <!-- Col 4 -->
+            <rect x="206" y="135" width="14" height="180" stroke-width="1"/>
+            <line x1="213" y1="135" x2="213" y2="315" stroke-width="0.5"/>
+        </g>
+        
+        <!-- Golden Ratio Spiral (computed programmatically) -->
+        <path d="M 152.2,230.0 L 152.23796311046405,230.15649362556192 L 152.2654493767984,230.31838814639127 L 152.2818938266063,230.48503150587948 L 152.28676812139713,230.65572020711096 L 152.2795848478668,230.82970103110776 L 152.25990176100373,231.00617308997815 L 152.22732595436617,231.1842902173209 L 152.1815179322839,231.36316369652482 L 152.12219555825618,231.54186532581718 L 152.04913785345576,231.71943081706613 L 151.96218861901085,231.89486352343297 L 151.86125985563257,232.0671384890147 L 151.7463349541858,232.23520681161642 L 151.61747163097783,232.39800030776436 L 151.47480458185902,232.55443646701517 L 151.31854782970592,232.70342368055208 L 151.14899674048394,232.84386672699 L 150.96652968387497,232.97467249625316 L 150.77160931540118,233.09475593034975 L 150.5647834580857,233.2030461578623 L 150.34668556295912,233.29849279701034 L 150.11803472915403,233.38007240023546 L 149.87963526592077,233.44679501142372 L 149.63237578064698,233.4977108051236 L 149.37722777886995,233.53191677545786 L 149.11524376432487,233.5485634408727 L 148.84755482927608,233.54686152943415 L 148.57536772771823,233.5260886080772 L 148.29996142651189,233.48559561805564 L 148.02268313211607,233.42481327783793 L 147.74494379329815,233.34325831385857 L 147.46821308302384,233.24053947887955 L 147.1940138656479,233.11636331724864 L 146.92391615852813,232.9705396360748 L 146.65953060025757,232.80298664128287 L 146.40250144083927,232.6137356976683 L 146.15449907230087,232.40293567245806 L 145.917212121445,232.17085682250087 L 145.69233912964322,231.917894186064 L 145.4815798477867,231.64457044131422 L 145.28662617768907,231.351538194904 L 145.10915279437964,231.0395816656801 L 144.950807486807,230.7096177303772 L 144.81320125747865,230.36269630025714 L 144.6978982244685,230.0 L 144.6064053720157,229.6228431227494 L 144.5401621985912,229.23266983805033 L 144.50053031380747,228.8310516324944 L 144.4887830378688,228.41968396619322 L 144.5060950593867,228.0003821317287 L 144.5535322092979,227.5750763059704 L 144.63204141030351,227.14580578909013 L 144.74244086267444,226.71471242923442 L 144.88541052842947,226.28403323561554 L 145.06148297676523,225.856092187241 L 145.27103465418858,225.43329124909826 L 145.5142776430569,225.01810061232987 L 145.79125197215396,224.61304817974934 L 146.10181854250942,224.22070832294435 L 146.44565273089245,223.84368994216203 L 146.8222387322696,223.48462386515044 L 147.23086470100006,223.14614962611427 L 147.6706187486467,222.8309016709052 L 148.1403858539976,222.54149503948003 L 148.63884573822406,222.28051058149495 L 149.16447175503788,222.0504797656335 L 149.71553084226272,221.85386914785758 L 150.29008457739675,221.69306456819876 L 150.88599137552725,221.57035514993564 L 151.50090986336608,221.48791717900704 L 152.13230345822072,221.44779794525581 L 152.7774461754082,221.45189963055583 L 153.43342968197484,221.50196333201478 L 154.09717160861967,221.59955331123743 L 154.7654251254526,221.7460415630508 L 155.43478978067145,221.9425927991046 L 156.1017235944394,222.19014994334222 L 156.76255639321136,222.4894202374613 L 157.41350436252347,222.84086205512781 L 158.0506857888559,223.24467252384684 L 158.67013795363548,223.70077605301046 L 159.2678351348007,224.2088138657146 L 159.8397076636386,224.7681346304516 L 160.38166197686647,225.37778628672214 L 160.8896015962034,226.03650915596424 L 161.35944896000836,226.74273042595493 L 161.78716802398768,227.49456009299433 L 162.16878754054582,228.28978844173562 L 162.50042491911222,229.12588513746726 L 162.77831056277006,230.0 L 162.99881256978753,230.90896552205646 L 163.1584616822562,231.8493011882237 L 163.25397635801957,232.8172196431164 L 163.28228783647953,233.80863474943084 L 163.24056506373955,234.8191715680662 L 163.12623933793483,235.84417828347392 L 162.93702853154963,236.87874008789856 L 162.67096074407982,237.9176950282217 L 162.32639723560396,238.955651808754 L 161.9020544897207,239.98700953257654 L 161.39702525293345,241.0059793529506 L 160.8107983969497,242.0066079949477 L 160.14327745054868,242.98280309584254 L 159.39479764868398,243.92836030101415 L 158.56614134835937,244.836992040175 L 157.65855166356755,245.70235789674604 L 156.67374417523385,246.51809647118483 L 155.61391657667735,247.27785862711517 L 154.4817561206013,247.9753419972652 L 153.2804447400611,248.60432661456912 L 152.0136617232365,249.15871152239004 L 150.68558383014673,249.6325522067528 L 149.30088274869559,250.02009868280854 L 147.86471979759605,250.3158340575573 L 146.3827377947882,250.51451338120808 L 144.86105002190726,250.6112025905287 L 143.30622622814775,250.60131733920517 L 141.7252756304721,250.4806615026619 L 140.1256268814911,250.24546513806615 L 138.5151049914434,249.8924216744143 L 136.90190520648252,249.4187241027489 L 135.29456386187297,248.8220999327454 L 133.7019262456465,248.1008446791942 L 132.1331115257063,247.25385364035532 L 130.5974748112096,246.2806517298219 L 129.10456643723927,245.18142112445625 L 127.6640885802001,243.9570264931945 L 126.28584932995956,242.6090375751019 L 124.97971436340394,241.13974888002573 L 123.7555563826998,239.5521962915749 L 122.62320250003657,237.8501703599678 L 121.59237976887592,236.03822608155548 L 120.67265907963937,234.1216889725491 L 119.87339765521683,232.10665725666055 L 119.20368039856552,230.0 L 118.67226036087658,227.80935104163973 L 118.28749861420295,225.54309858473934 L 118.05730382695099,223.21037033098656 L 117.98907185412804,220.82101406031447 L 118.08962566659379,218.38557357834796 L 118.36515595467476,215.91525997575926 L 118.82116275125877,213.42191816660608 L 119.46239842778395,210.91798869670407 L 120.29281242327176,208.41646483807443 L 121.31549807162696,205.93084501139816 L 122.53264189574745,203.4750806051172 L 123.94547573846366,201.06351928721696 L 125.55423209988061,198.71084393370802 L 127.35810304825162,196.4320073262503 L 129.3552030670046,194.2421628001098 L 131.5425361939086,192.15659105256003 L 133.9159677995681,190.19062335078658 L 136.47020134141513,188.35956140717758 L 139.1987604161186,186.67859421841572 L 142.0939764178132,185.16271219287518 L 145.14698209177627,183.82661891829105 L 148.3477112531379,182.68464094834607 L 151.68490491792986,181.7506360125297 L 155.14612406928327,181.03790007819202 L 158.71776925491656,180.55907371696924 L 162.3851071832786,180.32604824950843 L 166.13230445488355,180.34987216250582 L 169.9424685325943,180.64065831030777 L 173.79769601995747,181.2074924295448 L 177.67912828030032,182.0583435093032 L 181.56701439126755,183.19997657102675 L 185.44078138996736,184.63786842152703 L 189.27911172304584,186.37612694901125 L 193.06002777398888,188.41741453577805" fill="none" stroke="#f8fafc" stroke-width="2" opacity="0.8" stroke-dasharray="1000" stroke-dashoffset="0" filter="url(#glow-philosophy)"/>
+        <!-- Spiral core highlight node -->
+        <circle cx="150" cy="230" r="3.5" fill="#ffffff" filter="url(#glow-philosophy)"/>
+        
+        <defs>
+            <filter id="glow-philosophy" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="2" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>
+        
+        
+        <!-- Inner Decorative Border Frame -->
+        <rect x="15" y="15" width="270" height="420" rx="6" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+        
+        <!-- Dynamic Text Backing Shield -->
+        
+    <!-- Title Backing Glass Shield -->
+    <rect x="35" y="192.5" width="230" height="65" rx="10" fill="rgba(0,0,0,0.45)" stroke="rgba(255,255,255,0.08)" stroke-width="1.25" backdrop-filter="blur(5px)" />
     
-    <!-- Inner Border Frame -->
-    <rect x="15" y="15" width="270" height="420" rx="6" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
-    
-    <!-- Category (Top Header) -->
-    <text x="150" y="60" fill="rgba(255,255,255,0.4)" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" letter-spacing="3" text-anchor="middle">FELSEFE</text>
-    
-    <!-- Title Block -->
-    <text x="150" y="225.0" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="22px" font-weight="normal" letter-spacing="-0.5px">
-        <tspan x="150" dy="0">Zamanın Felsefesi</tspan>
-    </text>
-    
-    <!-- Brand / Publisher Logo imprint -->
-    <g transform="translate(150, 360)">
-        <circle cx="0" cy="0" r="8" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-        <text x="0" y="3" fill="rgba(255,255,255,0.3)" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="800" text-anchor="middle">T</text>
+        
+        <!-- Category (Top Header) -->
+        <text x="150" y="52" fill="rgba(255,255,255,0.45)" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="800" letter-spacing="3" text-anchor="middle">FELSEFE</text>
+        
+        <!-- Title Block -->
+        <text x="150" y="212.5" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="20px" font-weight="normal" letter-spacing="-0.5px" text-transform="none">
+            <tspan x="150" dy="0">Zamanın</tspan><tspan x="150" dy="25px">Felsefesi</tspan>
+        </text>
+        
+        <!-- Brand / Publisher Logo Imprint -->
+        <g transform="translate(150, 360)">
+            <circle cx="0" cy="0" r="9" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.25"/>
+            <text x="0" y="3" fill="rgba(255,255,255,0.4)" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="900" text-anchor="middle">T</text>
+        </g>
+        
+        <!-- Author Name (Bottom) -->
+        <text x="150" y="398" fill="rgba(255,255,255,0.75)" font-family="Georgia, serif" font-size="11.5" font-weight="600" letter-spacing="0.5" text-anchor="middle">Dr. Can Atılgan</text>
     </g>
-    
-    <!-- Author Name (Bottom) -->
-    <text x="150" y="395" fill="rgba(255,255,255,0.7)" font-family="Georgia, serif" font-size="12" font-weight="600" letter-spacing="0.5" text-anchor="middle">Dr. Can Atılgan</text>
 </svg>
