@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TellaKitap | Sıradışı Hikayeleri Keşfedin</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="TellaKitap - Modern ve Eşsiz Kitabevi. Bilim kurgudan felsefeye, en seçkin eserleri en uygun fiyatlarla keşfedin. Hızlı kargo ve güvenceyle hemen satın alın.">
+  <meta name="keywords" content="kitap, kitaplık, bkm kitap, ucuz kitap, felsefe kitapları, bilim kurgu kitapları, gerilim romanları, tasarım kitapları">
+  <meta name="author" content="Vahit Keskin">
+  
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- --- HEADER NAVIGATION --- -->
+  <header class="glass-panel">
+    <div class="container">
+      <a href="#" class="logo">
+        <i class="fas fa-book-open"></i>
+        <span>Tella<span class="gradient-text">Kitap</span></span>
+      </a>
+      
+      <div class="search-wrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input type="search" id="search-input" class="search-bar" placeholder="Kitap adı veya yazar arayın..." autocomplete="off">
+        <div id="search-suggestions" class="search-suggestions"></div>
+      </div>
+      
+      <div class="header-actions">
+        <button id="theme-toggle-btn" class="icon-btn" title="Temayı Değiştir">
+          <i id="theme-icon" class="fas fa-sun"></i>
+        </button>
+        
+        <button id="cart-btn" class="icon-btn" title="Sepetim">
+          <i class="fas fa-shopping-bag"></i>
+          <span id="cart-badge" class="badge" style="display: none;">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- --- HERO BANNER --- -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-card glass-panel">
+        <div class="hero-orb"></div>
+        <div class="hero-content">
+          <h1>Sıradışı Okuma <br><span class="gradient-text">Deneyimi.</span></h1>
+          <p>TellaKitap, klasik kalıpların dışına çıkan tasarımı ve özenle seçilmiş edebi arşiviyle sizleri başka dünyalara davet ediyor. Bilim kurgudan felsefeye eşi benzeri olmayan eserleri keşfedin.</p>
+          <div class="hero-actions">
+            <a href="#shop-section" class="gradient-btn">
+              <i class="fas fa-compass"></i> Keşfetmeye Başla
+            </a>
+            <button id="surprise-btn" class="secondary-btn">
+              <i class="fas fa-dice"></i> Sürpriz Kitap Seç
+            </button>
+          </div>
+        </div>
+        <div class="hero-image-wrapper">
+          <img src="assets/hero_banner.png" alt="TellaKitap Kütüphane İllüstrasyonu">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- CATEGORIES SLIDER --- -->
+  <section class="categories-section">
+    <div class="container">
+      <div id="category-slider" class="category-slider">
+        <button class="category-tab active" data-category="Tümü">Tüm Kategoriler</button>
+        <button class="category-tab" data-category="Bilim Kurgu">Bilim Kurgu</button>
+        <button class="category-tab" data-category="Doğa & Şiir">Doğa & Şiir</button>
+        <button class="category-tab" data-category="Felsefe">Felsefe</button>
+        <button class="category-tab" data-category="Gizem & Gerilim">Gizem & Gerilim</button>
+        <button class="category-tab" data-category="Tasarım & Teknoloji">Tasarım & Teknoloji</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- SHOP LAYOUT --- -->
+  <main class="container shop-layout" id="shop-section">
+    
+    <!-- Left Filters Panel -->
+    <aside class="filters-panel glass-panel">
+      <div class="filter-group">
+        <h3>Sıralama</h3>
+        <select id="sort-select" class="sort-select">
+          <option value="relevance">Önerilen</option>
+          <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
+          <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
+          <option value="rating-desc">Puan: Yüksekten Düşüğe</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <h3>Fiyat Aralığı</h3>
+        <div class="price-slider-container">
+          <input type="range" id="price-range" min="50" max="250" step="5" value="250">
+          <div class="price-inputs">
+            <span>₺50.00</span>
+            <span id="price-val" class="gradient-text" style="font-weight: 700;">₺250.00</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <h3>Müşteri Puanı</h3>
+        <div class="rating-options">
+          <label class="rating-checkbox-label">
+            <input type="checkbox" class="rating-filter" value="5">
+            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+            <span>(5.0)</span>
+          </label>
+          <label class="rating-checkbox-label">
+            <input type="checkbox" class="rating-filter" value="4">
+            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
+            <span>(4.0+)</span>
+          </label>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right Catalog Section -->
+    <section class="catalog-section">
+      <div class="catalog-header">
+        <p id="book-count">0 Kitap Bulundu</p>
+      </div>
+      <div class="books-grid" id="books-grid">
+        <!-- Dynamic Book Cards injected here -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- --- PREMIUM FEATURES --- -->
+  <section class="features-section">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-box">
+          <div class="feature-icon-box">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <div>
+            <h4>Hızlı ve Güvenli Teslimat</h4>
+            <p>Siparişleriniz en geç 24 saat içinde kargoya verilir ve korunaklı kutularla teslim edilir.</p>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-icon-box">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <div>
+            <h4>Premium Güvence</h4>
+            <p>256-Bit SSL güvenlik altyapısı ve 14 gün koşulsuz iade garantisiyle güvenle alışveriş yapın.</p>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-icon-box">
+            <i class="fas fa-box-open"></i>
+          </div>
+          <div>
+            <h4>Özel Hediye Paketi</h4>
+            <p>Kitap tutkunları için tasarlanmış özel kutularımız ve hediye notu seçeneğimiz tamamen ücretsizdir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- FOOTER --- -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Tella<span class="gradient-text">Kitap</span></h3>
+          <p>Eşsiz kurguların, edebi başyapıtların ve göz alıcı tasarımların bir araya geldiği dijital kitap dünyası.</p>
+          <div class="social-links">
+            <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Koleksiyon</h4>
+          <ul class="footer-links">
+            <li><a href="#shop-section">Çok Satanlar</a></li>
+            <li><a href="#shop-section">Yeni Çıkanlar</a></li>
+            <li><a href="#shop-section">Editörün Seçtikleri</a></li>
+            <li><a href="#shop-section">İndirimli Kitaplar</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Kurumsal</h4>
+          <ul class="footer-links">
+            <li><a href="#">Hakkımızda</a></li>
+            <li><a href="#">İletişim</a></li>
+            <li><a href="#">Kargo ve İade</a></li>
+            <li><a href="#">Kullanım Koşulları</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Bültene Katılın</h4>
+          <p style="font-size: 0.85rem; margin-bottom: 1rem;">Kampanyalardan ve yeni çıkan kitaplardan ilk siz haberdar olun.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Bültene başarıyla kaydoldunuz!'); this.reset();">
+            <input type="email" placeholder="E-posta adresiniz" class="newsletter-input" required>
+            <button type="submit" class="gradient-btn newsletter-btn"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2026 TellaKitap. Tüm Hakları Saklıdır. Designed with ❤️ for book lovers.</p>
+        <p>Vahit Keskin Showcase Project</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- --- SHOPPING CART DRAWER --- -->
+  <div id="cart-backdrop" class="drawer-backdrop"></div>
+  <aside id="cart-drawer" class="cart-drawer">
+    <div class="cart-header">
+      <h2>Sepetim</h2>
+      <button id="close-cart-btn" class="close-btn" title="Kapat"><i class="fas fa-times"></i></button>
+    </div>
+    
+    <div class="shipping-meter">
+      <p id="shipping-text" class="shipping-info-text">Kargo Ücretsiz limiti: <strong>₺300.00</strong></p>
+      <div class="shipping-bar-bg">
+        <div id="shipping-bar" class="shipping-bar-fill"></div>
+      </div>
+    </div>
+    
+    <div class="cart-items" id="cart-items">
+      <!-- Dynamic cart items here -->
+    </div>
+    
+    <div class="cart-footer">
+      <div class="summary-row">
+        <span>Ara Toplam</span>
+        <span id="cart-subtotal">₺0.00</span>
+      </div>
+      <div class="summary-row">
+        <span>Kargo Ücreti</span>
+        <span id="cart-shipping">₺0.00</span>
+      </div>
+      <div class="summary-row total">
+        <span>Genel Toplam</span>
+        <span id="cart-total">₺0.00</span>
+      </div>
+      <button class="gradient-btn checkout-btn" onclick="alert('Ödeme altyapısı bu örnek sitede aktif değildir. Alışverişiniz için teşekkürler!');">
+        <i class="fas fa-credit-card"></i> Alışverişi Tamamla
+      </button>
+    </div>
+  </aside>
+
+  <!-- --- BOOK DETAILS DIALOG MODAL --- -->
+  <dialog id="book-details-dialog" closedby="any" aria-labelledby="dialog-title">
+    <button id="close-details-btn" class="dialog-close" title="Kapat"><i class="fas fa-times"></i></button>
+    <div class="dialog-layout">
+      <div class="dialog-left">
+        <img id="dialog-cover" src="" alt="Book Cover">
+        <div class="dialog-meta">
+          <div class="meta-item">
+            <span>Yayıncı</span>
+            <span id="dialog-publisher">-</span>
+          </div>
+          <div class="meta-item">
+            <span>Basım Yılı</span>
+            <span id="dialog-year">-</span>
+          </div>
+          <div class="meta-item">
+            <span>Sayfa Sayısı</span>
+            <span id="dialog-pages">-</span>
+          </div>
+          <div class="meta-item">
+            <span>ISBN</span>
+            <span id="dialog-isbn">-</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="dialog-right">
+        <h2 id="dialog-title" class="dialog-title">-</h2>
+        <p id="dialog-author" class="dialog-author">-</p>
+        
+        <div class="book-rating" style="margin-bottom: 1.5rem;">
+          <span id="dialog-rating-stars" class="stars"></span>
+          <span id="dialog-rating-val">-</span>
+        </div>
+        
+        <p id="dialog-desc" class="dialog-desc">-</p>
+        
+        <!-- Interactive Review List Inside Dialog -->
+        <div class="dialog-reviews">
+          <h4>Okur Yorumları</h4>
+          <div id="reviews-list"></div>
+          
+          <!-- Add Review Form -->
+          <form class="add-review-form">
+            <h5 style="font-weight: 700; font-size: 0.9rem;">Düşüncelerinizi Paylaşın</h5>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.5rem;">
+              <input type="text" id="rev-user" placeholder="Adınız Soyadınız" required autocomplete="off">
+              <select id="rev-rating">
+                <option value="5">5 Yıldız</option>
+                <option value="4">4 Yıldız</option>
+                <option value="3">3 Yıldız</option>
+                <option value="2">2 Yıldız</option>
+                <option value="1">1 Yıldız</option>
+              </select>
+            </div>
+            <textarea id="rev-comment" placeholder="Kitap hakkında ne düşünüyorsunuz?" rows="2" required></textarea>
+            <button type="submit" id="submit-review-btn" class="gradient-btn" style="padding: 0.5rem 1rem; font-size: 0.8rem; border-radius: 6px; width: fit-content; align-self: flex-end;">Yorum Yap</button>
+          </form>
+        </div>
+
+        <div class="dialog-price-action">
+          <div class="dialog-price-wrapper">
+            <span id="dialog-original-price" class="dialog-original-price"></span>
+            <span id="dialog-current-price" class="dialog-current-price">₺0.00</span>
+          </div>
+          <button id="dialog-add-to-cart-btn" class="gradient-btn">
+            <i class="fas fa-shopping-bag"></i> Sepete Ekle
+          </button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- --- SURPRISE ROUTLETTE DIALOG MODAL --- -->
+  <dialog id="surprise-dialog" closedby="any" aria-labelledby="surprise-title">
+    <form method="dialog">
+      <button class="dialog-close" title="Kapat"><i class="fas fa-times"></i></button>
+    </form>
+    <div class="surprise-card-container">
+      <h2 id="surprise-title" class="gradient-text" style="font-weight: 800; font-size: 1.8rem; letter-spacing:-0.5px;">Sizin İçin Seçiyoruz</h2>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top:-0.5rem;">Şans çarkı dönüyor, size özel kurgu hazırlanıyor...</p>
+      
+      <div class="roulette-animation">
+        <div id="roulette-stack" class="roulette-cover-stack">
+          <!-- Animation cycles images here -->
+        </div>
+      </div>
+      
+      <div id="surprise-details" style="display: none; width: 100%;">
+        <!-- Selected book description and CTA will fade in here -->
+      </div>
+    </div>
+  </dialog>
+
+  <!-- --- MAIN SCRIPT --- -->
+  <script src="app.js"></script>
+</body>
+</html>
