@@ -1,5 +1,5 @@
 // --- BOOK DATABASE ---
-const BOOKS = [
+let BOOKS = [
   {
     id: 1,
     title: "Cybernetic Dreams",
@@ -202,9 +202,9 @@ const BOOKS = [
 
 // --- APP STATE ---
 let state = {
-  cart: [], // [{ id, quantity }]
-  wishlist: [], // [id, id]
-  activeView: "home", // "home" | "shop" | "about" | "contact"
+  cart: [],
+  wishlist: [],
+  activeView: "home", // "home" | "shop" | "about" | "contact" | "admin"
   currentCategory: "Tümü",
   searchQuery: "",
   maxPrice: 250,
@@ -213,11 +213,25 @@ let state = {
   theme: "dark",
   activeDetailBookId: null,
   appliedCoupon: "",
-  promoDiscount: 0 // percentage, e.g. 20 for 20%
+  promoDiscount: 0,
+  
+  // Admin-specific States
+  isAdminLoggedIn: false,
+  adminActiveTab: "overview", // "overview" | "books" | "orders" | "comments" | "coupons"
+  orders: [
+    { id: "TL-394857", name: "Mehmet Kaya", total: 219.80, date: "23.05.2026", address: "Kadıköy, İstanbul", status: "delivered" },
+    { id: "TL-128475", name: "Zeynep Demir", total: 99.90, date: "24.05.2026", address: "Karşıyaka, İzmir", status: "shipped" },
+    { id: "TL-983748", name: "Alperen Şahin", total: 139.90, date: "24.05.2026", address: "Çankaya, Ankara", status: "pending" }
+  ],
+  coupons: [
+    { code: "TELLA20", value: 20 },
+    { code: "BEDAVAKARGO", value: 0 } // Shipping fee reducer
+  ]
 };
 
 // --- INITIALIZATION ---
 document.addEventListener("DOMContentLoaded", () => {
+  loadBooksData();
   initTheme();
   loadCart();
   loadWishlist();
@@ -228,6 +242,23 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCart();
   updatePriceFilterLimits();
 });
+
+// --- PERSISTENT BOOKS DATABASE ---
+function loadBooksData() {
+  const saved = localStorage.getItem("tella-books-catalog");
+  if (saved) {
+    try {
+      BOOKS = JSON.parse(saved);
+    } catch (e) {
+      console.error("Custom catalog parsing error, falling back to static seeds");
+    }
+  }
+}
+
+function saveBooksData() {
+  localStorage.setItem("tella-books-catalog", JSON.stringify(BOOKS));
+  renderCatalog();
+}
 
 // --- THEME MANAGEMENT ---
 function initTheme() {
@@ -262,7 +293,6 @@ function setupRouter() {
     });
   });
 
-  // Handle logo click to home
   const logo = document.querySelector(".logo");
   if (logo) {
     logo.addEventListener("click", (e) => {
@@ -271,12 +301,10 @@ function setupRouter() {
     });
   }
 
-  // Handle footer links to sections
   document.querySelectorAll(".footer-links a[href='#shop-section']").forEach(a => {
     a.addEventListener("click", (e) => {
       e.preventDefault();
       switchView("shop");
-      // Scroll to shop header
       setTimeout(() => {
         const shopEl = document.getElementById("shop-section");
         if (shopEl) shopEl.scrollIntoView({ behavior: 'smooth' });
@@ -306,8 +334,13 @@ function switchView(viewName) {
     }
   });
 
-  // Scroll to top on switch
+  // Scroll to top
   window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // If entering admin view, trigger appropriate panel load
+  if (viewName === "admin") {
+    renderAdminView();
+  }
 }
 
 // --- WISHLIST MANAGEMENT ---
@@ -320,6 +353,7 @@ function loadWishlist() {
       state.wishlist = [];
     }
   }
+  updateHeaderHeartBadge();
 }
 
 function saveWishlist() {
@@ -391,7 +425,6 @@ function renderWishlist() {
 
 function addFromWishlistToCart(bookId) {
   addToCart(bookId);
-  // Optional: remove from wishlist when adding to cart
   toggleFavorite(bookId);
 }
 
@@ -422,11 +455,10 @@ function addToCart(bookId, quantity = 1) {
   saveCart();
   openCartDrawer();
   
-  // Custom micro-animation for the cart badge
   const badge = document.getElementById("cart-badge");
   if (badge) {
     badge.classList.remove("pop");
-    void badge.offsetWidth; // Trigger reflow
+    void badge.offsetWidth;
     badge.classList.add("pop");
   }
 }
@@ -455,7 +487,6 @@ function openDetailsModal(bookId) {
 
   state.activeDetailBookId = bookId;
 
-  // Book content binding
   document.getElementById("dialog-cover").src = book.cover;
   document.getElementById("dialog-title").innerText = book.title;
   document.getElementById("dialog-author").innerText = book.author;
@@ -472,7 +503,6 @@ function openDetailsModal(bookId) {
   document.getElementById("dialog-original-price").innerText = hasDiscount ? originalFormatted : "";
   document.getElementById("dialog-current-price").innerText = discountedFormatted;
   
-  // Rating stars inside details
   let starsHtml = "";
   const fullStars = Math.floor(book.rating);
   const halfStar = book.rating % 1 >= 0.5;
@@ -488,7 +518,6 @@ function openDetailsModal(bookId) {
   document.getElementById("dialog-rating-stars").innerHTML = starsHtml;
   document.getElementById("dialog-rating-val").innerText = `(${book.rating.toFixed(1)})`;
 
-  // Bind Add to Cart CTA
   const dialogActionBtn = document.getElementById("dialog-add-to-cart-btn");
   const newBtn = dialogActionBtn.cloneNode(true);
   dialogActionBtn.parentNode.replaceChild(newBtn, dialogActionBtn);
@@ -545,12 +574,12 @@ function handleAddReview(e) {
     if (!book.reviews) book.reviews = [];
     book.reviews.push({ user: name, rating, comment });
     
-    // Recalculate book average rating
     const totalScore = book.reviews.reduce((sum, r) => sum + r.rating, 0);
     book.rating = totalScore / book.reviews.length;
     
     renderReviews(book);
     renderCatalog();
+    saveBooksData();
 
     userNameInput.value = "";
     userCommentText.value = "";
@@ -560,11 +589,9 @@ function handleAddReview(e) {
 
 // --- EVENT LISTENERS ---
 function setupEventListeners() {
-  // Theme Toggle Button
   const themeToggle = document.getElementById("theme-toggle-btn");
   if (themeToggle) themeToggle.addEventListener("click", toggleTheme);
 
-  // Scroll Header Effect
   window.addEventListener("scroll", () => {
     const header = document.querySelector("header");
     if (window.scrollY > 50) {
@@ -574,7 +601,6 @@ function setupEventListeners() {
     }
   });
 
-  // Search Live Query
   const searchInput = document.getElementById("search-input");
   const suggestionsBox = document.getElementById("search-suggestions");
   
@@ -582,7 +608,6 @@ function setupEventListeners() {
     searchInput.addEventListener("input", (e) => {
       const val = e.target.value;
       state.searchQuery = val;
-      // Switch view automatically to shop if user searches from another page
       if (state.activeView !== "shop" && val.trim().length > 0) {
         switchView("shop");
       }
@@ -591,14 +616,12 @@ function setupEventListeners() {
     });
   }
 
-  // Hide suggestions when clicking outside
   document.addEventListener("click", (e) => {
     if (!e.target.closest(".search-wrapper")) {
       if (suggestionsBox) suggestionsBox.style.display = "none";
     }
   });
 
-  // Cart Drawer open/close
   const cartBtn = document.getElementById("cart-btn");
   if (cartBtn) cartBtn.addEventListener("click", openCartDrawer);
   
@@ -608,7 +631,6 @@ function setupEventListeners() {
   const cartBackdrop = document.getElementById("cart-backdrop");
   if (cartBackdrop) cartBackdrop.addEventListener("click", closeCartDrawer);
 
-  // Wishlist open/close
   const heartBtn = document.getElementById("wishlist-btn");
   if (heartBtn) heartBtn.addEventListener("click", openWishlistModal);
   
@@ -619,14 +641,9 @@ function setupEventListeners() {
     });
   }
 
-  // Surprise Recommender Button
   const surpriseBtn = document.getElementById("surprise-btn");
   if (surpriseBtn) surpriseBtn.addEventListener("click", openSurpriseModal);
   
-  const surpriseBtnFooter = document.getElementById("surprise-btn-footer");
-  if (surpriseBtnFooter) surpriseBtnFooter.addEventListener("click", openSurpriseModal);
-
-  // Sorting
   const sortSelect = document.getElementById("sort-select");
   if (sortSelect) {
     sortSelect.addEventListener("change", (e) => {
@@ -635,7 +652,6 @@ function setupEventListeners() {
     });
   }
 
-  // Price range slider
   const priceSlider = document.getElementById("price-range");
   if (priceSlider) {
     priceSlider.addEventListener("input", (e) => {
@@ -646,7 +662,6 @@ function setupEventListeners() {
     });
   }
 
-  // Star ratings filters
   const ratingCheckboxes = document.querySelectorAll(".rating-filter");
   ratingCheckboxes.forEach(cb => {
     cb.addEventListener("change", () => {
@@ -659,7 +674,6 @@ function setupEventListeners() {
     });
   });
 
-  // Category tags click
   const categoriesContainer = document.getElementById("category-slider");
   if (categoriesContainer) {
     categoriesContainer.addEventListener("click", (e) => {
@@ -673,30 +687,25 @@ function setupEventListeners() {
     });
   }
 
-  // Dialog Close Event
   const detailsDialog = document.getElementById("book-details-dialog");
   const closeDetails = document.getElementById("close-details-btn");
   if (closeDetails) {
     closeDetails.addEventListener("click", () => detailsDialog.close());
   }
 
-  // Handle Review submission
   const submitRev = document.getElementById("submit-review-btn");
   if (submitRev) submitRev.addEventListener("click", handleAddReview);
 
-  // Coupon Form submit
   const couponForm = document.getElementById("coupon-form");
   if (couponForm) {
     couponForm.addEventListener("submit", handleCouponApply);
   }
 
-  // Checkout Open Trigger
   const checkoutOpenBtn = document.getElementById("checkout-open-btn");
   if (checkoutOpenBtn) {
     checkoutOpenBtn.addEventListener("click", openCheckoutModal);
   }
 
-  // Close Checkout Modal
   const closeCheckoutBtn = document.getElementById("close-checkout-btn");
   if (closeCheckoutBtn) {
     closeCheckoutBtn.addEventListener("click", () => {
@@ -704,10 +713,8 @@ function setupEventListeners() {
     });
   }
 
-  // Credit Card Realtime Synchronization
   setupCreditCardListeners();
 
-  // Contact Form Submission Mock
   const contactForm = document.getElementById("contact-main-form");
   if (contactForm) {
     contactForm.addEventListener("submit", (e) => {
@@ -717,9 +724,54 @@ function setupEventListeners() {
     });
   }
 
-  // Details Light-dismiss fallbacks for older browsers lacking closedby="any"
+  // Admin View sub-tab buttons setup
+  const adminTabs = document.querySelectorAll(".admin-tab-btn");
+  adminTabs.forEach(tab => {
+    tab.addEventListener("click", (e) => {
+      adminTabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      state.adminActiveTab = tab.dataset.tab;
+      renderAdminActivePanel();
+    });
+  });
+
+  // Admin login submit
+  const loginForm = document.getElementById("admin-login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", handleAdminLoginSubmit);
+  }
+
+  // Open add book dialog
+  const openAddBookBtn = document.getElementById("admin-add-book-btn");
+  if (openAddBookBtn) {
+    openAddBookBtn.addEventListener("click", () => {
+      document.getElementById("add-book-dialog").showModal();
+    });
+  }
+
+  // Close add book dialog
+  const closeAddBookBtn = document.getElementById("close-add-book-btn");
+  if (closeAddBookBtn) {
+    closeAddBookBtn.addEventListener("click", () => {
+      document.getElementById("add-book-dialog").close();
+    });
+  }
+
+  // Add book form submit
+  const addBookForm = document.getElementById("add-book-form");
+  if (addBookForm) {
+    addBookForm.addEventListener("submit", handleAddBookSubmit);
+  }
+
+  // Add coupon form submit
+  const addCouponForm = document.getElementById("admin-coupon-form");
+  if (addCouponForm) {
+    addCouponForm.addEventListener("submit", handleAddCouponSubmit);
+  }
+
+  // Light dismiss fallbacks
   if (!('closedBy' in HTMLDialogElement.prototype)) {
-    const dialogs = ["book-details-dialog", "surprise-dialog", "wishlist-dialog", "checkout-dialog"];
+    const dialogs = ["book-details-dialog", "surprise-dialog", "wishlist-dialog", "checkout-dialog", "add-book-dialog"];
     dialogs.forEach(id => {
       const diag = document.getElementById(id);
       if (diag) {
@@ -737,129 +789,6 @@ function setupEventListeners() {
       }
     });
   }
-}
-
-// --- RENDER DYNAMIC CATALOG GRID ---
-function renderCatalog() {
-  const grid = document.getElementById("books-grid");
-  const countLabel = document.getElementById("book-count");
-  if (!grid) return;
-  
-  // Filter Books
-  let filtered = BOOKS.filter(book => {
-    // 1. Category Filter
-    if (state.currentCategory !== "Tümü" && book.category !== state.currentCategory) return false;
-    
-    // 2. Search Query Filter
-    if (state.searchQuery) {
-      const query = state.searchQuery.toLowerCase();
-      const matchTitle = book.title.toLowerCase().includes(query);
-      const matchAuthor = book.author.toLowerCase().includes(query);
-      if (!matchTitle && !matchAuthor) return false;
-    }
-    
-    // 3. Price Filter
-    const activePrice = book.discountPrice || book.price;
-    if (activePrice > state.maxPrice) return false;
-    
-    // 4. Rating Filter
-    if (state.minRating.length > 0) {
-      const roundedRating = Math.floor(book.rating);
-      const matchesAny = state.minRating.some(min => roundedRating >= min);
-      if (!matchesAny) return false;
-    }
-    
-    return true;
-  });
-
-  // Sort Books
-  filtered.sort((a, b) => {
-    const priceA = a.discountPrice || a.price;
-    const priceB = b.discountPrice || b.price;
-    
-    if (state.sortBy === "price-asc") {
-      return priceA - priceB;
-    } else if (state.sortBy === "price-desc") {
-      return priceB - priceA;
-    } else if (state.sortBy === "rating-desc") {
-      return b.rating - a.rating;
-    }
-    return a.id - b.id; // relevance default
-  });
-
-  if (countLabel) countLabel.innerText = `${filtered.length} Kitap Bulundu`;
-
-  if (filtered.length === 0) {
-    grid.innerHTML = `
-      <div class="no-results">
-        <i class="fas fa-search"></i>
-        <h3>Aradığınız kriterlere uygun kitap bulunamadı.</h3>
-        <p>Lütfen filtrelerinizi kontrol edin veya farklı aramalar deneyin.</p>
-      </div>
-    `;
-    return;
-  }
-
-  grid.innerHTML = filtered.map(book => {
-    const hasDiscount = book.discountPrice && book.discountPrice < book.price;
-    const originalFormatted = `₺${book.price.toFixed(2)}`;
-    const discountedFormatted = hasDiscount ? `₺${book.discountPrice.toFixed(2)}` : originalFormatted;
-    
-    let starsHtml = "";
-    const fullStars = Math.floor(book.rating);
-    const halfStar = book.rating % 1 >= 0.5;
-    for (let i = 1; i <= 5; i++) {
-      if (i <= fullStars) {
-        starsHtml += `<i class="fas fa-star"></i>`;
-      } else if (i === fullStars + 1 && halfStar) {
-        starsHtml += `<i class="fas fa-star-half-alt"></i>`;
-      } else {
-        starsHtml += `<i class="far fa-star"></i>`;
-      }
-    }
-
-    const badgeHtml = book.badge 
-      ? `<div class="book-badge ${book.badgeType || ''}">${book.badge}</div>` 
-      : '';
-
-    const isFav = state.wishlist.includes(book.id);
-    const heartClass = isFav ? "wishlist-heart-btn active" : "wishlist-heart-btn";
-
-    return `
-      <article class="book-card glass-panel" data-id="${book.id}">
-        ${badgeHtml}
-        <button class="${heartClass}" onclick="toggleFavorite(${book.id})" title="Favorilere Ekle">
-          <i class="fas fa-heart"></i>
-        </button>
-        <div class="book-cover-container">
-          <img class="book-cover" src="${book.cover}" alt="${book.title}" loading="lazy">
-          <div class="card-actions-overlay">
-            <button class="overlay-btn view-detail-btn" onclick="openDetailsModal(${book.id})" title="Detayları İncele">
-              <i class="fas fa-eye"></i>
-            </button>
-            <button class="overlay-btn card-add-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
-              <i class="fas fa-shopping-bag"></i>
-            </button>
-          </div>
-        </div>
-        <h3 class="book-title" onclick="openDetailsModal(${book.id})" style="cursor: pointer;">${book.title}</h3>
-        <p class="book-author">${book.author}</p>
-        <div class="book-rating">
-          <span class="stars">${starsHtml}</span>
-          <span>(${book.rating.toFixed(1)})</span>
-        </div>
-        <div class="book-price-wrapper">
-          <div class="prices">
-            ${hasDiscount ? `<span class="original-price">${originalFormatted}</span>` : ''}
-            <span class="current-price">${discountedFormatted}</span>
-          </div>
-          <button class="add-cart-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
-            <i class="fas fa-plus"></i>
-          </button>
-        </div>
-      </article>
-    `;
-  }).join("");
 }
 
 // --- RENDER DYNAMIC CART ---
@@ -905,7 +834,6 @@ function renderCart() {
   const checkoutBtn = document.getElementById("checkout-open-btn");
   if (checkoutBtn) checkoutBtn.disabled = false;
 
-  // Calculate Subtotal
   let subtotal = 0;
   
   if (cartList) {
@@ -937,14 +865,12 @@ function renderCart() {
       `;
     }).join("");
   } else {
-    // If cart list isn't rendered but math needs updating
     state.cart.forEach(item => {
       const book = BOOKS.find(b => b.id === item.id);
       if (book) subtotal += (book.discountPrice || book.price) * item.quantity;
     });
   }
 
-  // Calculate Promo Discount
   let discountAmount = 0;
   if (state.promoDiscount > 0) {
     discountAmount = subtotal * (state.promoDiscount / 100);
@@ -957,17 +883,14 @@ function renderCart() {
   }
 
   const discountedSubtotal = subtotal - discountAmount;
-
-  // Calculate Shipping (Free above ₺300)
   const shippingLimit = 300.00;
-  const shippingCost = discountedSubtotal >= shippingLimit ? 0.00 : 29.90;
+  const shippingCost = (state.appliedCoupon === "BEDAVAKARGO" || discountedSubtotal >= shippingLimit) ? 0.00 : 29.90;
   const total = discountedSubtotal + shippingCost;
 
   if (subtotalRow) subtotalRow.innerText = `₺${subtotal.toFixed(2)}`;
   if (shippingRow) shippingRow.innerText = shippingCost === 0.00 ? "Ücretsiz" : `₺${shippingCost.toFixed(2)}`;
   if (totalRow) totalRow.innerText = `₺${total.toFixed(2)}`;
 
-  // Shipping progress indicator
   if (shippingBar && shippingText) {
     if (discountedSubtotal >= shippingLimit) {
       shippingBar.style.width = "100%";
@@ -987,17 +910,16 @@ function handleCouponApply(e) {
   const input = document.getElementById("coupon-input");
   const code = input.value.trim().toUpperCase();
   
-  if (code === "TELLA20") {
-    state.appliedCoupon = "TELLA20";
-    state.promoDiscount = 20; // 20% discount
-    alert("Kupon başarıyla uygulandı! %20 indirim kazandınız.");
-    saveCart();
-  } else if (code === "BEDAVAKARGO") {
-    state.appliedCoupon = "BEDAVAKARGO";
-    // We can simulate free kargo by overriding limit
-    alert("Kargo Bedava kuponu uygulandı!");
-    // Set active state discount rules or apply flat kargo reduction
-    state.promoDiscount = 0;
+  const coupon = state.coupons.find(c => c.code === code);
+  if (coupon) {
+    state.appliedCoupon = code;
+    if (code === "BEDAVAKARGO") {
+      state.promoDiscount = 0;
+      alert("Kargo Bedava kuponu uygulandı!");
+    } else {
+      state.promoDiscount = coupon.value;
+      alert(`Kupon başarıyla uygulandı! %${coupon.value} indirim kazandınız.`);
+    }
     saveCart();
   } else {
     alert("Geçersiz veya süresi dolmuş kupon kodu.");
@@ -1040,16 +962,6 @@ function renderSuggestions(query) {
   suggestionsBox.style.display = "block";
 }
 
-function selectSuggestion(bookId) {
-  const suggestionsBox = document.getElementById("search-suggestions");
-  if (suggestionsBox) suggestionsBox.style.display = "none";
-  const searchInput = document.getElementById("search-input");
-  if (searchInput) searchInput.value = "";
-  state.searchQuery = "";
-  renderCatalog();
-  openDetailsModal(bookId);
-}
-
 // --- SURPRISE ROUTLETTE WHEEL ---
 function openSurpriseModal() {
   const dialog = document.getElementById("surprise-dialog");
@@ -1066,7 +978,7 @@ function openSurpriseModal() {
   dialog.showModal();
 
   stack.classList.remove("spin-roulette");
-  void stack.offsetWidth; // force reflow
+  void stack.offsetWidth;
   stack.classList.add("spin-roulette");
 
   const covers = [
@@ -1111,17 +1023,11 @@ function openSurpriseModal() {
   }, 2500);
 }
 
-function addSurpriseBook(bookId) {
-  addToCart(bookId);
-  document.getElementById("surprise-dialog").close();
-}
-
 // --- CHECKOUT FLOW & CREDIT CARD SYNCRONIZATION ---
 function openCheckoutModal() {
   closeCartDrawer();
   const dialog = document.getElementById("checkout-dialog");
   
-  // Update order subtotal/totals in checkout modal
   let subtotal = 0;
   state.cart.forEach(item => {
     const book = BOOKS.find(b => b.id === item.id);
@@ -1131,19 +1037,16 @@ function openCheckoutModal() {
   let discountAmount = subtotal * (state.promoDiscount / 100);
   const discountedSubtotal = subtotal - discountAmount;
   const shippingLimit = 300.00;
-  // If BEDAVAKARGO or subtotal exceeds limit
   const shippingCost = (state.appliedCoupon === "BEDAVAKARGO" || discountedSubtotal >= shippingLimit) ? 0.00 : 29.90;
   const grandTotal = discountedSubtotal + shippingCost;
   
   document.getElementById("checkout-summary-total").innerText = `₺${grandTotal.toFixed(2)}`;
   
-  // Reset card front values
   document.getElementById("card-number-display").innerText = "•••• •••• •••• ••••";
   document.getElementById("card-holder-display").innerText = "AD SOYAD";
   document.getElementById("card-expiry-display").innerText = "AA/YY";
   document.getElementById("card-cvv-display").innerText = "•••";
   
-  // Reset form
   const form = document.getElementById("checkout-form");
   if (form) form.reset();
   
@@ -1159,21 +1062,17 @@ function setupCreditCardListeners() {
 
   if (!numberInput) return;
 
-  // Real-time Number Sync & Formatting (xxxx xxxx xxxx xxxx)
   numberInput.addEventListener("input", (e) => {
-    let val = e.target.value.replace(/\D/g, ""); // digits only
-    // format with spaces
+    let val = e.target.value.replace(/\D/g, "");
     let formatted = val.match(/.{1,4}/g);
     if (formatted) {
       e.target.value = formatted.join(" ");
     } else {
       e.target.value = "";
     }
-    
     const displayVal = e.target.value || "•••• •••• •••• ••••";
     document.getElementById("card-number-display").innerText = displayVal;
     
-    // Auto toggle credit card icons if VISA / Mastercard starts
     const logoNode = document.getElementById("card-brand-logo");
     if (val.startsWith("4")) {
       logoNode.className = "fab fa-cc-visa";
@@ -1184,13 +1083,11 @@ function setupCreditCardListeners() {
     }
   });
 
-  // Name Sync
   nameInput.addEventListener("input", (e) => {
     const displayVal = e.target.value.toUpperCase() || "AD SOYAD";
     document.getElementById("card-holder-display").innerText = displayVal;
   });
 
-  // Expiry Sync & Formatting (MM/YY)
   expiryInput.addEventListener("input", (e) => {
     let val = e.target.value.replace(/\D/g, "");
     if (val.length > 2) {
@@ -1202,10 +1099,9 @@ function setupCreditCardListeners() {
     document.getElementById("card-expiry-display").innerText = displayVal;
   });
 
-  // CVV Sync & Mockup Flip
   cvvInput.addEventListener("input", (e) => {
     const val = e.target.value.replace(/\D/g, "");
-    e.target.value = val; // limit to digits
+    e.target.value = val;
     const displayVal = val || "•••";
     document.getElementById("card-cvv-display").innerText = displayVal;
   });
@@ -1218,26 +1114,387 @@ function setupCreditCardListeners() {
     cardInner.classList.remove("is-flipped");
   });
 
-  // Handle Checkout submission
   const checkoutForm = document.getElementById("checkout-form");
   checkoutForm.addEventListener("submit", (e) => {
     e.preventDefault();
     
-    // Simulate payment API call
-    alert("Ödemeniz başarıyla doğrulandı! Siparişiniz onaylandı ve kargo hazırlık sürecine alındı. Sipariş numaranız: TL-" + Math.floor(100000 + Math.random() * 900000));
+    const clientName = document.getElementById("card-owner").value;
+    const clientAddress = document.getElementById("card-address").value;
     
-    // Clear State & Cart Drawer
+    // Calculate total
+    let subtotal = 0;
+    state.cart.forEach(item => {
+      const book = BOOKS.find(b => b.id === item.id);
+      if (book) subtotal += (book.discountPrice || book.price) * item.quantity;
+    });
+    let discountAmount = subtotal * (state.promoDiscount / 100);
+    const discountedSubtotal = subtotal - discountAmount;
+    const shippingCost = (state.appliedCoupon === "BEDAVAKARGO" || discountedSubtotal >= 300) ? 0.00 : 29.90;
+    const grandTotal = discountedSubtotal + shippingCost;
+
+    const orderId = "TL-" + Math.floor(100000 + Math.random() * 900000);
+    const orderDate = new Date().toLocaleDateString("tr-TR");
+
+    // Add to Admin orders tracking list
+    state.orders.unshift({
+      id: orderId,
+      name: clientName,
+      total: grandTotal,
+      date: orderDate,
+      address: clientAddress,
+      status: "pending"
+    });
+
+    alert(`Ödemeniz başarıyla doğrulandı!\nSiparişiniz onaylandı.\nSipariş Numarası: ${orderId}`);
+    
     state.cart = [];
     state.appliedCoupon = "";
     state.promoDiscount = 0;
     saveCart();
     
-    // Close Modals
     document.getElementById("checkout-dialog").close();
   });
 }
 
-// --- SPOTLIGHT LIVE SPOTLIGHT TIMER ---
+// --- ADMIN PORTAL PANEL RENDERERS ---
+function handleAdminLoginSubmit(e) {
+  e.preventDefault();
+  const user = document.getElementById("admin-username").value;
+  const pass = document.getElementById("admin-password").value;
+
+  if (user === "admin" && pass === "admin") {
+    state.isAdminLoggedIn = true;
+    renderAdminView();
+  } else {
+    alert("Geçersiz kullanıcı adı veya şifre.");
+  }
+}
+
+function autoFillAdminCredentials() {
+  document.getElementById("admin-username").value = "admin";
+  document.getElementById("admin-password").value = "admin";
+}
+
+function renderAdminView() {
+  const loginGate = document.getElementById("admin-login-gate");
+  const dashboard = document.getElementById("admin-dashboard");
+  
+  if (state.isAdminLoggedIn) {
+    loginGate.style.display = "none";
+    dashboard.style.display = "flex";
+    renderAdminActivePanel();
+  } else {
+    loginGate.style.display = "block";
+    dashboard.style.display = "none";
+  }
+}
+
+function renderAdminActivePanel() {
+  // Update admin active section class
+  const sections = document.querySelectorAll(".admin-panel-section");
+  sections.forEach(s => {
+    s.classList.remove("active");
+    if (s.id === `admin-sec-${state.adminActiveTab}`) s.classList.add("active");
+  });
+
+  // Call panel specific renderer
+  if (state.adminActiveTab === "overview") {
+    renderAdminOverview();
+  } else if (state.adminActiveTab === "books") {
+    renderAdminBooks();
+  } else if (state.adminActiveTab === "orders") {
+    renderAdminOrders();
+  } else if (state.adminActiveTab === "comments") {
+    renderAdminComments();
+  } else if (state.adminActiveTab === "coupons") {
+    renderAdminCoupons();
+  }
+}
+
+function renderAdminOverview() {
+  // Calculate aggregate stats
+  const totalSales = state.orders
+    .filter(o => o.status === "delivered" || o.status === "shipped")
+    .reduce((sum, o) => sum + o.total, 0);
+
+  const pendingOrders = state.orders.filter(o => o.status === "pending").length;
+  
+  // Calculate total pending reviews
+  let pendingReviews = 0;
+  BOOKS.forEach(b => {
+    if (b.reviews) pendingReviews += b.reviews.length;
+  });
+
+  document.getElementById("stat-total-sales").innerText = `₺${totalSales.toFixed(2)}`;
+  document.getElementById("stat-total-orders").innerText = state.orders.length;
+  document.getElementById("stat-total-books").innerText = BOOKS.length;
+  document.getElementById("stat-pending-orders").innerText = pendingOrders;
+
+  // Render recent activity feed
+  const feed = document.getElementById("admin-activity-feed");
+  feed.innerHTML = `
+    <div style="display:flex; flex-direction:column; gap:0.8rem; font-size:0.9rem;">
+      <div style="padding:0.6rem; background:rgba(255,255,255,0.02); border-left:3px solid var(--accent-secondary); border-radius:4px;">
+        <strong>Sistem:</strong> Yönetici paneline başarıyla giriş yapıldı. (${new Date().toLocaleTimeString()})
+      </div>
+      ${state.orders.slice(0, 3).map(o => `
+        <div style="padding:0.6rem; background:rgba(255,255,255,0.02); border-left:3px solid ${o.status === 'delivered' ? 'var(--success)' : 'var(--warning)'}; border-radius:4px;">
+          <strong>Yeni Sipariş:</strong> ${o.name} tarafından ${o.id} nolu sipariş verildi. Toplam: ₺${o.total.toFixed(2)}
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderAdminBooks() {
+  const tbody = document.getElementById("admin-books-tbody");
+  if (!tbody) return;
+
+  tbody.innerHTML = BOOKS.map(book => {
+    const priceFormatted = `₺${book.price.toFixed(2)}`;
+    const discountFormatted = book.discountPrice ? `₺${book.discountPrice.toFixed(2)}` : "-";
+    return `
+      <tr>
+        <td><img src="${book.cover}" alt="cover"></td>
+        <td style="font-weight:700;">${book.title}</td>
+        <td>${book.author}</td>
+        <td>${book.category}</td>
+        <td>${priceFormatted}</td>
+        <td>${discountFormatted}</td>
+        <td>${book.publisher}</td>
+        <td>
+          <div class="action-btn-group">
+            <button class="btn-edit" onclick="triggerEditBook(${book.id})" title="Düzenle"><i class="fas fa-edit"></i></button>
+            <button class="btn-delete" onclick="triggerDeleteBook(${book.id})" title="Sil"><i class="fas fa-trash-alt"></i></button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function handleAddBookSubmit(e) {
+  e.preventDefault();
+  const title = document.getElementById("ab-title").value.trim();
+  const author = document.getElementById("ab-author").value.trim();
+  const category = document.getElementById("ab-category").value;
+  const price = parseFloat(document.getElementById("ab-price").value);
+  const discount = document.getElementById("ab-discount").value ? parseFloat(document.getElementById("ab-discount").value) : null;
+  const publisher = document.getElementById("ab-publisher").value.trim() || "TellaKitap Yayınları";
+  const pages = parseInt(document.getElementById("ab-pages").value) || 200;
+  const year = parseInt(document.getElementById("ab-year").value) || 2026;
+  const isbn = document.getElementById("ab-isbn").value.trim() || "978-605-000-00-0";
+  const description = document.getElementById("ab-desc").value.trim() || "Bu kitap için henüz açıklama girilmemiş.";
+
+  // Preset covers mapped by index
+  const presets = [
+    "assets/cover_cyber.png",
+    "assets/cover_nature.png",
+    "assets/cover_philosophy.png",
+    "assets/cover_mystery.png",
+    "assets/cover_future.png"
+  ];
+  const coverPath = presets[BOOKS.length % presets.length];
+
+  const newId = BOOKS.length > 0 ? Math.max(...BOOKS.map(b => b.id)) + 1 : 1;
+
+  const newBook = {
+    id: newId,
+    title,
+    author,
+    category,
+    price,
+    discountPrice: discount,
+    rating: 5.0, // Default rating for new book
+    cover: coverPath,
+    publisher,
+    pages,
+    year,
+    isbn,
+    badge: "Yeni",
+    badgeType: "hot",
+    description,
+    reviews: []
+  };
+
+  BOOKS.push(newBook);
+  saveBooksData();
+  renderAdminBooks();
+  
+  // Close dialog and reset form
+  document.getElementById("add-book-dialog").close();
+  document.getElementById("add-book-form").reset();
+  alert(`"${title}" kataloğa başarıyla eklendi!`);
+}
+
+function triggerDeleteBook(bookId) {
+  const book = BOOKS.find(b => b.id === bookId);
+  if (!book) return;
+
+  if (confirm(`"${book.title}" kitabını katalogdan silmek istediğinize emin misiniz?`)) {
+    BOOKS = BOOKS.filter(b => b.id !== bookId);
+    saveBooksData();
+    renderAdminBooks();
+  }
+}
+
+function renderAdminOrders() {
+  const tbody = document.getElementById("admin-orders-tbody");
+  if (!tbody) return;
+
+  tbody.innerHTML = state.orders.map(order => {
+    let statusClass = "status-pending";
+    let statusLabel = "Hazırlanıyor";
+    if (order.status === "shipped") {
+      statusClass = "status-shipped";
+      statusLabel = "Kargolandı";
+    } else if (order.status === "delivered") {
+      statusClass = "status-delivered";
+      statusLabel = "Teslim Edildi";
+    }
+
+    return `
+      <tr>
+        <td style="font-weight:800; font-family:monospace;">${order.id}</td>
+        <td style="font-weight:700;">${order.name}</td>
+        <td>₺${order.total.toFixed(2)}</td>
+        <td>${order.date}</td>
+        <td style="font-size:0.8rem; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${order.address}</td>
+        <td>
+          <span class="status-badge ${statusClass}">${statusLabel}</span>
+        </td>
+        <td>
+          <select class="table-select" onchange="triggerUpdateOrderStatus('${order.id}', this.value)">
+            <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Hazırlanıyor</option>
+            <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Kargolandı</option>
+            <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Teslim Edildi</option>
+          </select>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function triggerUpdateOrderStatus(orderId, newStatus) {
+  const order = state.orders.find(o => o.id === orderId);
+  if (order) {
+    order.status = newStatus;
+    renderAdminOrders();
+  }
+}
+
+function renderAdminComments() {
+  const tbody = document.getElementById("admin-comments-tbody");
+  if (!tbody) return;
+
+  // Flatten comments from all books
+  let flatReviews = [];
+  BOOKS.forEach(book => {
+    if (book.reviews) {
+      book.reviews.forEach((rev, idx) => {
+        flatReviews.push({
+          bookId: book.id,
+          bookTitle: book.title,
+          reviewIndex: idx,
+          user: rev.user,
+          rating: rev.rating,
+          comment: rev.comment
+        });
+      });
+    }
+  });
+
+  if (flatReviews.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Henüz yorum bulunmamaktadır.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = flatReviews.map(item => {
+    let stars = "";
+    for (let i = 1; i <= 5; i++) {
+      stars += i <= item.rating ? `<i class="fas fa-star" style="color:var(--warning)"></i>` : `<i class="far fa-star"></i>`;
+    }
+    return `
+      <tr>
+        <td style="font-weight:700;">${item.bookTitle}</td>
+        <td>${item.user}</td>
+        <td style="font-size:0.8rem;">${stars}</td>
+        <td style="max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${item.comment}">${item.comment}</td>
+        <td>
+          <button class="close-btn" onclick="triggerDeleteReview(${item.bookId}, ${item.reviewIndex})" style="width:32px; height:32px; font-size:0.85rem;" title="Yorumu Kaldır">
+            <i class="fas fa-trash-alt" style="color:var(--danger)"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function triggerDeleteReview(bookId, reviewIndex) {
+  const book = BOOKS.find(b => b.id === bookId);
+  if (book && book.reviews) {
+    if (confirm("Bu okur yorumunu moderatör olarak kalıcı olarak silmek istediğinize emin misiniz?")) {
+      book.reviews.splice(reviewIndex, 1);
+      
+      // Recalculate rating
+      if (book.reviews.length > 0) {
+        const totalScore = book.reviews.reduce((sum, r) => sum + r.rating, 0);
+        book.rating = totalScore / book.reviews.length;
+      } else {
+        book.rating = 5.0; // Reset to 5 if no comments
+      }
+      
+      saveBooksData();
+      renderAdminComments();
+      renderCatalog();
+    }
+  }
+}
+
+function renderAdminCoupons() {
+  const tbody = document.getElementById("admin-coupons-tbody");
+  if (!tbody) return;
+
+  tbody.innerHTML = state.coupons.map(c => {
+    return `
+      <tr>
+        <td style="font-weight:800; font-family:monospace; color:var(--accent-secondary);">${c.code}</td>
+        <td>${c.value > 0 ? `%${c.value} İndirim` : "Ücretsiz Kargo"}</td>
+        <td>Aktif</td>
+        <td>
+          <button class="close-btn" onclick="triggerDeleteCoupon('${c.code}')" style="width:32px; height:32px; font-size:0.85rem;" title="Kuponu Sil">
+            <i class="fas fa-trash-alt" style="color:var(--danger)"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function handleAddCouponSubmit(e) {
+  e.preventDefault();
+  const code = document.getElementById("ac-code").value.trim().toUpperCase();
+  const value = parseInt(document.getElementById("ac-value").value) || 0;
+
+  if (state.coupons.some(c => c.code === code)) {
+    alert("Bu kupon kodu zaten mevcut.");
+    return;
+  }
+
+  state.coupons.push({ code, value });
+  renderAdminCoupons();
+  document.getElementById("admin-coupon-form").reset();
+  alert(`"${code}" kuponu başarıyla oluşturuldu!`);
+}
+
+function triggerDeleteCoupon(code) {
+  if (confirm(`"${code}" kuponunu silmek istediğinize emin misiniz?`)) {
+    state.coupons = state.coupons.filter(c => c.code !== code);
+    renderAdminCoupons();
+  }
+}
+
+// --- SPOTLIGHT TIMER ---
 function setupCountdownTimer() {
   const hoursVal = document.getElementById("spotlight-hours");
   const minsVal = document.getElementById("spotlight-minutes");
@@ -1246,7 +1503,6 @@ function setupCountdownTimer() {
 
   function update() {
     const now = new Date();
-    // Calculate seconds left until midnight tonight
     const midnight = new Date();
     midnight.setHours(24, 0, 0, 0);
     const diffMs = midnight - now;
@@ -1315,3 +1571,9 @@ window.removeFromCart = removeFromCart;
 window.toggleFavorite = toggleFavorite;
 window.openWishlistModal = openWishlistModal;
 window.addFromWishlistToCart = addFromWishlistToCart;
+window.switchView = switchView;
+window.triggerDeleteBook = triggerDeleteBook;
+window.triggerUpdateOrderStatus = triggerUpdateOrderStatus;
+window.triggerDeleteReview = triggerDeleteReview;
+window.triggerDeleteCoupon = triggerDeleteCoupon;
+window.autoFillAdminCredentials = autoFillAdminCredentials;

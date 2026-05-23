@@ -217,7 +217,7 @@ header .container {
 /* SPA Navigation Tabs in Header */
 .main-nav {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.2rem;
   list-style: none;
 }
 
@@ -243,7 +243,7 @@ header .container {
 /* Search Container */
 .search-wrapper {
   position: relative;
-  flex: 0 1 320px;
+  flex: 0 1 300px;
 }
 
 .search-bar {
@@ -539,7 +539,7 @@ header .container {
   margin-bottom: 1rem;
 }
 
-/* Spotlight Highlight (Book of the Day) */
+/* Spotlight Highlight */
 .spotlight-banner {
   display: grid;
   grid-template-columns: 1.2fr 2fr;
@@ -734,33 +734,6 @@ header .container {
   font-weight: 600;
 }
 
-input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--border-color);
-  outline: none;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--accent-color);
-  cursor: pointer;
-  transition: var(--transition-fast);
-  border: 2px solid var(--bg-app);
-}
-
-input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 8px var(--accent-color);
-}
-
 .rating-options {
   display: flex;
   flex-direction: column;
@@ -864,7 +837,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.08);
 }
 
-/* Heart button for wishlist absolute positioning in cover */
+/* Heart button for wishlist */
 .wishlist-heart-btn {
   position: absolute;
   top: 0.8rem;
@@ -1104,7 +1077,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   line-height: 1.7;
 }
 
-/* Timeline of the project */
+/* Timeline */
 .timeline-section {
   display: flex;
   flex-direction: column;
@@ -1268,7 +1241,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   line-height: 1.5;
 }
 
-/* Mock Map styling */
+/* Mock Map */
 .mock-map {
   width: 100%;
   height: 200px;
@@ -1303,6 +1276,237 @@ input[type="range"]::-webkit-slider-thumb:hover {
 @keyframes bounce {
   from { transform: translate(-50%, -100%); }
   to { transform: translate(-50%, -115%); }
+}
+
+/* --- YÖNETİM PANELİ (ADMIN VIEW) --- */
+.admin-layout {
+  margin-top: calc(var(--header-height) + 2rem);
+  margin-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Login Gate layout */
+.login-card {
+  max-width: 420px;
+  width: 100%;
+  margin: 4rem auto;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Admin Dashboard Sub-navigation Tabs */
+.admin-tabs {
+  display: flex;
+  gap: 0.8rem;
+  overflow-x: auto;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin-tab-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  transition: var(--transition-fast);
+}
+
+.admin-tab-btn:hover, .admin-tab-btn.active {
+  color: var(--text-primary);
+  background: var(--bg-surface-solid);
+  border: 1px solid var(--border-color);
+}
+
+.admin-panel-section {
+  display: none;
+  animation: fadeIn 0.4s forwards ease;
+}
+
+.admin-panel-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Stats Dashboard Grid */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.stat-card {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-card-left span {
+  display: block;
+}
+
+.stat-card-left span:first-child {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-card-left span:last-child {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-top: 0.2rem;
+}
+
+.stat-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: var(--bg-app);
+  border: 1px solid var(--border-color);
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-secondary);
+}
+
+[data-theme="light"] .stat-card-icon {
+  color: var(--accent-color);
+}
+
+/* Table Styling inside Admin */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.admin-table th {
+  background: var(--bg-surface-solid);
+  padding: 1rem 1.2rem;
+  font-weight: 700;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.admin-table td {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.admin-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme="light"] .admin-table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.01);
+}
+
+.admin-table img {
+  width: 36px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Badges for status inside tables */
+.status-badge {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.status-pending {
+  background: rgba(255, 165, 0, 0.15);
+  color: var(--warning);
+  border: 1px solid rgba(255, 165, 0, 0.3);
+}
+
+.status-shipped {
+  background: rgba(30, 144, 255, 0.15);
+  color: var(--accent-secondary);
+  border: 1px solid rgba(30, 144, 255, 0.3);
+}
+
+.status-delivered {
+  background: rgba(50, 205, 50, 0.15);
+  color: var(--success);
+  border: 1px solid rgba(50, 205, 50, 0.3);
+}
+
+/* Action buttons inside table */
+.action-btn-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn-group button {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface-solid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: var(--transition-fast);
+}
+
+.action-btn-group button.btn-edit:hover {
+  border-color: var(--accent-secondary);
+  color: var(--accent-secondary);
+}
+
+.action-btn-group button.btn-delete:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* Select element inside tables for status */
+.table-select {
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  background: var(--bg-surface-solid);
+  border: 1px solid var(--border-color);
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+/* Admin dialog specific input layout */
+.admin-dialog-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.admin-dialog-form .full-width {
+  grid-column: 1 / -1;
 }
 
 /* --- SHOPPING CART DRAWER --- */
@@ -1893,7 +2097,7 @@ dialog::backdrop {
   gap: 2.5rem;
 }
 
-/* Credit Card Mockup styling */
+/* Credit Card Mockup */
 .credit-card-panel {
   display: flex;
   flex-direction: column;
@@ -1902,7 +2106,6 @@ dialog::backdrop {
   gap: 2rem;
 }
 
-/* 3D card rotater container */
 .card-3d-wrapper {
   width: 320px;
   height: 190px;
@@ -1945,7 +2148,6 @@ dialog::backdrop {
   padding: 1.5rem 0;
 }
 
-/* Front components */
 .card-chip {
   width: 44px;
   height: 32px;
@@ -2006,7 +2208,6 @@ dialog::backdrop {
   max-width: 160px;
 }
 
-/* Back components */
 .card-strip {
   width: 100%;
   height: 40px;
@@ -2239,7 +2440,7 @@ footer {
     padding: 0 1.2rem;
   }
   .main-nav {
-    display: none; /* Hide main nav on mobile header, can fallback or be styled as hamburger */
+    display: none;
   }
   .search-wrapper {
     display: none;
