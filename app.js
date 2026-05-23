@@ -1572,26 +1572,70 @@ function setupSharedEventListeners() {
     });
   }
 
+  const handleSearchInput = (e) => {
+    const val = e.target.value;
+    state.searchQuery = val;
+    
+    // Sync values between desktop and mobile search bars if both exist
+    const searchInput = document.getElementById("search-input");
+    const mobileSearchInput = document.getElementById("mobile-search-input");
+    if (searchInput && e.target !== searchInput) searchInput.value = val;
+    if (mobileSearchInput && e.target !== mobileSearchInput) mobileSearchInput.value = val;
+
+    const pathname = window.location.pathname;
+    if (!pathname.includes("detail.html") && !pathname.includes("admin.html") && state.activeView !== "shop" && val.trim().length > 0) {
+      switchView("shop");
+    }
+    renderCatalog();
+    renderSuggestions(val, e.target.id === "mobile-search-input");
+  };
+
   const searchInput = document.getElementById("search-input");
-  const suggestionsBox = document.getElementById("search-suggestions");
   if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      const val = e.target.value;
-      state.searchQuery = val;
-      // If user starts typing search on detail or contact, auto route to shop view
-      const pathname = window.location.pathname;
-      if (!pathname.includes("detail.html") && !pathname.includes("admin.html") && state.activeView !== "shop" && val.trim().length > 0) {
-        switchView("shop");
-      }
-      renderCatalog();
-      renderSuggestions(val);
-    });
+    searchInput.addEventListener("input", handleSearchInput);
+  }
+
+  const mobileSearchInput = document.getElementById("mobile-search-input");
+  if (mobileSearchInput) {
+    mobileSearchInput.addEventListener("input", handleSearchInput);
   }
 
   document.addEventListener("click", (e) => {
+    const suggestionsBox = document.getElementById("search-suggestions");
+    const mobileSuggestionsBox = document.getElementById("mobile-search-suggestions");
     if (!e.target.closest(".search-wrapper")) {
       if (suggestionsBox) suggestionsBox.style.display = "none";
     }
+    if (!e.target.closest(".mobile-search-wrapper")) {
+      if (mobileSuggestionsBox) mobileSuggestionsBox.style.display = "none";
+    }
+  });
+
+  // Mobile navigation drawer controls
+  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+  const closeMobileNavBtn = document.getElementById("close-mobile-nav-btn");
+  const mobileNavBackdrop = document.getElementById("mobile-nav-backdrop");
+
+  if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", openMobileNav);
+  if (closeMobileNavBtn) closeMobileNavBtn.addEventListener("click", closeMobileNav);
+  if (mobileNavBackdrop) mobileNavBackdrop.addEventListener("click", closeMobileNav);
+
+  // SPA navigation links in mobile drawer
+  const mobileNavLinks = document.querySelectorAll(".mobile-nav-links .mobile-nav-link");
+  mobileNavLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+      if (link.getAttribute("href")) {
+        closeMobileNav();
+        return;
+      }
+      const targetView = link.getAttribute("data-view");
+      if (targetView) {
+        closeMobileNav();
+        switchView(targetView);
+        mobileNavLinks.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+      }
+    });
   });
 
   setupCreditCardListeners();
@@ -1763,8 +1807,8 @@ function handleCouponApply(e) {
 }
 
 // --- AUTOCOMPLETE SUGGESTIONS ---
-function renderSuggestions(query) {
-  const suggestionsBox = document.getElementById("search-suggestions");
+function renderSuggestions(query, isMobile = false) {
+  const suggestionsBox = document.getElementById(isMobile ? "mobile-search-suggestions" : "search-suggestions");
   if (!suggestionsBox) return;
   
   if (!query || query.trim().length < 2) {
@@ -1786,7 +1830,7 @@ function renderSuggestions(query) {
   suggestionsBox.innerHTML = matched.map(book => {
     const activePrice = book.discountPrice || book.price;
     return `
-      <div class="suggestion-item" onclick="selectSuggestion(${book.id})">
+      <div class="suggestion-item" onclick="selectSuggestion(${book.id}, ${isMobile})">
         <img class="suggestion-img" src="${book.cover}" alt="${book.title}">
         <div class="suggestion-info">
           <h4>${book.title}</h4>
@@ -1798,12 +1842,20 @@ function renderSuggestions(query) {
   suggestionsBox.style.display = "block";
 }
 
-function selectSuggestion(bookId) {
-  const suggestionsBox = document.getElementById("search-suggestions");
+function selectSuggestion(bookId, isMobile = false) {
+  const suggestionsBox = document.getElementById(isMobile ? "mobile-search-suggestions" : "search-suggestions");
   if (suggestionsBox) suggestionsBox.style.display = "none";
+  
   const searchInput = document.getElementById("search-input");
   if (searchInput) searchInput.value = "";
+  const mobileSearchInput = document.getElementById("mobile-search-input");
+  if (mobileSearchInput) mobileSearchInput.value = "";
+  
   state.searchQuery = "";
+  
+  if (isMobile) {
+    closeMobileNav();
+  }
   
   // Redirect to detail page
   window.location.href = `detail.html?id=${bookId}`;
@@ -1970,6 +2022,26 @@ function openCartDrawer() {
 function closeCartDrawer() {
   const drawer = document.getElementById("cart-drawer");
   const backdrop = document.getElementById("cart-backdrop");
+  if (drawer && backdrop) {
+    drawer.classList.remove("open");
+    backdrop.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+}
+
+function openMobileNav() {
+  const drawer = document.getElementById("mobile-nav-drawer");
+  const backdrop = document.getElementById("mobile-nav-backdrop");
+  if (drawer && backdrop) {
+    drawer.classList.add("open");
+    backdrop.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+}
+
+function closeMobileNav() {
+  const drawer = document.getElementById("mobile-nav-drawer");
+  const backdrop = document.getElementById("mobile-nav-backdrop");
   if (drawer && backdrop) {
     drawer.classList.remove("open");
     backdrop.classList.remove("open");
@@ -2300,6 +2372,21 @@ function initDetailPage() {
   bindDetailPageData(book);
   renderDetailPageReviews(book);
   renderSimilarBooksCarousel(book);
+
+  // Toggle sticky buy bar based on main buy button visibility
+  const mainBuyBtn = document.getElementById("det-add-cart-btn");
+  const stickyBar = document.querySelector(".sticky-buy-bar");
+  if (mainBuyBtn && stickyBar) {
+    stickyBar.style.display = "none"; // Hide initially
+    window.addEventListener("scroll", () => {
+      const rect = mainBuyBtn.getBoundingClientRect();
+      if (rect.bottom < 0) {
+        stickyBar.style.display = "block";
+      } else {
+        stickyBar.style.display = "none";
+      }
+    });
+  }
 }
 
 function bindDetailPageData(book) {
