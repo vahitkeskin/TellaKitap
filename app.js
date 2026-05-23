@@ -203,20 +203,27 @@ const BOOKS = [
 // --- APP STATE ---
 let state = {
   cart: [], // [{ id, quantity }]
+  wishlist: [], // [id, id]
+  activeView: "home", // "home" | "shop" | "about" | "contact"
   currentCategory: "Tümü",
   searchQuery: "",
-  maxPrice: 200, // Default range max limit
-  minRating: [], // Selected rating levels, e.g. [4, 5]
+  maxPrice: 250,
+  minRating: [],
   sortBy: "relevance",
   theme: "dark",
-  activeDetailBookId: null
+  activeDetailBookId: null,
+  appliedCoupon: "",
+  promoDiscount: 0 // percentage, e.g. 20 for 20%
 };
 
 // --- INITIALIZATION ---
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   loadCart();
+  loadWishlist();
   setupEventListeners();
+  setupRouter();
+  setupCountdownTimer();
   renderCatalog();
   renderCart();
   updatePriceFilterLimits();
@@ -239,11 +246,153 @@ function toggleTheme() {
 
 function updateThemeIcon() {
   const icon = document.getElementById("theme-icon");
-  if (state.theme === "light") {
-    icon.className = "fas fa-moon";
-  } else {
-    icon.className = "fas fa-sun";
+  if (icon) {
+    icon.className = state.theme === "light" ? "fas fa-moon" : "fas fa-sun";
   }
+}
+
+// --- SPA ROUTER ---
+function setupRouter() {
+  const links = document.querySelectorAll(".nav-link");
+  links.forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const targetView = link.dataset.view;
+      if (targetView) switchView(targetView);
+    });
+  });
+
+  // Handle logo click to home
+  const logo = document.querySelector(".logo");
+  if (logo) {
+    logo.addEventListener("click", (e) => {
+      e.preventDefault();
+      switchView("home");
+    });
+  }
+
+  // Handle footer links to sections
+  document.querySelectorAll(".footer-links a[href='#shop-section']").forEach(a => {
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      switchView("shop");
+      // Scroll to shop header
+      setTimeout(() => {
+        const shopEl = document.getElementById("shop-section");
+        if (shopEl) shopEl.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    });
+  });
+}
+
+function switchView(viewName) {
+  state.activeView = viewName;
+
+  // Toggle active view panel
+  const panels = document.querySelectorAll(".view-panel");
+  panels.forEach(panel => {
+    panel.classList.remove("active");
+    if (panel.id === `view-${viewName}`) {
+      panel.classList.add("active");
+    }
+  });
+
+  // Toggle active nav link
+  const links = document.querySelectorAll(".nav-link");
+  links.forEach(link => {
+    link.classList.remove("active");
+    if (link.dataset.view === viewName) {
+      link.classList.add("active");
+    }
+  });
+
+  // Scroll to top on switch
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// --- WISHLIST MANAGEMENT ---
+function loadWishlist() {
+  const saved = localStorage.getItem("tella-wishlist");
+  if (saved) {
+    try {
+      state.wishlist = JSON.parse(saved);
+    } catch (e) {
+      state.wishlist = [];
+    }
+  }
+}
+
+function saveWishlist() {
+  localStorage.setItem("tella-wishlist", JSON.stringify(state.wishlist));
+  renderWishlist();
+}
+
+function toggleFavorite(bookId) {
+  const index = state.wishlist.indexOf(bookId);
+  if (index >= 0) {
+    state.wishlist.splice(index, 1);
+  } else {
+    state.wishlist.push(bookId);
+  }
+  saveWishlist();
+  renderCatalog();
+  updateHeaderHeartBadge();
+}
+
+function updateHeaderHeartBadge() {
+  const badge = document.getElementById("wishlist-badge");
+  if (badge) {
+    badge.innerText = state.wishlist.length;
+    badge.style.display = state.wishlist.length > 0 ? "flex" : "none";
+  }
+}
+
+function openWishlistModal() {
+  const dialog = document.getElementById("wishlist-dialog");
+  renderWishlist();
+  dialog.showModal();
+}
+
+function renderWishlist() {
+  const list = document.getElementById("wishlist-items-list");
+  updateHeaderHeartBadge();
+  
+  if (state.wishlist.length === 0) {
+    list.innerHTML = `
+      <div style="text-align:center; padding: 2rem; color:var(--text-muted);">
+        <i class="far fa-heart" style="font-size:2.5rem; margin-bottom:1rem; display:block;"></i>
+        <p>Favori listeniz boş.</p>
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = state.wishlist.map(bookId => {
+    const book = BOOKS.find(b => b.id === bookId);
+    if (!book) return "";
+    const activePrice = book.discountPrice || book.price;
+    return `
+      <div class="wishlist-item">
+        <img src="${book.cover}" alt="${book.title}">
+        <div class="wishlist-info">
+          <h4>${book.title}</h4>
+          <p>${book.author} | <strong>₺${activePrice.toFixed(2)}</strong></p>
+        </div>
+        <button class="gradient-btn" onclick="addFromWishlistToCart(${book.id})" style="padding:0.4rem 0.8rem; font-size:0.8rem; border-radius:8px;">
+          <i class="fas fa-shopping-bag"></i> Ekle
+        </button>
+        <button class="close-btn" onclick="toggleFavorite(${book.id})" style="width:30px; height:30px; font-size:0.85rem;" title="Listeden Çıkar">
+          <i class="fas fa-trash-alt" style="color:var(--danger)"></i>
+        </button>
+      </div>
+    `;
+  }).join("");
+}
+
+function addFromWishlistToCart(bookId) {
+  addToCart(bookId);
+  // Optional: remove from wishlist when adding to cart
+  toggleFavorite(bookId);
 }
 
 // --- CART STATE MANAGERS ---
@@ -275,9 +424,11 @@ function addToCart(bookId, quantity = 1) {
   
   // Custom micro-animation for the cart badge
   const badge = document.getElementById("cart-badge");
-  badge.classList.remove("pop");
-  void badge.offsetWidth; // Trigger reflow
-  badge.classList.add("pop");
+  if (badge) {
+    badge.classList.remove("pop");
+    void badge.offsetWidth; // Trigger reflow
+    badge.classList.add("pop");
+  }
 }
 
 function updateQuantity(bookId, delta) {
@@ -294,369 +445,6 @@ function updateQuantity(bookId, delta) {
 function removeFromCart(bookId) {
   state.cart = state.cart.filter(item => item.id !== bookId);
   saveCart();
-}
-
-// --- EVENT LISTENERS ---
-function setupEventListeners() {
-  // Theme Toggle Button
-  document.getElementById("theme-toggle-btn").addEventListener("click", toggleTheme);
-
-  // Scroll Header Effect
-  window.addEventListener("scroll", () => {
-    const header = document.querySelector("header");
-    if (window.scrollY > 50) {
-      header.classList.add("scrolled");
-    } else {
-      header.classList.remove("scrolled");
-    }
-  });
-
-  // Search Live Query
-  const searchInput = document.getElementById("search-input");
-  const suggestionsBox = document.getElementById("search-suggestions");
-  
-  searchInput.addEventListener("input", (e) => {
-    const val = e.target.value;
-    state.searchQuery = val;
-    renderCatalog();
-    renderSuggestions(val);
-  });
-
-  // Hide suggestions when clicking outside
-  document.addEventListener("click", (e) => {
-    if (!e.target.closest(".search-wrapper")) {
-      suggestionsBox.style.display = "none";
-    }
-  });
-
-  // Cart Drawer open/close buttons
-  document.getElementById("cart-btn").addEventListener("click", openCartDrawer);
-  document.getElementById("close-cart-btn").addEventListener("click", closeCartDrawer);
-  document.getElementById("cart-backdrop").addEventListener("click", closeCartDrawer);
-
-  // Surprise Me Recommender Button
-  document.getElementById("surprise-btn").addEventListener("click", openSurpriseModal);
-  
-  // Sort selector
-  document.getElementById("sort-select").addEventListener("change", (e) => {
-    state.sortBy = e.target.value;
-    renderCatalog();
-  });
-
-  // Price range slider
-  const priceSlider = document.getElementById("price-range");
-  priceSlider.addEventListener("input", (e) => {
-    const val = parseFloat(e.target.value);
-    state.maxPrice = val;
-    document.getElementById("price-val").innerText = `₺${val.toFixed(2)}`;
-    renderCatalog();
-  });
-
-  // Star ratings filters
-  const ratingCheckboxes = document.querySelectorAll(".rating-filter");
-  ratingCheckboxes.forEach(cb => {
-    cb.addEventListener("change", () => {
-      const activeRatings = [];
-      ratingCheckboxes.forEach(box => {
-        if (box.checked) activeRatings.push(parseFloat(box.value));
-      });
-      state.minRating = activeRatings;
-      renderCatalog();
-    });
-  });
-
-  // Category tags click
-  const categoriesContainer = document.getElementById("category-slider");
-  categoriesContainer.addEventListener("click", (e) => {
-    const tab = e.target.closest(".category-tab");
-    if (!tab) return;
-    
-    document.querySelectorAll(".category-tab").forEach(t => t.classList.remove("active"));
-    tab.classList.add("active");
-    state.currentCategory = tab.dataset.category;
-    renderCatalog();
-  });
-
-  // Dialog Close Event Listener
-  const detailsDialog = document.getElementById("book-details-dialog");
-  document.getElementById("close-details-btn").addEventListener("click", () => detailsDialog.close());
-
-  // Light-dismiss custom fallback for older browsers lacking closedby="any"
-  if (!('closedBy' in HTMLDialogElement.prototype)) {
-    detailsDialog.addEventListener("click", (event) => {
-      if (event.target !== detailsDialog) return;
-      const rect = detailsDialog.getBoundingClientRect();
-      const isInside = (
-        rect.top <= event.clientY &&
-        event.clientY <= rect.top + rect.height &&
-        rect.left <= event.clientX &&
-        event.clientX <= rect.left + rect.width
-      );
-      if (!isInside) detailsDialog.close();
-    });
-
-    const surpriseDialog = document.getElementById("surprise-dialog");
-    surpriseDialog.addEventListener("click", (event) => {
-      if (event.target !== surpriseDialog) return;
-      const rect = surpriseDialog.getBoundingClientRect();
-      const isInside = (
-        rect.top <= event.clientY &&
-        event.clientY <= rect.top + rect.height &&
-        rect.left <= event.clientX &&
-        event.clientX <= rect.left + rect.width
-      );
-      if (!isInside) surpriseDialog.close();
-    });
-  }
-
-  // Handle Review submission
-  document.getElementById("submit-review-btn").addEventListener("click", handleAddReview);
-}
-
-// --- RENDER DYNAMIC CATALOG GRID ---
-function renderCatalog() {
-  const grid = document.getElementById("books-grid");
-  const countLabel = document.getElementById("book-count");
-  
-  // Filter Books
-  let filtered = BOOKS.filter(book => {
-    // 1. Category Filter
-    if (state.currentCategory !== "Tümü" && book.category !== state.currentCategory) return false;
-    
-    // 2. Search Query Filter
-    if (state.searchQuery) {
-      const query = state.searchQuery.toLowerCase();
-      const matchTitle = book.title.toLowerCase().includes(query);
-      const matchAuthor = book.author.toLowerCase().includes(query);
-      if (!matchTitle && !matchAuthor) return false;
-    }
-    
-    // 3. Price Filter (checking discounted or normal price)
-    const activePrice = book.discountPrice || book.price;
-    if (activePrice > state.maxPrice) return false;
-    
-    // 4. Rating Filter
-    if (state.minRating.length > 0) {
-      const roundedRating = Math.floor(book.rating);
-      // If the book's floor rating is not in selected filters (e.g. 4 stars minimum checked)
-      const matchesAny = state.minRating.some(min => roundedRating >= min);
-      if (!matchesAny) return false;
-    }
-    
-    return true;
-  });
-
-  // Sort Books
-  filtered.sort((a, b) => {
-    const priceA = a.discountPrice || a.price;
-    const priceB = b.discountPrice || b.price;
-    
-    if (state.sortBy === "price-asc") {
-      return priceA - priceB;
-    } else if (state.sortBy === "price-desc") {
-      return priceB - priceA;
-    } else if (state.sortBy === "rating-desc") {
-      return b.rating - a.rating;
-    }
-    
-    // relevance default: by ID
-    return a.id - b.id;
-  });
-
-  // Display count
-  countLabel.innerText = `${filtered.length} Kitap Bulundu`;
-
-  // Draw Grid
-  if (filtered.length === 0) {
-    grid.innerHTML = `
-      <div class="no-results">
-        <i class="fas fa-search"></i>
-        <h3>Aradığınız kriterlere uygun kitap bulunamadı.</h3>
-        <p>Lütfen filtrelerinizi kontrol edin veya farklı aramalar deneyin.</p>
-      </div>
-    `;
-    return;
-  }
-
-  grid.innerHTML = filtered.map(book => {
-    const hasDiscount = book.discountPrice && book.discountPrice < book.price;
-    const originalFormatted = `₺${book.price.toFixed(2)}`;
-    const discountedFormatted = hasDiscount ? `₺${book.discountPrice.toFixed(2)}` : originalFormatted;
-    
-    let starsHtml = "";
-    const fullStars = Math.floor(book.rating);
-    const halfStar = book.rating % 1 >= 0.5;
-    for (let i = 1; i <= 5; i++) {
-      if (i <= fullStars) {
-        starsHtml += `<i class="fas fa-star"></i>`;
-      } else if (i === fullStars + 1 && halfStar) {
-        starsHtml += `<i class="fas fa-star-half-alt"></i>`;
-      } else {
-        starsHtml += `<i class="far fa-star"></i>`;
-      }
-    }
-
-    const badgeHtml = book.badge 
-      ? `<div class="book-badge ${book.badgeType || ''}">${book.badge}</div>` 
-      : '';
-
-    return `
-      <article class="book-card glass-panel" data-id="${book.id}">
-        ${badgeHtml}
-        <div class="book-cover-container">
-          <img class="book-cover" src="${book.cover}" alt="${book.title}" loading="lazy">
-          <div class="card-actions-overlay">
-            <button class="overlay-btn view-detail-btn" onclick="openDetailsModal(${book.id})" title="Detayları İncele">
-              <i class="fas fa-eye"></i>
-            </button>
-            <button class="overlay-btn card-add-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
-              <i class="fas fa-shopping-bag"></i>
-            </button>
-          </div>
-        </div>
-        <h3 class="book-title" onclick="openDetailsModal(${book.id})" style="cursor: pointer;">${book.title}</h3>
-        <p class="book-author">${book.author}</p>
-        <div class="book-rating">
-          <span class="stars">${starsHtml}</span>
-          <span>(${book.rating.toFixed(1)})</span>
-        </div>
-        <div class="book-price-wrapper">
-          <div class="prices">
-            ${hasDiscount ? `<span class="original-price">${originalFormatted}</span>` : ''}
-            <span class="current-price">${discountedFormatted}</span>
-          </div>
-          <button class="add-cart-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
-            <i class="fas fa-plus"></i>
-          </button>
-        </div>
-      </article>
-    `;
-  }).join("");
-}
-
-// --- RENDER DYNAMIC CART ---
-function renderCart() {
-  const cartList = document.getElementById("cart-items");
-  const subtotalRow = document.getElementById("cart-subtotal");
-  const shippingRow = document.getElementById("cart-shipping");
-  const totalRow = document.getElementById("cart-total");
-  const badge = document.getElementById("cart-badge");
-  const shippingBar = document.getElementById("shipping-bar");
-  const shippingText = document.getElementById("shipping-text");
-  
-  // Calculate aggregate counts
-  const totalQty = state.cart.reduce((sum, item) => sum + item.quantity, 0);
-  badge.innerText = totalQty;
-  badge.style.display = totalQty > 0 ? "flex" : "none";
-
-  if (state.cart.length === 0) {
-    cartList.innerHTML = `
-      <div class="empty-cart-state">
-        <i class="fas fa-shopping-basket"></i>
-        <p>Sepetiniz boş.</p>
-        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Sıradışı kurguları keşfetmeye hemen başlayın!</p>
-      </div>
-    `;
-    subtotalRow.innerText = "₺0.00";
-    shippingRow.innerText = "₺0.00";
-    totalRow.innerText = "₺0.00";
-    shippingBar.style.width = "0%";
-    shippingText.innerHTML = `Kargo Ücretsiz limiti: <strong>₺300.00</strong>`;
-    return;
-  }
-
-  // Calculate totals
-  let subtotal = 0;
-  
-  cartList.innerHTML = state.cart.map(item => {
-    const book = BOOKS.find(b => b.id === item.id);
-    if (!book) return "";
-    
-    const activePrice = book.discountPrice || book.price;
-    const itemTotal = activePrice * item.quantity;
-    subtotal += itemTotal;
-    
-    return `
-      <div class="cart-item">
-        <img class="cart-item-img" src="${book.cover}" alt="${book.title}">
-        <div class="cart-item-details">
-          <h4>${book.title}</h4>
-          <p>${book.author}</p>
-          <div class="qty-controls">
-            <button class="qty-btn" onclick="updateQuantity(${book.id}, -1)">-</button>
-            <span class="qty-val">${item.quantity}</span>
-            <button class="qty-btn" onclick="updateQuantity(${book.id}, 1)">+</button>
-          </div>
-        </div>
-        <div class="cart-item-price-del">
-          <span class="cart-item-price">₺${itemTotal.toFixed(2)}</span>
-          <button class="cart-item-delete" onclick="removeFromCart(${book.id})"><i class="fas fa-trash-alt"></i></button>
-        </div>
-      </div>
-    `;
-  }).join("");
-
-  const shippingLimit = 300.00;
-  const shippingCost = subtotal >= shippingLimit ? 0.00 : 29.90;
-  const total = subtotal + shippingCost;
-
-  subtotalRow.innerText = `₺${subtotal.toFixed(2)}`;
-  shippingRow.innerText = shippingCost === 0.00 ? "Ücretsiz" : `₺${shippingCost.toFixed(2)}`;
-  totalRow.innerText = `₺${total.toFixed(2)}`;
-
-  // Shipping progress indicator
-  if (subtotal >= shippingLimit) {
-    shippingBar.style.width = "100%";
-    shippingText.innerHTML = `<span style="color: var(--success);"><i class="fas fa-check-circle"></i> Tebrikler! Kargonuz bedava!</span>`;
-  } else {
-    const needed = shippingLimit - subtotal;
-    const percent = (subtotal / shippingLimit) * 100;
-    shippingBar.style.width = `${percent}%`;
-    shippingText.innerHTML = `Kargo bedava için <strong>₺${needed.toFixed(2)}</strong> daha ürün ekleyin.`;
-  }
-}
-
-// --- AUTOCOMPLETE SUGGESTIONS ---
-function renderSuggestions(query) {
-  const suggestionsBox = document.getElementById("search-suggestions");
-  
-  if (!query || query.trim().length < 2) {
-    suggestionsBox.style.display = "none";
-    return;
-  }
-
-  const cleanQuery = query.toLowerCase().trim();
-  const matched = BOOKS.filter(book => 
-    book.title.toLowerCase().includes(cleanQuery) || 
-    book.author.toLowerCase().includes(cleanQuery)
-  ).slice(0, 5); // Max 5 items in suggestion box
-
-  if (matched.length === 0) {
-    suggestionsBox.style.display = "none";
-    return;
-  }
-
-  suggestionsBox.innerHTML = matched.map(book => {
-    const activePrice = book.discountPrice || book.price;
-    return `
-      <div class="suggestion-item" onclick="selectSuggestion(${book.id})">
-        <img class="suggestion-img" src="${book.cover}" alt="${book.title}">
-        <div class="suggestion-info">
-          <h4>${book.title}</h4>
-          <p>${book.author} | ₺${activePrice.toFixed(2)}</p>
-        </div>
-      </div>
-    `;
-  }).join("");
-  suggestionsBox.style.display = "block";
-}
-
-function selectSuggestion(bookId) {
-  document.getElementById("search-suggestions").style.display = "none";
-  document.getElementById("search-input").value = "";
-  state.searchQuery = "";
-  renderCatalog();
-  openDetailsModal(bookId);
 }
 
 // --- DYNAMIC DIALOG UTILS ---
@@ -702,7 +490,6 @@ function openDetailsModal(bookId) {
 
   // Bind Add to Cart CTA
   const dialogActionBtn = document.getElementById("dialog-add-to-cart-btn");
-  // Replace the old button with a clone to purge older event listeners
   const newBtn = dialogActionBtn.cloneNode(true);
   dialogActionBtn.parentNode.replaceChild(newBtn, dialogActionBtn);
   newBtn.addEventListener("click", () => {
@@ -710,9 +497,7 @@ function openDetailsModal(bookId) {
     dialog.close();
   });
 
-  // Render book reviews
   renderReviews(book);
-
   dialog.showModal();
 }
 
@@ -764,24 +549,514 @@ function handleAddReview(e) {
     const totalScore = book.reviews.reduce((sum, r) => sum + r.rating, 0);
     book.rating = totalScore / book.reviews.length;
     
-    // Rerender details and main catalog grid
     renderReviews(book);
     renderCatalog();
 
-    // Reset input fields
     userNameInput.value = "";
     userCommentText.value = "";
     userRatingSelect.value = "5";
   }
 }
 
-// --- SURPRISE ME MODAL LOGIC ---
+// --- EVENT LISTENERS ---
+function setupEventListeners() {
+  // Theme Toggle Button
+  const themeToggle = document.getElementById("theme-toggle-btn");
+  if (themeToggle) themeToggle.addEventListener("click", toggleTheme);
+
+  // Scroll Header Effect
+  window.addEventListener("scroll", () => {
+    const header = document.querySelector("header");
+    if (window.scrollY > 50) {
+      header.classList.add("scrolled");
+    } else {
+      header.classList.remove("scrolled");
+    }
+  });
+
+  // Search Live Query
+  const searchInput = document.getElementById("search-input");
+  const suggestionsBox = document.getElementById("search-suggestions");
+  
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      const val = e.target.value;
+      state.searchQuery = val;
+      // Switch view automatically to shop if user searches from another page
+      if (state.activeView !== "shop" && val.trim().length > 0) {
+        switchView("shop");
+      }
+      renderCatalog();
+      renderSuggestions(val);
+    });
+  }
+
+  // Hide suggestions when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".search-wrapper")) {
+      if (suggestionsBox) suggestionsBox.style.display = "none";
+    }
+  });
+
+  // Cart Drawer open/close
+  const cartBtn = document.getElementById("cart-btn");
+  if (cartBtn) cartBtn.addEventListener("click", openCartDrawer);
+  
+  const closeCartBtn = document.getElementById("close-cart-btn");
+  if (closeCartBtn) closeCartBtn.addEventListener("click", closeCartDrawer);
+  
+  const cartBackdrop = document.getElementById("cart-backdrop");
+  if (cartBackdrop) cartBackdrop.addEventListener("click", closeCartDrawer);
+
+  // Wishlist open/close
+  const heartBtn = document.getElementById("wishlist-btn");
+  if (heartBtn) heartBtn.addEventListener("click", openWishlistModal);
+  
+  const closeWishlistBtn = document.getElementById("close-wishlist-btn");
+  if (closeWishlistBtn) {
+    closeWishlistBtn.addEventListener("click", () => {
+      document.getElementById("wishlist-dialog").close();
+    });
+  }
+
+  // Surprise Recommender Button
+  const surpriseBtn = document.getElementById("surprise-btn");
+  if (surpriseBtn) surpriseBtn.addEventListener("click", openSurpriseModal);
+  
+  const surpriseBtnFooter = document.getElementById("surprise-btn-footer");
+  if (surpriseBtnFooter) surpriseBtnFooter.addEventListener("click", openSurpriseModal);
+
+  // Sorting
+  const sortSelect = document.getElementById("sort-select");
+  if (sortSelect) {
+    sortSelect.addEventListener("change", (e) => {
+      state.sortBy = e.target.value;
+      renderCatalog();
+    });
+  }
+
+  // Price range slider
+  const priceSlider = document.getElementById("price-range");
+  if (priceSlider) {
+    priceSlider.addEventListener("input", (e) => {
+      const val = parseFloat(e.target.value);
+      state.maxPrice = val;
+      document.getElementById("price-val").innerText = `₺${val.toFixed(2)}`;
+      renderCatalog();
+    });
+  }
+
+  // Star ratings filters
+  const ratingCheckboxes = document.querySelectorAll(".rating-filter");
+  ratingCheckboxes.forEach(cb => {
+    cb.addEventListener("change", () => {
+      const activeRatings = [];
+      ratingCheckboxes.forEach(box => {
+        if (box.checked) activeRatings.push(parseFloat(box.value));
+      });
+      state.minRating = activeRatings;
+      renderCatalog();
+    });
+  });
+
+  // Category tags click
+  const categoriesContainer = document.getElementById("category-slider");
+  if (categoriesContainer) {
+    categoriesContainer.addEventListener("click", (e) => {
+      const tab = e.target.closest(".category-tab");
+      if (!tab) return;
+      
+      document.querySelectorAll(".category-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      state.currentCategory = tab.dataset.category;
+      renderCatalog();
+    });
+  }
+
+  // Dialog Close Event
+  const detailsDialog = document.getElementById("book-details-dialog");
+  const closeDetails = document.getElementById("close-details-btn");
+  if (closeDetails) {
+    closeDetails.addEventListener("click", () => detailsDialog.close());
+  }
+
+  // Handle Review submission
+  const submitRev = document.getElementById("submit-review-btn");
+  if (submitRev) submitRev.addEventListener("click", handleAddReview);
+
+  // Coupon Form submit
+  const couponForm = document.getElementById("coupon-form");
+  if (couponForm) {
+    couponForm.addEventListener("submit", handleCouponApply);
+  }
+
+  // Checkout Open Trigger
+  const checkoutOpenBtn = document.getElementById("checkout-open-btn");
+  if (checkoutOpenBtn) {
+    checkoutOpenBtn.addEventListener("click", openCheckoutModal);
+  }
+
+  // Close Checkout Modal
+  const closeCheckoutBtn = document.getElementById("close-checkout-btn");
+  if (closeCheckoutBtn) {
+    closeCheckoutBtn.addEventListener("click", () => {
+      document.getElementById("checkout-dialog").close();
+    });
+  }
+
+  // Credit Card Realtime Synchronization
+  setupCreditCardListeners();
+
+  // Contact Form Submission Mock
+  const contactForm = document.getElementById("contact-main-form");
+  if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("Mesajınız başarıyla iletildi! En kısa sürede sizinle iletişime geçeceğiz.");
+      contactForm.reset();
+    });
+  }
+
+  // Details Light-dismiss fallbacks for older browsers lacking closedby="any"
+  if (!('closedBy' in HTMLDialogElement.prototype)) {
+    const dialogs = ["book-details-dialog", "surprise-dialog", "wishlist-dialog", "checkout-dialog"];
+    dialogs.forEach(id => {
+      const diag = document.getElementById(id);
+      if (diag) {
+        diag.addEventListener("click", (event) => {
+          if (event.target !== diag) return;
+          const rect = diag.getBoundingClientRect();
+          const isInside = (
+            rect.top <= event.clientY &&
+            event.clientY <= rect.top + rect.height &&
+            rect.left <= event.clientX &&
+            event.clientX <= rect.left + rect.width
+          );
+          if (!isInside) diag.close();
+        });
+      }
+    });
+  }
+}
+
+// --- RENDER DYNAMIC CATALOG GRID ---
+function renderCatalog() {
+  const grid = document.getElementById("books-grid");
+  const countLabel = document.getElementById("book-count");
+  if (!grid) return;
+  
+  // Filter Books
+  let filtered = BOOKS.filter(book => {
+    // 1. Category Filter
+    if (state.currentCategory !== "Tümü" && book.category !== state.currentCategory) return false;
+    
+    // 2. Search Query Filter
+    if (state.searchQuery) {
+      const query = state.searchQuery.toLowerCase();
+      const matchTitle = book.title.toLowerCase().includes(query);
+      const matchAuthor = book.author.toLowerCase().includes(query);
+      if (!matchTitle && !matchAuthor) return false;
+    }
+    
+    // 3. Price Filter
+    const activePrice = book.discountPrice || book.price;
+    if (activePrice > state.maxPrice) return false;
+    
+    // 4. Rating Filter
+    if (state.minRating.length > 0) {
+      const roundedRating = Math.floor(book.rating);
+      const matchesAny = state.minRating.some(min => roundedRating >= min);
+      if (!matchesAny) return false;
+    }
+    
+    return true;
+  });
+
+  // Sort Books
+  filtered.sort((a, b) => {
+    const priceA = a.discountPrice || a.price;
+    const priceB = b.discountPrice || b.price;
+    
+    if (state.sortBy === "price-asc") {
+      return priceA - priceB;
+    } else if (state.sortBy === "price-desc") {
+      return priceB - priceA;
+    } else if (state.sortBy === "rating-desc") {
+      return b.rating - a.rating;
+    }
+    return a.id - b.id; // relevance default
+  });
+
+  if (countLabel) countLabel.innerText = `${filtered.length} Kitap Bulundu`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="no-results">
+        <i class="fas fa-search"></i>
+        <h3>Aradığınız kriterlere uygun kitap bulunamadı.</h3>
+        <p>Lütfen filtrelerinizi kontrol edin veya farklı aramalar deneyin.</p>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(book => {
+    const hasDiscount = book.discountPrice && book.discountPrice < book.price;
+    const originalFormatted = `₺${book.price.toFixed(2)}`;
+    const discountedFormatted = hasDiscount ? `₺${book.discountPrice.toFixed(2)}` : originalFormatted;
+    
+    let starsHtml = "";
+    const fullStars = Math.floor(book.rating);
+    const halfStar = book.rating % 1 >= 0.5;
+    for (let i = 1; i <= 5; i++) {
+      if (i <= fullStars) {
+        starsHtml += `<i class="fas fa-star"></i>`;
+      } else if (i === fullStars + 1 && halfStar) {
+        starsHtml += `<i class="fas fa-star-half-alt"></i>`;
+      } else {
+        starsHtml += `<i class="far fa-star"></i>`;
+      }
+    }
+
+    const badgeHtml = book.badge 
+      ? `<div class="book-badge ${book.badgeType || ''}">${book.badge}</div>` 
+      : '';
+
+    const isFav = state.wishlist.includes(book.id);
+    const heartClass = isFav ? "wishlist-heart-btn active" : "wishlist-heart-btn";
+
+    return `
+      <article class="book-card glass-panel" data-id="${book.id}">
+        ${badgeHtml}
+        <button class="${heartClass}" onclick="toggleFavorite(${book.id})" title="Favorilere Ekle">
+          <i class="fas fa-heart"></i>
+        </button>
+        <div class="book-cover-container">
+          <img class="book-cover" src="${book.cover}" alt="${book.title}" loading="lazy">
+          <div class="card-actions-overlay">
+            <button class="overlay-btn view-detail-btn" onclick="openDetailsModal(${book.id})" title="Detayları İncele">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="overlay-btn card-add-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
+              <i class="fas fa-shopping-bag"></i>
+            </button>
+          </div>
+        </div>
+        <h3 class="book-title" onclick="openDetailsModal(${book.id})" style="cursor: pointer;">${book.title}</h3>
+        <p class="book-author">${book.author}</p>
+        <div class="book-rating">
+          <span class="stars">${starsHtml}</span>
+          <span>(${book.rating.toFixed(1)})</span>
+        </div>
+        <div class="book-price-wrapper">
+          <div class="prices">
+            ${hasDiscount ? `<span class="original-price">${originalFormatted}</span>` : ''}
+            <span class="current-price">${discountedFormatted}</span>
+          </div>
+          <button class="add-cart-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+// --- RENDER DYNAMIC CART ---
+function renderCart() {
+  const cartList = document.getElementById("cart-items");
+  const subtotalRow = document.getElementById("cart-subtotal");
+  const discountRow = document.getElementById("cart-discount-row");
+  const discountVal = document.getElementById("cart-discount-val");
+  const shippingRow = document.getElementById("cart-shipping");
+  const totalRow = document.getElementById("cart-total");
+  const badge = document.getElementById("cart-badge");
+  const shippingBar = document.getElementById("shipping-bar");
+  const shippingText = document.getElementById("shipping-text");
+  
+  const totalQty = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+  if (badge) {
+    badge.innerText = totalQty;
+    badge.style.display = totalQty > 0 ? "flex" : "none";
+  }
+
+  if (state.cart.length === 0) {
+    if (cartList) {
+      cartList.innerHTML = `
+        <div class="empty-cart-state">
+          <i class="fas fa-shopping-basket"></i>
+          <p>Sepetiniz boş.</p>
+          <p style="font-size: 0.8rem; margin-top: 0.5rem;">Sıradışı kurguları keşfetmeye hemen başlayın!</p>
+        </div>
+      `;
+    }
+    if (subtotalRow) subtotalRow.innerText = "₺0.00";
+    if (discountRow) discountRow.style.display = "none";
+    if (shippingRow) shippingRow.innerText = "₺0.00";
+    if (totalRow) totalRow.innerText = "₺0.00";
+    if (shippingBar) shippingBar.style.width = "0%";
+    if (shippingText) shippingText.innerHTML = `Kargo Ücretsiz limiti: <strong>₺300.00</strong>`;
+    
+    const checkoutBtn = document.getElementById("checkout-open-btn");
+    if (checkoutBtn) checkoutBtn.disabled = true;
+    return;
+  }
+
+  const checkoutBtn = document.getElementById("checkout-open-btn");
+  if (checkoutBtn) checkoutBtn.disabled = false;
+
+  // Calculate Subtotal
+  let subtotal = 0;
+  
+  if (cartList) {
+    cartList.innerHTML = state.cart.map(item => {
+      const book = BOOKS.find(b => b.id === item.id);
+      if (!book) return "";
+      
+      const activePrice = book.discountPrice || book.price;
+      const itemTotal = activePrice * item.quantity;
+      subtotal += itemTotal;
+      
+      return `
+        <div class="cart-item">
+          <img class="cart-item-img" src="${book.cover}" alt="${book.title}">
+          <div class="cart-item-details">
+            <h4>${book.title}</h4>
+            <p>${book.author}</p>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="updateQuantity(${book.id}, -1)">-</button>
+              <span class="qty-val">${item.quantity}</span>
+              <button class="qty-btn" onclick="updateQuantity(${book.id}, 1)">+</button>
+            </div>
+          </div>
+          <div class="cart-item-price-del">
+            <span class="cart-item-price">₺${itemTotal.toFixed(2)}</span>
+            <button class="cart-item-delete" onclick="removeFromCart(${book.id})"><i class="fas fa-trash-alt"></i></button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  } else {
+    // If cart list isn't rendered but math needs updating
+    state.cart.forEach(item => {
+      const book = BOOKS.find(b => b.id === item.id);
+      if (book) subtotal += (book.discountPrice || book.price) * item.quantity;
+    });
+  }
+
+  // Calculate Promo Discount
+  let discountAmount = 0;
+  if (state.promoDiscount > 0) {
+    discountAmount = subtotal * (state.promoDiscount / 100);
+    if (discountRow) {
+      discountRow.style.display = "flex";
+      discountVal.innerText = `-₺${discountAmount.toFixed(2)}`;
+    }
+  } else {
+    if (discountRow) discountRow.style.display = "none";
+  }
+
+  const discountedSubtotal = subtotal - discountAmount;
+
+  // Calculate Shipping (Free above ₺300)
+  const shippingLimit = 300.00;
+  const shippingCost = discountedSubtotal >= shippingLimit ? 0.00 : 29.90;
+  const total = discountedSubtotal + shippingCost;
+
+  if (subtotalRow) subtotalRow.innerText = `₺${subtotal.toFixed(2)}`;
+  if (shippingRow) shippingRow.innerText = shippingCost === 0.00 ? "Ücretsiz" : `₺${shippingCost.toFixed(2)}`;
+  if (totalRow) totalRow.innerText = `₺${total.toFixed(2)}`;
+
+  // Shipping progress indicator
+  if (shippingBar && shippingText) {
+    if (discountedSubtotal >= shippingLimit) {
+      shippingBar.style.width = "100%";
+      shippingText.innerHTML = `<span style="color: var(--success);"><i class="fas fa-check-circle"></i> Tebrikler! Kargonuz bedava!</span>`;
+    } else {
+      const needed = shippingLimit - discountedSubtotal;
+      const percent = (discountedSubtotal / shippingLimit) * 100;
+      shippingBar.style.width = `${percent}%`;
+      shippingText.innerHTML = `Kargo bedava için <strong>₺${needed.toFixed(2)}</strong> daha ürün ekleyin.`;
+    }
+  }
+}
+
+// --- PROMO COUPONS HANDLER ---
+function handleCouponApply(e) {
+  e.preventDefault();
+  const input = document.getElementById("coupon-input");
+  const code = input.value.trim().toUpperCase();
+  
+  if (code === "TELLA20") {
+    state.appliedCoupon = "TELLA20";
+    state.promoDiscount = 20; // 20% discount
+    alert("Kupon başarıyla uygulandı! %20 indirim kazandınız.");
+    saveCart();
+  } else if (code === "BEDAVAKARGO") {
+    state.appliedCoupon = "BEDAVAKARGO";
+    // We can simulate free kargo by overriding limit
+    alert("Kargo Bedava kuponu uygulandı!");
+    // Set active state discount rules or apply flat kargo reduction
+    state.promoDiscount = 0;
+    saveCart();
+  } else {
+    alert("Geçersiz veya süresi dolmuş kupon kodu.");
+  }
+}
+
+// --- AUTOCOMPLETE SUGGESTIONS ---
+function renderSuggestions(query) {
+  const suggestionsBox = document.getElementById("search-suggestions");
+  if (!suggestionsBox) return;
+  
+  if (!query || query.trim().length < 2) {
+    suggestionsBox.style.display = "none";
+    return;
+  }
+
+  const cleanQuery = query.toLowerCase().trim();
+  const matched = BOOKS.filter(book => 
+    book.title.toLowerCase().includes(cleanQuery) || 
+    book.author.toLowerCase().includes(cleanQuery)
+  ).slice(0, 5);
+
+  if (matched.length === 0) {
+    suggestionsBox.style.display = "none";
+    return;
+  }
+
+  suggestionsBox.innerHTML = matched.map(book => {
+    const activePrice = book.discountPrice || book.price;
+    return `
+      <div class="suggestion-item" onclick="selectSuggestion(${book.id})">
+        <img class="suggestion-img" src="${book.cover}" alt="${book.title}">
+        <div class="suggestion-info">
+          <h4>${book.title}</h4>
+          <p>${book.author} | ₺${activePrice.toFixed(2)}</p>
+        </div>
+      </div>
+    `;
+  }).join("");
+  suggestionsBox.style.display = "block";
+}
+
+function selectSuggestion(bookId) {
+  const suggestionsBox = document.getElementById("search-suggestions");
+  if (suggestionsBox) suggestionsBox.style.display = "none";
+  const searchInput = document.getElementById("search-input");
+  if (searchInput) searchInput.value = "";
+  state.searchQuery = "";
+  renderCatalog();
+  openDetailsModal(bookId);
+}
+
+// --- SURPRISE ROUTLETTE WHEEL ---
 function openSurpriseModal() {
   const dialog = document.getElementById("surprise-dialog");
   const stack = document.getElementById("roulette-stack");
   const detailsNode = document.getElementById("surprise-details");
-  
-  // Set starting cover state
+  if (!dialog) return;
+
   stack.innerHTML = `
     <img class="stack-img" src="assets/cover_cyber.png" alt="Cover 1">
   `;
@@ -790,12 +1065,10 @@ function openSurpriseModal() {
   detailsNode.innerHTML = "";
   dialog.showModal();
 
-  // Add spinning effect class
   stack.classList.remove("spin-roulette");
-  void stack.offsetWidth; // force redraw
+  void stack.offsetWidth; // force reflow
   stack.classList.add("spin-roulette");
 
-  // Cycle covers in animation
   const covers = [
     "assets/cover_cyber.png",
     "assets/cover_nature.png",
@@ -806,16 +1079,17 @@ function openSurpriseModal() {
   
   let cycleInterval = setInterval(() => {
     const randomCover = covers[Math.floor(Math.random() * covers.length)];
-    stack.querySelector(".stack-img").src = randomCover;
+    const img = stack.querySelector(".stack-img");
+    if (img) img.src = randomCover;
   }, 120);
 
-  // Stop spin, select book, and display result
   setTimeout(() => {
     clearInterval(cycleInterval);
     stack.classList.remove("spin-roulette");
 
     const randomBook = BOOKS[Math.floor(Math.random() * BOOKS.length)];
-    stack.querySelector(".stack-img").src = randomBook.cover;
+    const img = stack.querySelector(".stack-img");
+    if (img) img.src = randomBook.cover;
 
     const activePrice = randomBook.discountPrice || randomBook.price;
     
@@ -842,31 +1116,202 @@ function addSurpriseBook(bookId) {
   document.getElementById("surprise-dialog").close();
 }
 
-// Global hook since generated nodes need to call this
-window.addSurpriseBook = addSurpriseBook;
-window.openDetailsModal = openDetailsModal;
+// --- CHECKOUT FLOW & CREDIT CARD SYNCRONIZATION ---
+function openCheckoutModal() {
+  closeCartDrawer();
+  const dialog = document.getElementById("checkout-dialog");
+  
+  // Update order subtotal/totals in checkout modal
+  let subtotal = 0;
+  state.cart.forEach(item => {
+    const book = BOOKS.find(b => b.id === item.id);
+    if (book) subtotal += (book.discountPrice || book.price) * item.quantity;
+  });
+  
+  let discountAmount = subtotal * (state.promoDiscount / 100);
+  const discountedSubtotal = subtotal - discountAmount;
+  const shippingLimit = 300.00;
+  // If BEDAVAKARGO or subtotal exceeds limit
+  const shippingCost = (state.appliedCoupon === "BEDAVAKARGO" || discountedSubtotal >= shippingLimit) ? 0.00 : 29.90;
+  const grandTotal = discountedSubtotal + shippingCost;
+  
+  document.getElementById("checkout-summary-total").innerText = `₺${grandTotal.toFixed(2)}`;
+  
+  // Reset card front values
+  document.getElementById("card-number-display").innerText = "•••• •••• •••• ••••";
+  document.getElementById("card-holder-display").innerText = "AD SOYAD";
+  document.getElementById("card-expiry-display").innerText = "AA/YY";
+  document.getElementById("card-cvv-display").innerText = "•••";
+  
+  // Reset form
+  const form = document.getElementById("checkout-form");
+  if (form) form.reset();
+  
+  dialog.showModal();
+}
+
+function setupCreditCardListeners() {
+  const cardInner = document.getElementById("credit-card-inner");
+  const numberInput = document.getElementById("card-number");
+  const nameInput = document.getElementById("card-name");
+  const expiryInput = document.getElementById("card-expiry");
+  const cvvInput = document.getElementById("card-cvv");
+
+  if (!numberInput) return;
+
+  // Real-time Number Sync & Formatting (xxxx xxxx xxxx xxxx)
+  numberInput.addEventListener("input", (e) => {
+    let val = e.target.value.replace(/\D/g, ""); // digits only
+    // format with spaces
+    let formatted = val.match(/.{1,4}/g);
+    if (formatted) {
+      e.target.value = formatted.join(" ");
+    } else {
+      e.target.value = "";
+    }
+    
+    const displayVal = e.target.value || "•••• •••• •••• ••••";
+    document.getElementById("card-number-display").innerText = displayVal;
+    
+    // Auto toggle credit card icons if VISA / Mastercard starts
+    const logoNode = document.getElementById("card-brand-logo");
+    if (val.startsWith("4")) {
+      logoNode.className = "fab fa-cc-visa";
+    } else if (val.startsWith("5")) {
+      logoNode.className = "fab fa-cc-mastercard";
+    } else {
+      logoNode.className = "fas fa-credit-card";
+    }
+  });
+
+  // Name Sync
+  nameInput.addEventListener("input", (e) => {
+    const displayVal = e.target.value.toUpperCase() || "AD SOYAD";
+    document.getElementById("card-holder-display").innerText = displayVal;
+  });
+
+  // Expiry Sync & Formatting (MM/YY)
+  expiryInput.addEventListener("input", (e) => {
+    let val = e.target.value.replace(/\D/g, "");
+    if (val.length > 2) {
+      e.target.value = val.substring(0, 2) + "/" + val.substring(2, 4);
+    } else {
+      e.target.value = val;
+    }
+    const displayVal = e.target.value || "AA/YY";
+    document.getElementById("card-expiry-display").innerText = displayVal;
+  });
+
+  // CVV Sync & Mockup Flip
+  cvvInput.addEventListener("input", (e) => {
+    const val = e.target.value.replace(/\D/g, "");
+    e.target.value = val; // limit to digits
+    const displayVal = val || "•••";
+    document.getElementById("card-cvv-display").innerText = displayVal;
+  });
+
+  cvvInput.addEventListener("focus", () => {
+    cardInner.classList.add("is-flipped");
+  });
+
+  cvvInput.addEventListener("blur", () => {
+    cardInner.classList.remove("is-flipped");
+  });
+
+  // Handle Checkout submission
+  const checkoutForm = document.getElementById("checkout-form");
+  checkoutForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    
+    // Simulate payment API call
+    alert("Ödemeniz başarıyla doğrulandı! Siparişiniz onaylandı ve kargo hazırlık sürecine alındı. Sipariş numaranız: TL-" + Math.floor(100000 + Math.random() * 900000));
+    
+    // Clear State & Cart Drawer
+    state.cart = [];
+    state.appliedCoupon = "";
+    state.promoDiscount = 0;
+    saveCart();
+    
+    // Close Modals
+    document.getElementById("checkout-dialog").close();
+  });
+}
+
+// --- SPOTLIGHT LIVE SPOTLIGHT TIMER ---
+function setupCountdownTimer() {
+  const hoursVal = document.getElementById("spotlight-hours");
+  const minsVal = document.getElementById("spotlight-minutes");
+  const secsVal = document.getElementById("spotlight-seconds");
+  if (!hoursVal) return;
+
+  function update() {
+    const now = new Date();
+    // Calculate seconds left until midnight tonight
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0);
+    const diffMs = midnight - now;
+
+    if (diffMs <= 0) {
+      hoursVal.innerText = "24";
+      minsVal.innerText = "00";
+      secsVal.innerText = "00";
+      return;
+    }
+
+    const totalSecs = Math.floor(diffMs / 1000);
+    const hours = Math.floor(totalSecs / 3600);
+    const mins = Math.floor((totalSecs % 3600) / 60);
+    const secs = totalSecs % 60;
+
+    hoursVal.innerText = String(hours).padStart(2, "0");
+    minsVal.innerText = String(mins).padStart(2, "0");
+    secsVal.innerText = String(secs).padStart(2, "0");
+  }
+
+  update();
+  setInterval(update, 1000);
+}
 
 // --- DYNAMIC SLIDER BOUNDS ---
 function updatePriceFilterLimits() {
   const prices = BOOKS.map(b => b.discountPrice || b.price);
   const max = Math.ceil(Math.max(...prices));
   const slider = document.getElementById("price-range");
-  
-  slider.max = max;
-  slider.value = max;
-  state.maxPrice = max;
-  document.getElementById("price-val").innerText = `₺${max.toFixed(2)}`;
+  if (slider) {
+    slider.max = max;
+    slider.value = max;
+    state.maxPrice = max;
+    document.getElementById("price-val").innerText = `₺${max.toFixed(2)}`;
+  }
 }
 
 // --- DRAWER OPEN/CLOSE ACTIONS ---
 function openCartDrawer() {
-  document.getElementById("cart-drawer").classList.add("open");
-  document.getElementById("cart-backdrop").classList.add("open");
-  document.body.style.overflow = "hidden"; // disable background scrolling
+  const drawer = document.getElementById("cart-drawer");
+  const backdrop = document.getElementById("cart-backdrop");
+  if (drawer && backdrop) {
+    drawer.classList.add("open");
+    backdrop.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
 }
 
 function closeCartDrawer() {
-  document.getElementById("cart-drawer").classList.remove("open");
-  document.getElementById("cart-backdrop").classList.remove("open");
-  document.body.style.overflow = ""; // enable background scrolling
+  const drawer = document.getElementById("cart-drawer");
+  const backdrop = document.getElementById("cart-backdrop");
+  if (drawer && backdrop) {
+    drawer.classList.remove("open");
+    backdrop.classList.remove("open");
+    document.body.style.overflow = "";
+  }
 }
+
+// Global hooks for dynamic actions
+window.addSurpriseBook = addSurpriseBook;
+window.openDetailsModal = openDetailsModal;
+window.addToCart = addToCart;
+window.updateQuantity = updateQuantity;
+window.removeFromCart = removeFromCart;
+window.toggleFavorite = toggleFavorite;
+window.openWishlistModal = openWishlistModal;
+window.addFromWishlistToCart = addFromWishlistToCart;

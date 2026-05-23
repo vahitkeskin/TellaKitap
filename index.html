@@ -25,16 +25,31 @@
         <i class="fas fa-book-open"></i>
         <span>Tella<span class="gradient-text">Kitap</span></span>
       </a>
+
+      <!-- SPA Nav Links -->
+      <nav>
+        <ul class="main-nav">
+          <li><span class="nav-link active" data-view="home">Ana Sayfa</span></li>
+          <li><span class="nav-link" data-view="shop">Kitaplar</span></li>
+          <li><span class="nav-link" data-view="about">Hakkımızda</span></li>
+          <li><span class="nav-link" data-view="contact">İletişim</span></li>
+        </ul>
+      </nav>
       
       <div class="search-wrapper">
         <i class="fas fa-search search-icon"></i>
-        <input type="search" id="search-input" class="search-bar" placeholder="Kitap adı veya yazar arayın..." autocomplete="off">
+        <input type="search" id="search-input" class="search-bar" placeholder="Kitap veya yazar arayın..." autocomplete="off">
         <div id="search-suggestions" class="search-suggestions"></div>
       </div>
       
       <div class="header-actions">
         <button id="theme-toggle-btn" class="icon-btn" title="Temayı Değiştir">
           <i id="theme-icon" class="fas fa-sun"></i>
+        </button>
+
+        <button id="wishlist-btn" class="icon-btn" title="Favorilerim">
+          <i class="far fa-heart"></i>
+          <span id="wishlist-badge" class="badge" style="display: none;">0</span>
         </button>
         
         <button id="cart-btn" class="icon-btn" title="Sepetim">
@@ -45,18 +60,23 @@
     </div>
   </header>
 
-  <!-- --- HERO BANNER --- -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-card glass-panel">
+  <!-- ================= SPA VIEWS CONTAINER ================= -->
+  <main>
+
+    <!-- ================= 1. HOME VIEW ================= -->
+    <div id="view-home" class="view-panel active container home-layout">
+      
+      <!-- Home Hero Campaign -->
+      <section class="hero-card glass-panel" style="margin-top:0;">
         <div class="hero-orb"></div>
         <div class="hero-content">
+          <div class="spotlight-badge" style="background: var(--accent-gradient); margin-bottom: 1rem;"><i class="fas fa-star"></i> Lansmana Özel %20 İndirim</div>
           <h1>Sıradışı Okuma <br><span class="gradient-text">Deneyimi.</span></h1>
           <p>TellaKitap, klasik kalıpların dışına çıkan tasarımı ve özenle seçilmiş edebi arşiviyle sizleri başka dünyalara davet ediyor. Bilim kurgudan felsefeye eşi benzeri olmayan eserleri keşfedin.</p>
           <div class="hero-actions">
-            <a href="#shop-section" class="gradient-btn">
-              <i class="fas fa-compass"></i> Keşfetmeye Başla
-            </a>
+            <button onclick="switchView('shop')" class="gradient-btn">
+              <i class="fas fa-compass"></i> Koleksiyonu İncele
+            </button>
             <button id="surprise-btn" class="secondary-btn">
               <i class="fas fa-dice"></i> Sürpriz Kitap Seç
             </button>
@@ -65,76 +85,250 @@
         <div class="hero-image-wrapper">
           <img src="assets/hero_banner.png" alt="TellaKitap Kütüphane İllüstrasyonu">
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- --- CATEGORIES SLIDER --- -->
-  <section class="categories-section">
-    <div class="container">
-      <div id="category-slider" class="category-slider">
-        <button class="category-tab active" data-category="Tümü">Tüm Kategoriler</button>
-        <button class="category-tab" data-category="Bilim Kurgu">Bilim Kurgu</button>
-        <button class="category-tab" data-category="Doğa & Şiir">Doğa & Şiir</button>
-        <button class="category-tab" data-category="Felsefe">Felsefe</button>
-        <button class="category-tab" data-category="Gizem & Gerilim">Gizem & Gerilim</button>
-        <button class="category-tab" data-category="Tasarım & Teknoloji">Tasarım & Teknoloji</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- --- SHOP LAYOUT --- -->
-  <main class="container shop-layout" id="shop-section">
-    
-    <!-- Left Filters Panel -->
-    <aside class="filters-panel glass-panel">
-      <div class="filter-group">
-        <h3>Sıralama</h3>
-        <select id="sort-select" class="sort-select">
-          <option value="relevance">Önerilen</option>
-          <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
-          <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
-          <option value="rating-desc">Puan: Yüksekten Düşüğe</option>
-        </select>
-      </div>
-      
-      <div class="filter-group">
-        <h3>Fiyat Aralığı</h3>
-        <div class="price-slider-container">
-          <input type="range" id="price-range" min="50" max="250" step="5" value="250">
-          <div class="price-inputs">
-            <span>₺50.00</span>
-            <span id="price-val" class="gradient-text" style="font-weight: 700;">₺250.00</span>
+      <!-- Curated Collections Showcase -->
+      <section>
+        <h2 class="home-section-title">Neden <span class="gradient-text">TellaKitap?</span></h2>
+        <div class="collections-grid">
+          <div class="collection-card glass-panel">
+            <div class="collection-icon"><i class="fas fa-feather-alt"></i></div>
+            <h3>Seçkin Edebi Kürasyon</h3>
+            <p>Sıradan, popülist eserler yerine; zihninizi açacak, felsefi ve bilim kurgusal değeri yüksek özel seçkileri sizinle buluşturuyoruz.</p>
+          </div>
+          <div class="collection-card glass-panel">
+            <div class="collection-icon"><i class="fas fa-magic"></i></div>
+            <h3>Sıra Dışı Deneyim</h3>
+            <p>Ne okuyacağınıza karar veremediğinizde sürpriz algoritmamız sizin yerinize kapakları döndürür ve en eşsiz hikayeyi önünüze serer.</p>
+          </div>
+          <div class="collection-card glass-panel">
+            <div class="collection-icon"><i class="fas fa-gift"></i></div>
+            <h3>Kitap Tutkunlarına Özel</h3>
+            <p>Her siparişi bir koleksiyon paketi gibi hazırlar, hediye kutusu ve özel tasarım ayraçları ücretsiz olarak paketinize ekleriz.</p>
           </div>
         </div>
-      </div>
+      </section>
+
+      <!-- Spotlight Campaign: Book of the Day -->
+      <section class="spotlight-banner glass-panel">
+        <div class="spotlight-left">
+          <img src="assets/cover_philosophy.png" alt="Spotlight Book">
+        </div>
+        <div class="spotlight-right">
+          <div class="spotlight-badge"><i class="fas fa-clock"></i> GÜNÜN KİTABI SPOTLIGHT</div>
+          <h2 style="font-size: 2.2rem; font-weight:800; letter-spacing:-1px;">The Silent Epoch</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem; font-weight:600; margin-bottom: 1rem;">Elara Vance | Felsefe</p>
+          <p style="font-size: 0.98rem; color: var(--text-secondary); margin-bottom: 1.5rem; max-width:600px;">
+            Sessizliğin felsefi gücü üzerine yazılmış çığır açıcı bir çalışma. Konuşmanın değer kaybettiği modern çağda, sessiz kalmanın, düşünmenin ve dinlemenin varoluşsal boyutlarını antik Yunan'dan modern varoluşçuluğa uzanan bir köprüyle ele alıyor.
+          </p>
+          
+          <!-- Countdown clock -->
+          <div class="spotlight-timer">
+            <div class="timer-box"><span id="spotlight-hours">00</span><span>Saat</span></div>
+            <div class="timer-box"><span id="spotlight-minutes">00</span><span>Dk</span></div>
+            <div class="timer-box"><span id="spotlight-seconds">00</span><span>Sn</span></div>
+          </div>
+          
+          <div style="display:flex; align-items:center; gap: 2rem; margin-top:2rem;">
+            <div>
+              <span style="text-decoration:line-through; font-size:0.9rem; color:var(--text-muted); display:block;">₺149.90</span>
+              <span style="font-size:1.8rem; font-weight:800; color:var(--accent-secondary);">₺119.90</span>
+            </div>
+            <button class="gradient-btn" onclick="addToCart(3)">
+              <i class="fas fa-shopping-bag"></i> Sepete Ekle
+            </button>
+            <p style="font-size:0.8rem; color:var(--text-muted);">* <strong>TELLA20</strong> kodu ile sepetinizde ek %20 indirim kazanın!</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Literary Quotes Widget -->
+      <section class="quotes-widget glass-panel">
+        <i class="fas fa-quote-left"></i>
+        <p class="quote-text">"Sessizlik, kelimelerin bittiği yer değil; zihnin kelimeleri aşmaya başladığı sonsuz genişliktir. Gerçek düşünce, gürültünün dindiği o eşsiz aralıkta doğar."</p>
+        <p class="quote-author">— The Silent Epoch, Elara Vance</p>
+      </section>
+
+    </div>
+
+    <!-- ================= 2. SHOP VIEW ================= -->
+    <div id="view-shop" class="view-panel shop-layout">
       
-      <div class="filter-group">
-        <h3>Müşteri Puanı</h3>
-        <div class="rating-options">
-          <label class="rating-checkbox-label">
-            <input type="checkbox" class="rating-filter" value="5">
-            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
-            <span>(5.0)</span>
-          </label>
-          <label class="rating-checkbox-label">
-            <input type="checkbox" class="rating-filter" value="4">
-            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
-            <span>(4.0+)</span>
-          </label>
+      <!-- Left Filters Panel -->
+      <aside class="filters-panel glass-panel">
+        <div class="filter-group">
+          <h3>Sıralama</h3>
+          <select id="sort-select" class="sort-select">
+            <option value="relevance">Önerilen</option>
+            <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
+            <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
+            <option value="rating-desc">Puan: Yüksekten Düşüğe</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <h3>Fiyat Aralığı</h3>
+          <div class="price-slider-container">
+            <input type="range" id="price-range" min="50" max="250" step="5" value="250">
+            <div class="price-inputs">
+              <span>₺50.00</span>
+              <span id="price-val" class="gradient-text" style="font-weight: 700;">₺250.00</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="filter-group">
+          <h3>Müşteri Puanı</h3>
+          <div class="rating-options">
+            <label class="rating-checkbox-label">
+              <input type="checkbox" class="rating-filter" value="5">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+              <span>(5.0)</span>
+            </label>
+            <label class="rating-checkbox-label">
+              <input type="checkbox" class="rating-filter" value="4">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
+              <span>(4.0+)</span>
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Catalog Grid -->
+      <section class="catalog-section">
+        <div id="category-slider" class="category-slider">
+          <button class="category-tab active" data-category="Tümü">Tüm Kategoriler</button>
+          <button class="category-tab" data-category="Bilim Kurgu">Bilim Kurgu</button>
+          <button class="category-tab" data-category="Doğa & Şiir">Doğa & Şiir</button>
+          <button class="category-tab" data-category="Felsefe">Felsefe</button>
+          <button class="category-tab" data-category="Gizem & Gerilim">Gizem & Gerilim</button>
+          <button class="category-tab" data-category="Tasarım & Teknoloji">Tasarım & Teknoloji</button>
+        </div>
+
+        <div class="catalog-header">
+          <p id="book-count">0 Kitap Bulundu</p>
+        </div>
+        <div class="books-grid" id="books-grid">
+          <!-- Dynamic cards -->
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ================= 3. ABOUT VIEW ================= -->
+    <div id="view-about" class="view-panel container about-layout">
+      
+      <section class="about-hero glass-panel">
+        <h1>Kelimelerin Arkasındaki <span class="gradient-text">Vizyon.</span></h1>
+        <p>TellaKitap, ticari bir kitap satış platformu olmanın ötesinde, seçkin edebiyat eserlerini estetik değerlerle buluşturan modern bir yayıncılık ve kürasyon projesidir.</p>
+      </section>
+
+      <div class="about-grid">
+        <div class="about-card glass-panel">
+          <h3>Misyonumuz</h3>
+          <p>Okuyucularımızın bilgiye ve hikayelere erişimini en keyifli hale getirmeyi hedefliyoruz. Bilim kurgunun ufuk açıcı dünyasını, doğanın felsefi anlatılarını ve sanatın estetik zenginliklerini bir araya getirerek popüler kültürün ötesinde bir edebiyat sığınağı sunuyoruz.</p>
+          <p>Yapay zeka ve dijitalleşmenin zirvede olduğu bu çağda, basılı kitapların kokusunu, şık tasarımlar ve premium paketleme seçenekleriyle evlerinize ulaştırıyoruz.</p>
+        </div>
+        
+        <div class="about-card glass-panel">
+          <h3>Kürasyon Felsefesi</h3>
+          <p>Her kitabı satmıyoruz. Kataloğumuza giren her eser, kapak tasarımından edebi zenginliğine, sayfa kalitesinden çevirisine kadar özel bir kurul tarafından değerlendirilir. TellaKitap'tan edindiğiniz her eser, kütüphanenizin baş köşesinde yer alacak bir tasarım nesnesidir.</p>
+          <p>Modern çağın gerekliliklerini göz ardı etmiyor; arama kolaylığı, sepet ve ödeme hızı gibi teknik süreçleri en üst düzey tasarım prensipleriyle optimize ediyoruz.</p>
         </div>
       </div>
-    </aside>
 
-    <!-- Right Catalog Section -->
-    <section class="catalog-section">
-      <div class="catalog-header">
-        <p id="book-count">0 Kitap Bulundu</p>
-      </div>
-      <div class="books-grid" id="books-grid">
-        <!-- Dynamic Book Cards injected here -->
-      </div>
-    </section>
+      <!-- History timeline section -->
+      <section class="glass-panel" style="padding: 3rem;">
+        <h3 style="font-size: 1.5rem; font-weight:800; margin-bottom: 2rem;">Yolculuğumuz</h3>
+        <div class="timeline-section">
+          <div class="timeline-item">
+            <div class="timeline-year">2024</div>
+            <div class="timeline-content">
+              <h4>Fikrin Doğuşu</h4>
+              <p>Basılı kitap kültürünü dijital çağın estetiğiyle birleştiren hibrit bir kütüphane projesi hayal edildi.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2025</div>
+            <div class="timeline-content">
+              <h4>İlk Kitap Kataloğu ve Tasarım İş Birlikleri</h4>
+              <p>Cybernetic Dreams ve The Silent Epoch gibi öncü eserlerin kapakları ve lansman tasarımları tamamlandı.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2026</div>
+            <div class="timeline-content">
+              <h4>TellaKitap Dijital Lansmanı</h4>
+              <p>Ödeme entegrasyonu, kişiselleştirilmiş favori listesi ve sürpriz çarkı özellikleriyle dijital portalımız tüm okurlara açıldı.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ================= 4. CONTACT VIEW ================= -->
+    <div id="view-contact" class="view-panel container contact-layout">
+      
+      <!-- Contact form card -->
+      <section class="contact-card glass-panel">
+        <h2>Bizimle <span class="gradient-text">İletişime Geçin.</span></h2>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.95rem;">Sorularınız, iş birliği teklifleriniz veya sipariş destek talepleriniz için formu doldurabilirsiniz. Ekibimiz en geç 2 saat içinde dönüş yapacaktır.</p>
+        
+        <form id="contact-main-form" class="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="c-name">Adınız Soyadınız</label>
+              <input type="text" id="c-name" class="form-control" placeholder="Örn: Vahit Keskin" required autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label for="c-email">E-posta Adresiniz</label>
+              <input type="email" id="c-email" class="form-control" placeholder="Örn: vahit@example.com" required autocomplete="off">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="c-subject">Konu</label>
+            <input type="text" id="c-subject" class="form-control" placeholder="Destek, İş Birliği vb." required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="c-message">Mesajınız</label>
+            <textarea id="c-message" class="form-control" rows="5" placeholder="Mesajınızı buraya yazın..." required></textarea>
+          </div>
+          <button type="submit" class="gradient-btn" style="width: fit-content; padding: 0.8rem 2.5rem; margin-top:0.5rem;">
+            <i class="fas fa-paper-plane"></i> Gönder
+          </button>
+        </form>
+      </section>
+
+      <!-- Info channels & map mockup -->
+      <aside class="contact-info-panel">
+        
+        <div class="info-box glass-panel">
+          <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="info-text">
+            <h4>Merkez Ofisimiz</h4>
+            <p>Edebiyat Plaza, Kat: 12, Levent<br>Beşiktaş, İstanbul</p>
+          </div>
+        </div>
+
+        <div class="info-box glass-panel">
+          <div class="info-icon"><i class="fas fa-envelope"></i></div>
+          <div class="info-text">
+            <h4>E-posta ve Telefon</h4>
+            <p>info@tellakitap.com<br>+90 (212) 555 45 45</p>
+          </div>
+        </div>
+
+        <!-- Interactive mock map widget -->
+        <div class="mock-map glass-panel">
+          <div class="mock-map-bg"></div>
+          <i class="fas fa-map-pin map-pin"></i>
+          <span style="position:absolute; bottom: 1rem; left: 1rem; font-size:0.75rem; background:rgba(0,0,0,0.7); padding:0.3rem 0.6rem; border-radius:5px;">TellaKitap Genel Merkez</span>
+        </div>
+
+      </aside>
+
+    </div>
 
   </main>
 
@@ -240,13 +434,26 @@
     </div>
     
     <div class="cart-items" id="cart-items">
-      <!-- Dynamic cart items here -->
+      <!-- Dynamic cart items -->
+    </div>
+
+    <!-- Promo code input inside cart -->
+    <div class="coupon-wrapper">
+      <form id="coupon-form" class="coupon-form">
+        <input type="text" id="coupon-input" class="coupon-input" placeholder="Kupon Kodu (Örn: TELLA20)" autocomplete="off">
+        <button type="submit" class="secondary-btn coupon-btn">Uygula</button>
+      </form>
     </div>
     
     <div class="cart-footer">
       <div class="summary-row">
         <span>Ara Toplam</span>
         <span id="cart-subtotal">₺0.00</span>
+      </div>
+      <!-- Promo code discount row -->
+      <div id="cart-discount-row" class="summary-row discount" style="display: none;">
+        <span>İndirim (Kupon)</span>
+        <span id="cart-discount-val">-₺0.00</span>
       </div>
       <div class="summary-row">
         <span>Kargo Ücreti</span>
@@ -256,11 +463,20 @@
         <span>Genel Toplam</span>
         <span id="cart-total">₺0.00</span>
       </div>
-      <button class="gradient-btn checkout-btn" onclick="alert('Ödeme altyapısı bu örnek sitede aktif değildir. Alışverişiniz için teşekkürler!');">
+      <button id="checkout-open-btn" class="gradient-btn checkout-btn" disabled>
         <i class="fas fa-credit-card"></i> Alışverişi Tamamla
       </button>
     </div>
   </aside>
+
+  <!-- --- WISHLIST MODAL OVERLAY --- -->
+  <dialog id="wishlist-dialog" closedby="any" aria-labelledby="wishlist-title">
+    <button id="close-wishlist-btn" class="dialog-close" title="Kapat"><i class="fas fa-times"></i></button>
+    <h2 id="wishlist-title" class="gradient-text" style="font-weight: 800; font-size: 1.8rem; margin-bottom: 1.5rem; letter-spacing:-0.5px;">Favorilerim</h2>
+    <div id="wishlist-items-list" style="max-height: 60vh; overflow-y: auto; padding-right: 0.5rem;">
+      <!-- Wishlist items list -->
+    </div>
+  </dialog>
 
   <!-- --- BOOK DETAILS DIALOG MODAL --- -->
   <dialog id="book-details-dialog" closedby="any" aria-labelledby="dialog-title">
@@ -299,12 +515,11 @@
         
         <p id="dialog-desc" class="dialog-desc">-</p>
         
-        <!-- Interactive Review List Inside Dialog -->
+        <!-- Reviews -->
         <div class="dialog-reviews">
           <h4>Okur Yorumları</h4>
           <div id="reviews-list"></div>
           
-          <!-- Add Review Form -->
           <form class="add-review-form">
             <h5 style="font-weight: 700; font-size: 0.9rem;">Düşüncelerinizi Paylaşın</h5>
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.5rem;">
@@ -346,13 +561,100 @@
       
       <div class="roulette-animation">
         <div id="roulette-stack" class="roulette-cover-stack">
-          <!-- Animation cycles images here -->
+          <!-- Cycle elements -->
         </div>
       </div>
       
       <div id="surprise-details" style="display: none; width: 100%;">
-        <!-- Selected book description and CTA will fade in here -->
+        <!-- Recommended book details -->
       </div>
+    </div>
+  </dialog>
+
+  <!-- --- CHECKOUT MODAL WITH REALTIME CREDIT CARD --- -->
+  <dialog id="checkout-dialog" closedby="any" aria-labelledby="checkout-title" style="max-width:780px;">
+    <button id="close-checkout-btn" class="dialog-close" title="Kapat"><i class="fas fa-times"></i></button>
+    <h2 id="checkout-title" class="gradient-text" style="font-weight: 800; font-size: 1.8rem; margin-bottom: 1.5rem; letter-spacing:-0.5px;">Güvenli Ödeme</h2>
+    
+    <div class="checkout-dialog-content">
+      
+      <!-- Checkout Form -->
+      <form id="checkout-form" class="contact-form">
+        <div class="form-group">
+          <label for="card-owner">Teslim Alacak Kişi</label>
+          <input type="text" id="card-owner" class="form-control" placeholder="Ad Soyad" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="card-address">Teslimat Adresi</label>
+          <textarea id="card-address" class="form-control" rows="2" placeholder="Mahalle, Sokak, No, Daire, İlçe, İl" required></textarea>
+        </div>
+
+        <div class="form-group" style="margin-top:0.5rem;">
+          <label for="card-number">Kart Numarası</label>
+          <input type="text" id="card-number" class="form-control" placeholder="4000 1234 5678 9010" maxlength="19" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="card-name">Kart Üzerindeki İsim</label>
+          <input type="text" id="card-name" class="form-control" placeholder="VAHIT KESKIN" required autocomplete="off">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="card-expiry">Son Kullanma (AA/YY)</label>
+            <input type="text" id="card-expiry" class="form-control" placeholder="12/29" maxlength="5" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="card-cvv">Güvenlik Kodu (CVV)</label>
+            <input type="password" id="card-cvv" class="form-control" placeholder="***" maxlength="3" required autocomplete="off">
+          </div>
+        </div>
+
+        <button type="submit" class="gradient-btn" style="margin-top:0.5rem; width:100%;">
+          <i class="fas fa-lock"></i> Ödemeyi Tamamla (<span id="checkout-summary-total">₺0.00</span>)
+        </button>
+      </form>
+
+      <!-- 3D Flippable Credit Card Panel -->
+      <div class="credit-card-panel">
+        <div class="card-3d-wrapper">
+          <div id="credit-card-inner" class="card-3d-inner">
+            
+            <!-- Front Face -->
+            <div class="card-face card-face-front">
+              <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                <div class="card-chip"></div>
+                <i id="card-brand-logo" class="fas fa-credit-card" style="font-size:2rem; opacity:0.8;"></i>
+              </div>
+              <div id="card-number-display" class="card-number-display">•••• •••• •••• ••••</div>
+              <div class="card-meta-row">
+                <div style="display:flex; flex-direction:column;">
+                  <span class="card-holder-label">Kart Sahibi</span>
+                  <span id="card-holder-display" class="card-holder-val">AD SOYAD</span>
+                </div>
+                <div style="display:flex; flex-direction:column; text-align:right;">
+                  <span class="card-expiry-label">Geçerlilik</span>
+                  <span id="card-expiry-display" class="card-expiry-val">AA/YY</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="card-face card-face-back">
+              <div class="card-strip"></div>
+              <div class="card-signature-box">
+                <span id="card-cvv-display" class="card-cvv-display">•••</span>
+              </div>
+              <div style="padding:0 1.5rem; text-align:right; font-size:0.6rem; opacity:0.6; letter-spacing:0.5px;">
+                TELLAKITAP GÜVENLİ ÖDEME
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); text-align:center; max-width: 250px;">
+          <i class="fas fa-shield-alt" style="color:var(--success)"></i> 256-Bit SSL korumalı altyapıyla ödemeleriniz tamamen güvendedir.
+        </p>
+      </div>
+
     </div>
   </dialog>
 
