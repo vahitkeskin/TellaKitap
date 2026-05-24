@@ -2274,7 +2274,7 @@ function renderFeaturedBooks() {
     discountedGrid.innerHTML = discounted.map(generateBookCardHTML).join("");
   }
   if (kidsSpecialGrid) {
-    const kids = BOOKS_DB.filter(b => b.category === "Çocuk Kitapları").slice(0, 4);
+    const kids = BOOKS_DB.filter(b => b.category === "Çocuk Kitapları").slice(0, 8);
     kidsSpecialGrid.innerHTML = kids.map(generateBookCardHTML).join("");
   }
 }
