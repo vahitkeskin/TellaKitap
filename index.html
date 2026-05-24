@@ -490,83 +490,98 @@
     <!-- ================= 2. SHOP VIEW ================= -->
     <div id="view-shop" class="view-panel container shop-layout">
       
-      <!-- Left Filters Panel -->
-      <aside class="filters-panel glass-panel">
-        <div class="filter-group">
-          <h3>Sıralama</h3>
-          <select id="sort-select" class="sort-select">
-            <option value="relevance">Önerilen</option>
-            <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
-            <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
-            <option value="rating-desc">Puan: Yüksekten Düşüğe</option>
-          </select>
+      <!-- Page Hero Banner -->
+      <div class="page-hero-banner glass-panel">
+        <div class="hero-text-content">
+          <span class="slide-tag" style="margin-bottom: 0.5rem;"><i class="fas fa-th-large"></i> Kitap Dünyası</span>
+          <h1 class="gradient-text" style="font-weight: 900; font-size: 2.2rem; letter-spacing: -1px; margin-bottom: 0.3rem;">Tüm Kitaplar</h1>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">Bilim kurgudan felsefeye, en seçkin edebi kurguları filtreleyin ve keşfedin.</p>
         </div>
-        
-        <div class="filter-group">
-          <h3>Fiyat Aralığı</h3>
-          <div class="price-slider-container">
-            <input type="range" id="price-range" min="50" max="250" step="5" value="250">
-            <div class="price-inputs">
-              <span>₺50.00</span>
-              <span id="price-val" class="gradient-text" style="font-weight: 700;">₺250.00</span>
+      </div>
+
+      <div class="shop-grid">
+        <!-- Left Filters Panel -->
+        <aside class="filters-panel glass-panel">
+          <div class="filter-group">
+            <h3>Sıralama</h3>
+            <select id="sort-select" class="sort-select">
+              <option value="relevance">Önerilen</option>
+              <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
+              <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
+              <option value="rating-desc">Puan: Yüksekten Düşüğe</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <h3>Fiyat Aralığı</h3>
+            <div class="price-slider-container">
+              <input type="range" id="price-range" min="50" max="250" step="5" value="250">
+              <div class="price-inputs">
+                <span>₺50.00</span>
+                <span id="price-val" class="gradient-text" style="font-weight: 700;">₺250.00</span>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <div class="filter-group">
-          <h3>Müşteri Puanı</h3>
-          <div class="rating-options">
-            <label class="rating-checkbox-label">
-              <input type="checkbox" class="rating-filter" value="5">
-              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
-              <span>(5.0)</span>
-            </label>
-            <label class="rating-checkbox-label">
-              <input type="checkbox" class="rating-filter" value="4">
-              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
-              <span>(4.0+)</span>
-            </label>
+          
+          <div class="filter-group">
+            <h3>Müşteri Puanı</h3>
+            <div class="rating-options">
+              <label class="rating-checkbox-label">
+                <input type="checkbox" class="rating-filter" value="5">
+                <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                <span>(5.0)</span>
+              </label>
+              <label class="rating-checkbox-label">
+                <input type="checkbox" class="rating-filter" value="4">
+                <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
+                <span>(4.0+)</span>
+              </label>
+            </div>
           </div>
-        </div>
-      </aside>
+        </aside>
 
-      <!-- Right Catalog Grid -->
-      <section class="catalog-section">
-        <div id="category-slider" class="category-slider">
-          <button class="category-tab active" data-category="Tümü">Tüm Kategoriler</button>
-          <button class="category-tab" data-category="Bilim Kurgu">Bilim Kurgu</button>
-          <button class="category-tab" data-category="Çocuk Kitapları">Çocuk Kitapları</button>
-          <button class="category-tab" data-category="Felsefe">Felsefe</button>
-          <button class="category-tab" data-category="Gizem & Gerilim">Gizem & Gerilim</button>
-          <button class="category-tab" data-category="Tasarım & Teknoloji">Tasarım & Teknoloji</button>
-        </div>
-
-        <!-- Shop Active Coupon Campaign -->
-        <div class="shop-campaign-banner glass-panel">
-          <div class="shop-campaign-text">
-            <h4>Seçkin Kitaplarda Lansman Fırsatı!</h4>
-            <p>Sepette ek indirim kazanmak için indirim kuponunuzu ödeme sayfasında kullanmayı unutmayın.</p>
+        <!-- Right Catalog Grid -->
+        <section class="catalog-section">
+          <div id="category-slider" class="category-slider">
+            <button class="category-tab active" data-category="Tümü">Tüm Kategoriler</button>
+            <button class="category-tab" data-category="Bilim Kurgu">Bilim Kurgu</button>
+            <button class="category-tab" data-category="Çocuk Kitapları">Çocuk Kitapları</button>
+            <button class="category-tab" data-category="Felsefe">Felsefe</button>
+            <button class="category-tab" data-category="Gizem & Gerilim">Gizem & Gerilim</button>
+            <button class="category-tab" data-category="Tasarım & Teknoloji">Tasarım & Teknoloji</button>
           </div>
-          <div class="shop-campaign-coupon">KUPON: TELLA20</div>
-        </div>
 
-        <div class="catalog-header">
-          <p id="book-count">0 Kitap Bulundu</p>
-        </div>
-        <div class="books-grid" id="books-grid">
-          <!-- Dynamic cards -->
-        </div>
-      </section>
+          <!-- Shop Active Coupon Campaign -->
+          <div class="shop-campaign-banner glass-panel">
+            <div class="shop-campaign-text">
+              <h4>Seçkin Kitaplarda Lansman Fırsatı!</h4>
+              <p>Sepette ek indirim kazanmak için indirim kuponunuzu ödeme sayfasında kullanmayı unutmayın.</p>
+            </div>
+            <div class="shop-campaign-coupon">KUPON: TELLA20</div>
+          </div>
+
+          <div class="catalog-header">
+            <p id="book-count">0 Kitap Bulundu</p>
+          </div>
+          <div class="books-grid" id="books-grid">
+            <!-- Dynamic cards -->
+          </div>
+        </section>
+      </div>
 
     </div>
 
     <!-- ================= 3. ABOUT VIEW ================= -->
     <div id="view-about" class="view-panel container about-layout">
       
-      <section class="about-hero glass-panel">
-        <h1>Kelimelerin Arkasındaki <span class="gradient-text">Vizyon.</span></h1>
-        <p>TellaKitap, ticari bir kitap satış platformu olmanın ötesinde, seçkin edebiyat eserlerini estetik değerlerle buluşturan modern bir yayıncılık ve kürasyon projesidir.</p>
-      </section>
+      <!-- Page Hero Banner -->
+      <div class="page-hero-banner about-hero glass-panel">
+        <div class="hero-text-content">
+          <span class="slide-tag" style="margin-bottom: 0.5rem;"><i class="fas fa-bookmark"></i> Hikayemiz</span>
+          <h1 class="gradient-text" style="font-weight: 900; font-size: 2.2rem; letter-spacing: -1px; margin-bottom: 0.3rem;">Kelimelerin Arkasındaki Vizyon</h1>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">TellaKitap, ticari bir kitap satış platformu olmanın ötesinde, seçkin edebiyat eserlerini estetik değerlerle buluşturan modern bir yayıncılık ve kürasyon projesidir.</p>
+        </div>
+      </div>
 
       <div class="about-grid">
         <div class="about-card glass-panel">
@@ -640,65 +655,76 @@
     <!-- ================= 4. CONTACT VIEW ================= -->
     <div id="view-contact" class="view-panel container contact-layout">
       
-      <!-- Contact form -->
-      <section class="contact-card glass-panel">
-        <h2>Bizimle <span class="gradient-text">İletişime Geçin.</span></h2>
-        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.95rem;">Sorularınız, iş birliği teklifleriniz veya sipariş destek talepleriniz için formu doldurabilirsiniz. Ekibimiz en geç 2 saat içinde dönüş yapacaktır.</p>
-        
-        <form id="contact-main-form" class="contact-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="c-name">Adınız Soyadınız</label>
-              <input type="text" id="c-name" class="form-control" placeholder="Örn: Vahit Keskin" required autocomplete="off">
+      <!-- Page Hero Banner -->
+      <div class="page-hero-banner glass-panel">
+        <div class="hero-text-content">
+          <span class="slide-tag" style="margin-bottom: 0.5rem;"><i class="fas fa-envelope"></i> İletişim</span>
+          <h1 class="gradient-text" style="font-weight: 900; font-size: 2.2rem; letter-spacing: -1px; margin-bottom: 0.3rem;">Bize Ulaşın</h1>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">Sorularınız, destek talepleriniz veya iş birliği fikirleriniz için bizimle bağlantı kurun.</p>
+        </div>
+      </div>
+
+      <div class="contact-grid">
+        <!-- Contact form -->
+        <section class="contact-card glass-panel">
+          <h2>Bizimle <span class="gradient-text">İletişime Geçin.</span></h2>
+          <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.95rem;">Sorularınız, iş birliği teklifleriniz veya sipariş destek talepleriniz için formu doldurabilirsiniz. Ekibimiz en geç 2 saat içinde dönüş yapacaktır.</p>
+          
+          <form id="contact-main-form" class="contact-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="c-name">Adınız Soyadınız</label>
+                <input type="text" id="c-name" class="form-control" placeholder="Örn: Vahit Keskin" required autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label for="c-email">E-posta Adresiniz</label>
+                <input type="email" id="c-email" class="form-control" placeholder="Örn: vahit@example.com" required autocomplete="off">
+              </div>
             </div>
             <div class="form-group">
-              <label for="c-email">E-posta Adresiniz</label>
-              <input type="email" id="c-email" class="form-control" placeholder="Örn: vahit@example.com" required autocomplete="off">
+              <label for="c-subject">Konu</label>
+              <input type="text" id="c-subject" class="form-control" placeholder="Destek, İş Birliği vb." required autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label for="c-message">Mesajınız</label>
+              <textarea id="c-message" class="form-control" rows="5" placeholder="Mesajınızı buraya yazın..." required></textarea>
+            </div>
+            <button type="submit" class="gradient-btn" style="width: fit-content; padding: 0.8rem 2.5rem; margin-top:0.5rem;">
+              <i class="fas fa-paper-plane"></i> Gönder
+            </button>
+          </form>
+        </section>
+
+        <!-- Info channels & map -->
+        <aside class="contact-info-panel">
+          
+          <div class="info-box glass-panel">
+            <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="info-text">
+              <h4>Merkez Ofisimiz</h4>
+              <p>Edebiyat Plaza, Kat: 12, Levent<br>Beşiktaş, İstanbul</p>
             </div>
           </div>
-          <div class="form-group">
-            <label for="c-subject">Konu</label>
-            <input type="text" id="c-subject" class="form-control" placeholder="Destek, İş Birliği vb." required autocomplete="off">
-          </div>
-          <div class="form-group">
-            <label for="c-message">Mesajınız</label>
-            <textarea id="c-message" class="form-control" rows="5" placeholder="Mesajınızı buraya yazın..." required></textarea>
-          </div>
-          <button type="submit" class="gradient-btn" style="width: fit-content; padding: 0.8rem 2.5rem; margin-top:0.5rem;">
-            <i class="fas fa-paper-plane"></i> Gönder
-          </button>
-        </form>
-      </section>
 
-      <!-- Info channels & map -->
-      <aside class="contact-info-panel">
-        
-        <div class="info-box glass-panel">
-          <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
-          <div class="info-text">
-            <h4>Merkez Ofisimiz</h4>
-            <p>Edebiyat Plaza, Kat: 12, Levent<br>Beşiktaş, İstanbul</p>
+          <div class="info-box glass-panel">
+            <div class="info-icon"><i class="fas fa-envelope"></i></div>
+            <div class="info-text">
+              <h4>E-posta ve Telefon</h4>
+              <p>info@tellakitap.com<br>+90 (212) 555 45 45</p>
+            </div>
           </div>
-        </div>
 
-        <div class="info-box glass-panel">
-          <div class="info-icon"><i class="fas fa-envelope"></i></div>
-          <div class="info-text">
-            <h4>E-posta ve Telefon</h4>
-            <p>info@tellakitap.com<br>+90 (212) 555 45 45</p>
+          <div class="mock-map glass-panel">
+            <div class="mock-map-bg"></div>
+            <i class="fas fa-map-pin map-pin"></i>
+            <span style="position:absolute; bottom: 1rem; left: 1rem; font-size:0.75rem; background:rgba(0,0,0,0.7); padding:0.3rem 0.6rem; border-radius:5px;">TellaKitap Genel Merkez</span>
           </div>
-        </div>
 
-        <div class="mock-map glass-panel">
-          <div class="mock-map-bg"></div>
-          <i class="fas fa-map-pin map-pin"></i>
-          <span style="position:absolute; bottom: 1rem; left: 1rem; font-size:0.75rem; background:rgba(0,0,0,0.7); padding:0.3rem 0.6rem; border-radius:5px;">TellaKitap Genel Merkez</span>
-        </div>
-
-      </aside>
+        </aside>
+      </div>
 
       <!-- Sıkça Sorulan Sorular -->
-      <section class="faq-section-wrapper" style="grid-column: span 2; margin-top: 3rem; width: 100%;">
+      <section class="faq-section-wrapper" style="margin-top: 3rem; width: 100%;">
         <h2 class="home-section-title" style="text-align: center; margin-bottom: 2rem;">Sıkça Sorulan <span class="gradient-text">Sorular</span></h2>
         <div class="faq-section">
           <div class="faq-item">
