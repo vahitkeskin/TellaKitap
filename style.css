@@ -176,8 +176,10 @@ header {
   left: 0;
   width: 100%;
   height: var(--header-height);
-  z-index: 100;
+  z-index: 1000;
   display: flex;
+  background: var(--bg-app);
+  backdrop-filter: var(--glass-blur);
   align-items: center;
   border-bottom: 1px solid var(--border-color);
   transition: var(--transition-smooth);
@@ -395,7 +397,7 @@ header .container {
 
 /* --- ANA SAYFA (HOME VIEW) --- */
 .home-layout {
-  margin-top: calc(var(--header-height) + 0.75rem);
+  margin-top: var(--header-height);
   margin-bottom: 4rem;
   display: flex;
   flex-direction: column;
@@ -408,7 +410,7 @@ header .container {
   grid-template-columns: 1.2fr 1fr;
   align-items: center;
   gap: 3rem;
-  padding: 4rem;
+  padding: 1.5rem 3rem;
   position: relative;
   overflow: hidden;
 }
@@ -640,7 +642,7 @@ header .container {
 
 /* --- MAĞAZA (SHOP VIEW) --- */
 .shop-layout {
-  margin-top: calc(var(--header-height) + 0.75rem);
+  margin-top: var(--header-height);
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 2.5rem;
@@ -1023,7 +1025,7 @@ header .container {
 
 /* --- HAKKIMIZDA (ABOUT VIEW) --- */
 .about-layout {
-  margin-top: calc(var(--header-height) + 0.75rem);
+  margin-top: var(--header-height);
   margin-bottom: 4rem;
   display: flex;
   flex-direction: column;
@@ -1138,7 +1140,7 @@ header .container {
 
 /* --- İLETİŞİM (CONTACT VIEW) --- */
 .contact-layout {
-  margin-top: calc(var(--header-height) + 0.75rem);
+  margin-top: var(--header-height);
   margin-bottom: 4rem;
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -1282,7 +1284,7 @@ header .container {
    --- DEDICATED DETAIL.HTML PAGE STYLES ---
    ========================================== */
 .detail-layout {
-  margin-top: calc(var(--header-height) + 0.75rem);
+  margin-top: var(--header-height);
   margin-bottom: 6rem;
   display: grid;
   grid-template-columns: 1.1fr 1.8fr;
