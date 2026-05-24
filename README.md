@@ -1,6 +1,6 @@
 # TellaKitap - Modern ve Eşsiz Dijital Kitabevi
 
-TellaKitap, modern web teknolojileri (HTML5, Vanilla CSS, Vanilla JS) ve göz alıcı bir tasarım diliyle geliştirilmiş, sıradışı ve oldukça profesyonel bir online kitabevi web uygulamasıdır. `bkmkitap.com` benzeri e-ticaret sitelerinden esinlenerek, premium görsel öğeler (glassmorphism, animasyonlar, karanlık/aydınlık tema entegrasyonu) ve zengin dinamik özelliklerle donatılmıştır.
+TellaKitap, modern web teknolojileri (HTML5, Vanilla CSS, Vanilla JS) ve göz alıcı bir tasarım diliyle geliştirilmiş, sıradışı ve oldukça profesyonel bir online kitabevi web uygulamasıdır. Premium görsel öğeler (glassmorphism, animasyonlar, karanlık/aydınlık tema entegrasyonu) ve zengin dinamik özelliklerle donatılmıştır.
 
 Bu proje, herhangi bir derleme (build) veya bağımlılık yönetimi adımı gerektirmeden doğrudan tarayıcı üzerinden çalıştırılabilen statik bir yapıya sahiptir. Bu sayede **GitHub Pages** üzerinde saniyeler içinde ücretsiz ve sorunsuz bir şekilde yayınlanabilir.
 

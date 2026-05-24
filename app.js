@@ -2093,6 +2093,7 @@ function initIndexPage() {
   setupRouter();
   setupCountdownTimer();
   setupCatalogFilters();
+  initCarouselSlider();
   
   // Handle SPA View based on hash route
   const hash = window.location.hash.substring(1);
@@ -2203,63 +2204,154 @@ function switchView(viewName) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function renderFeaturedBooks() {
-  const grid = document.getElementById("featured-books-grid");
-  if (!grid) return;
+function generateBookCardHTML(book) {
+  const hasDiscount = book.discountPrice && book.discountPrice < book.price;
+  const originalFormatted = `₺${book.price.toFixed(2)}`;
+  const discountedFormatted = hasDiscount ? `₺${book.discountPrice.toFixed(2)}` : originalFormatted;
+  
+  let starsHtml = "";
+  const fullStars = Math.floor(book.rating);
+  for (let i = 1; i <= 5; i++) {
+    starsHtml += i <= fullStars ? `<i class="fas fa-star"></i>` : `<i class="far fa-star"></i>`;
+  }
 
-  // Filter 6 featured books (e.g. rating >= 4.7)
-  const featured = BOOKS_DB.filter(b => b.rating >= 4.7).slice(0, 6);
+  const badgeHtml = book.badge ? `<div class="book-badge ${book.badgeType || ''}">${book.badge}</div>` : '';
+  const isFav = state.wishlist.includes(book.id);
+  const heartClass = isFav ? "wishlist-heart-btn active" : "wishlist-heart-btn";
 
-  grid.innerHTML = featured.map(book => {
-    const hasDiscount = book.discountPrice && book.discountPrice < book.price;
-    const originalFormatted = `₺${book.price.toFixed(2)}`;
-    const discountedFormatted = hasDiscount ? `₺${book.discountPrice.toFixed(2)}` : originalFormatted;
-    
-    let starsHtml = "";
-    const fullStars = Math.floor(book.rating);
-    for (let i = 1; i <= 5; i++) {
-      starsHtml += i <= fullStars ? `<i class="fas fa-star"></i>` : `<i class="far fa-star"></i>`;
-    }
-
-    const badgeHtml = book.badge ? `<div class="book-badge ${book.badgeType || ''}">${book.badge}</div>` : '';
-    const isFav = state.wishlist.includes(book.id);
-    const heartClass = isFav ? "wishlist-heart-btn active" : "wishlist-heart-btn";
-
-    return `
-      <article class="book-card glass-panel" data-id="${book.id}">
-        ${badgeHtml}
-        <button class="${heartClass}" onclick="toggleFavorite(${book.id})" title="Favorilere Ekle">
-          <i class="fas fa-heart"></i>
-        </button>
-        <div class="book-cover-container">
-          <img class="book-cover" src="${book.cover}" alt="${book.title}" loading="lazy">
-          <div class="card-actions-overlay">
-            <a href="detail.html?id=${book.id}" class="overlay-btn view-detail-btn" title="Detayları İncele">
-              <i class="fas fa-eye"></i>
-            </a>
-            <button class="overlay-btn card-add-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
-              <i class="fas fa-shopping-bag"></i>
-            </button>
-          </div>
-        </div>
-        <h3 class="book-title"><a href="detail.html?id=${book.id}">${book.title}</a></h3>
-        <p class="book-author">${book.author}</p>
-        <div class="book-rating">
-          <span class="stars">${starsHtml}</span>
-          <span>(${book.rating.toFixed(1)})</span>
-        </div>
-        <div class="book-price-wrapper">
-          <div class="prices">
-            ${hasDiscount ? `<span class="original-price">${originalFormatted}</span>` : ''}
-            <span class="current-price">${discountedFormatted}</span>
-          </div>
-          <button class="add-cart-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
-            <i class="fas fa-plus"></i>
+  return `
+    <article class="book-card glass-panel" data-id="${book.id}">
+      ${badgeHtml}
+      <button class="${heartClass}" onclick="toggleFavorite(${book.id})" title="Favorilere Ekle">
+        <i class="fas fa-heart"></i>
+      </button>
+      <div class="book-cover-container">
+        <img class="book-cover" src="${book.cover}" alt="${book.title}" loading="lazy">
+        <div class="card-actions-overlay">
+          <a href="detail.html?id=${book.id}" class="overlay-btn view-detail-btn" title="Detayları İncele">
+            <i class="fas fa-eye"></i>
+          </a>
+          <button class="overlay-btn card-add-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
+            <i class="fas fa-shopping-bag"></i>
           </button>
         </div>
-      </article>
-    `;
-  }).join("");
+      </div>
+      <h3 class="book-title"><a href="detail.html?id=${book.id}">${book.title}</a></h3>
+      <p class="book-author">${book.author}</p>
+      <div class="book-rating">
+        <span class="stars">${starsHtml}</span>
+        <span>(${book.rating.toFixed(1)})</span>
+      </div>
+      <div class="book-price-wrapper">
+        <div class="prices">
+          ${hasDiscount ? `<span class="original-price">${originalFormatted}</span>` : ''}
+          <span class="current-price">${discountedFormatted}</span>
+        </div>
+        <button class="add-cart-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </article>
+  `;
+}
+
+function renderFeaturedBooks() {
+  const bestsellersGrid = document.getElementById("bestsellers-grid");
+  const newreleasesGrid = document.getElementById("newreleases-grid");
+  const discountedGrid = document.getElementById("discounted-grid");
+  const kidsSpecialGrid = document.getElementById("kids-special-grid");
+
+  if (bestsellersGrid) {
+    const bestsellers = BOOKS_DB.filter(b => b.rating >= 4.7).slice(0, 4);
+    bestsellersGrid.innerHTML = bestsellers.map(generateBookCardHTML).join("");
+  }
+  if (newreleasesGrid) {
+    const newreleases = BOOKS_DB.filter(b => b.year >= 2025).slice(0, 4);
+    newreleasesGrid.innerHTML = newreleases.map(generateBookCardHTML).join("");
+  }
+  if (discountedGrid) {
+    const discounted = BOOKS_DB.filter(b => b.discountPrice !== null).slice(0, 4);
+    discountedGrid.innerHTML = discounted.map(generateBookCardHTML).join("");
+  }
+  if (kidsSpecialGrid) {
+    const kids = BOOKS_DB.filter(b => b.category === "Çocuk Kitapları").slice(0, 4);
+    kidsSpecialGrid.innerHTML = kids.map(generateBookCardHTML).join("");
+  }
+}
+
+function initCarouselSlider() {
+  const track = document.getElementById("carousel-track");
+  if (!track) return;
+  const slides = Array.from(track.children);
+  const prevButton = document.getElementById("carousel-prev");
+  const nextButton = document.getElementById("carousel-next");
+  const dotsNav = document.getElementById("carousel-nav");
+  if (!dotsNav) return;
+  const dots = Array.from(dotsNav.children);
+  
+  if (slides.length === 0) return;
+  
+  let currentSlideIndex = 0;
+  let autoSlideTimer = null;
+
+  const updateSlide = (index) => {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === index);
+    });
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === index);
+    });
+    currentSlideIndex = index;
+  };
+
+  const nextSlide = () => {
+    let nextIndex = currentSlideIndex + 1;
+    if (nextIndex >= slides.length) nextIndex = 0;
+    updateSlide(nextIndex);
+  };
+
+  const prevSlide = () => {
+    let prevIndex = currentSlideIndex - 1;
+    if (prevIndex < 0) prevIndex = slides.length - 1;
+    updateSlide(prevIndex);
+  };
+
+  if (nextButton) {
+    nextButton.addEventListener("click", () => {
+      nextSlide();
+      resetAutoSlide();
+    });
+  }
+
+  if (prevButton) {
+    prevButton.addEventListener("click", () => {
+      prevSlide();
+      resetAutoSlide();
+    });
+  }
+
+  if (dotsNav) {
+    dotsNav.addEventListener("click", (e) => {
+      const targetDot = e.target.closest(".carousel-indicator");
+      if (!targetDot) return;
+      const dotIndex = dots.indexOf(targetDot);
+      updateSlide(dotIndex);
+      resetAutoSlide();
+    });
+  }
+
+  const startAutoSlide = () => {
+    autoSlideTimer = setInterval(nextSlide, 6000);
+  };
+
+  const resetAutoSlide = () => {
+    if (autoSlideTimer) {
+      clearInterval(autoSlideTimer);
+      startAutoSlide();
+    }
+  };
+
+  startAutoSlide();
 }
 
 function renderCatalog() {

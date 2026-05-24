@@ -7,7 +7,7 @@
   
   <!-- SEO Meta Tags -->
   <meta name="description" content="TellaKitap - Modern ve Eşsiz Kitabevi. Bilim kurgudan felsefeye, en seçkin eserleri en uygun fiyatlarla keşfedin. Hızlı kargo ve güvenceyle hemen satın alın.">
-  <meta name="keywords" content="kitap, kitaplık, bkm kitap, ucuz kitap, felsefe kitapları, bilim kurgu kitapları, gerilim romanları, tasarım kitapları">
+  <meta name="keywords" content="kitap, kitaplık, ucuz kitap, felsefe kitapları, bilim kurgu kitapları, gerilim romanları, tasarım kitapları, çocuk kitapları">
   <meta name="author" content="Vahit Keskin">
   
   <!-- Fonts & Icons -->
@@ -17,6 +17,17 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- --- TOP ANNOUNCEMENT BAR --- -->
+  <div class="top-announcement-bar">
+    <div class="container announcement-content">
+      <span><i class="fas fa-truck"></i> ₺250 ve Üzeri Siparişlerde Kargo Bedava!</span>
+      <span class="separator">|</span>
+      <span><i class="fas fa-ticket-alt"></i> <strong>TELLA20</strong> Koduyla Sepette Ek %20 İndirim!</span>
+      <span class="separator">|</span>
+      <span><i class="fas fa-mobile-alt"></i> İlk Alışverişe Özel Sürpriz Hediye Kitap!</span>
+    </div>
+  </div>
 
   <!-- --- HEADER NAVIGATION --- -->
   <header class="glass-panel">
@@ -80,24 +91,100 @@
     <!-- ================= 1. HOME VIEW ================= -->
     <div id="view-home" class="view-panel active container home-layout">
       
-      <!-- Home Hero Campaign -->
-      <section class="hero-card glass-panel" style="margin-top:0;">
-        <div class="hero-orb"></div>
-        <div class="hero-content">
-          <div class="spotlight-badge" style="background: var(--accent-gradient); margin-bottom: 1rem;"><i class="fas fa-star"></i> Lansmana Özel %20 İndirim</div>
-          <h1>Sıradışı Okuma <br><span class="gradient-text">Deneyimi.</span></h1>
-          <p>TellaKitap, klasik kalıpların dışına çıkan tasarımı ve özenle seçilmiş edebi arşiviyle sizleri başka dünyalara davet ediyor. Bilim kurgudan felsefeye eşi benzeri olmayan eserleri keşfedin.</p>
-          <div class="hero-actions">
-            <button onclick="switchView('shop')" class="gradient-btn">
-              <i class="fas fa-compass"></i> Koleksiyonu İncele
-            </button>
-            <button id="surprise-btn" class="secondary-btn">
-              <i class="fas fa-dice"></i> Sürpriz Kitap Seç
-            </button>
+      <!-- Dynamic Campaign Carousel Slider -->
+      <section class="campaign-carousel-wrapper glass-panel">
+        <div class="carousel-track-container">
+          <ul class="carousel-track" id="carousel-track">
+            <!-- Slide 1 -->
+            <li class="carousel-slide active" style="background: linear-gradient(135deg, rgba(29, 38, 113, 0.5), rgba(195, 55, 100, 0.5));">
+              <div class="slide-content">
+                <span class="slide-tag"><i class="fas fa-child"></i> Çocuk Kitapları Özel</span>
+                <h2>Çocuk Kitaplarında <br><span class="gradient-text">Bahar Şenliği!</span></h2>
+                <p>30 adet tamamen benzersiz kapaklı çocuk kitabı şimdi lansmana özel %30 indirimle okurlarla buluşuyor.</p>
+                <div class="slide-actions">
+                  <button onclick="switchView('shop')" class="gradient-btn">Hemen Keşfet <i class="fas fa-arrow-right"></i></button>
+                </div>
+              </div>
+              <div class="slide-img">
+                <img src="assets/covers/cover_kids_1.png" alt="Çocuk Kitapları Kampanyası">
+              </div>
+            </li>
+            <!-- Slide 2 -->
+            <li class="carousel-slide" style="background: linear-gradient(135deg, rgba(15, 32, 39, 0.5), rgba(32, 58, 67, 0.5));">
+              <div class="slide-content">
+                <span class="slide-tag"><i class="fas fa-brain"></i> Felsefe Seçkisi</span>
+                <h2>Zihninizin Sınırlarını <br><span class="gradient-text">Genişletin</span></h2>
+                <p>Düşünce tarihinin en seçkin eserleri, felsefe kategorimize özel edebi yorumlarıyla sizleri bekliyor.</p>
+                <div class="slide-actions">
+                  <button onclick="switchView('shop')" class="gradient-btn">İncele <i class="fas fa-arrow-right"></i></button>
+                </div>
+              </div>
+              <div class="slide-img">
+                <img src="assets/cover_philosophy.png" alt="Felsefe Kitapları">
+              </div>
+            </li>
+            <!-- Slide 3 -->
+            <li class="carousel-slide" style="background: linear-gradient(135deg, rgba(20, 30, 48, 0.5), rgba(36, 59, 85, 0.5));">
+              <div class="slide-content">
+                <span class="slide-tag"><i class="fas fa-rocket"></i> Bilim Kurgu</span>
+                <h2>Geleceğe <br><span class="gradient-text">Yolculuk</span></h2>
+                <p>Siberpunk distopyalardan uzay operalarına kadar aradığınız tüm bilim kurgu romanları burada.</p>
+                <div class="slide-actions">
+                  <button onclick="switchView('shop')" class="gradient-btn">Hemen Oku <i class="fas fa-arrow-right"></i></button>
+                </div>
+              </div>
+              <div class="slide-img">
+                <img src="assets/cover_future.png" alt="Bilim Kurgu Kitapları">
+              </div>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Controls -->
+        <button class="carousel-arrow prev" id="carousel-prev" title="Önceki"><i class="fas fa-chevron-left"></i></button>
+        <button class="carousel-arrow next" id="carousel-next" title="Sonraki"><i class="fas fa-chevron-right"></i></button>
+        
+        <!-- Dots -->
+        <div class="carousel-nav" id="carousel-nav">
+          <button class="carousel-indicator active" title="Slayt 1"></button>
+          <button class="carousel-indicator" title="Slayt 2"></button>
+          <button class="carousel-indicator" title="Slayt 3"></button>
+        </div>
+      </section>
+
+      <!-- Campaign Promo Grid Banners -->
+      <section class="campaign-grid">
+        <div class="campaign-box glass-panel" style="background: linear-gradient(120deg, rgba(86, 204, 242, 0.08), rgba(47, 128, 237, 0.08));">
+          <div class="camp-icon"><i class="fas fa-tags" style="color: #56ccf2;"></i></div>
+          <div class="camp-info">
+            <h4>Haftanın Fırsatı</h4>
+            <p>Seçili eserlerde net %25 indirim fırsatı sepette!</p>
+            <span class="camp-link" onclick="switchView('shop')">Ürünleri Gör <i class="fas fa-chevron-right"></i></span>
           </div>
         </div>
-        <div class="hero-image-wrapper">
-          <img src="assets/hero_banner.png" alt="TellaKitap Kütüphane İllüstrasyonu">
+        <div class="campaign-box glass-panel" style="background: linear-gradient(120deg, rgba(242, 201, 76, 0.08), rgba(242, 153, 74, 0.08));">
+          <div class="camp-icon"><i class="fas fa-box-open" style="color: #f2c94c;"></i></div>
+          <div class="camp-info">
+            <h4>Çoklu Alım Fırsatı</h4>
+            <p>250 TL üzeri sepetlerde kargo bedava ve hediye ayraç.</p>
+            <span class="camp-link" onclick="switchView('shop')">Alışverişe Başla <i class="fas fa-chevron-right"></i></span>
+          </div>
+        </div>
+        <div class="campaign-box glass-panel" style="background: linear-gradient(120deg, rgba(39, 174, 96, 0.08), rgba(111, 207, 151, 0.08));">
+          <div class="camp-icon"><i class="fas fa-fire" style="color: #27ae60;"></i></div>
+          <div class="camp-info">
+            <h4>Yeni Çıkanlar</h4>
+            <p>Kütüphanemize yeni eklenen taze eserleri inceleyin.</p>
+            <span class="camp-link" onclick="switchView('shop')">Yeni Eserler <i class="fas fa-chevron-right"></i></span>
+          </div>
+        </div>
+        <div class="campaign-box glass-panel" style="background: linear-gradient(120deg, rgba(235, 87, 87, 0.08), rgba(242, 153, 74, 0.08));">
+          <div class="camp-icon"><i class="fas fa-child" style="color: #eb5757;"></i></div>
+          <div class="camp-info">
+            <h4>Çocuk Özel</h4>
+            <p>Tam 30 adet tekrarsız kapaklı eşsiz çocuk kitapları rafı.</p>
+            <span class="camp-link" onclick="switchView('shop')">Çocuk Rafları <i class="fas fa-chevron-right"></i></span>
+          </div>
         </div>
       </section>
 
@@ -183,16 +270,74 @@
         </div>
       </section>
 
-      <!-- Featured Books Showcase -->
-      <section class="featured-section-home" style="margin-top: 1rem;">
-        <h2 class="home-section-title">Öne Çıkan <span class="gradient-text">Eserler</span></h2>
-        <div class="books-grid" id="featured-books-grid">
-          <!-- Dynamic featured book cards -->
+      <!-- 1. Çok Satanlar Vitrini -->
+      <section class="home-showcase-section">
+        <div class="showcase-header">
+          <h2 class="home-section-title"><i class="fas fa-fire" style="color: #ef4444; margin-right: 8px;"></i> Çok <span class="gradient-text">Satanlar</span></h2>
+          <span class="view-all-link" onclick="switchView('shop')">Tümünü Gör <i class="fas fa-chevron-right"></i></span>
         </div>
-        <div style="text-align: center; margin-top: 3rem;">
-          <button onclick="switchView('shop')" class="gradient-btn" style="padding: 0.8rem 2.5rem; border-radius:10px;">
-            <i class="fas fa-th-large"></i> Tüm Koleksiyonu Keşfet
-          </button>
+        <div class="books-grid" id="bestsellers-grid">
+          <!-- Dynamic best seller cards -->
+        </div>
+      </section>
+
+      <!-- 2. Yeni Çıkanlar Vitrini -->
+      <section class="home-showcase-section">
+        <div class="showcase-header">
+          <h2 class="home-section-title"><i class="fas fa-star" style="color: #facc15; margin-right: 8px;"></i> Yeni <span class="gradient-text">Çıkanlar</span></h2>
+          <span class="view-all-link" onclick="switchView('shop')">Tümünü Gör <i class="fas fa-chevron-right"></i></span>
+        </div>
+        <div class="books-grid" id="newreleases-grid">
+          <!-- Dynamic new release cards -->
+        </div>
+      </section>
+
+      <!-- 3. Fırsat Kitapları Vitrini -->
+      <section class="home-showcase-section">
+        <div class="showcase-header">
+          <h2 class="home-section-title"><i class="fas fa-percentage" style="color: #22c55e; margin-right: 8px;"></i> Fırsat <span class="gradient-text">Kitapları</span></h2>
+          <span class="view-all-link" onclick="switchView('shop')">Tümünü Gör <i class="fas fa-chevron-right"></i></span>
+        </div>
+        <div class="books-grid" id="discounted-grid">
+          <!-- Dynamic discounted cards -->
+        </div>
+      </section>
+
+      <!-- 4. Çocuk Kitapları Özel Rafı -->
+      <section class="home-showcase-section">
+        <div class="showcase-header">
+          <h2 class="home-section-title"><i class="fas fa-child" style="color: #60a5fa; margin-right: 8px;"></i> Çocuk Kitapları <span class="gradient-text">Özel Rafı</span></h2>
+          <span class="view-all-link" onclick="switchView('shop')">Tümünü Gör <i class="fas fa-chevron-right"></i></span>
+        </div>
+        <div class="books-grid" id="kids-special-grid">
+          <!-- Dynamic children's books cards -->
+        </div>
+      </section>
+
+      <!-- Yayınevi / Marka Logoları Şeridi -->
+      <section class="publisher-showcase-section glass-panel">
+        <h3 class="publisher-title">Popüler Yayınevleri</h3>
+        <div class="publisher-logos-row">
+          <div class="publisher-logo-card">
+            <i class="fas fa-rocket"></i>
+            <span>Kozmos Yayınları</span>
+          </div>
+          <div class="publisher-logo-card">
+            <i class="fas fa-globe"></i>
+            <span>Yeryüzü Kitaplığı</span>
+          </div>
+          <div class="publisher-logo-card">
+            <i class="fas fa-university"></i>
+            <span>Agora Akademi</span>
+          </div>
+          <div class="publisher-logo-card">
+            <i class="fas fa-palette"></i>
+            <span>Piksel Akademi</span>
+          </div>
+          <div class="publisher-logo-card">
+            <i class="fas fa-landmark"></i>
+            <span>Klasik Yayınları</span>
+          </div>
         </div>
       </section>
 
@@ -636,8 +781,16 @@
       </div>
       
       <div class="footer-bottom">
-        <p>&copy; 2026 TellaKitap. Tüm Hakları Saklıdır. Designed with ❤️ for book lovers.</p>
-        <p>Vahit Keskin Showcase Project</p>
+        <div class="footer-bottom-info">
+          <p>&copy; 2026 TellaKitap. Tüm Hakları Saklıdır. Designed with ❤️ for book lovers.</p>
+          <p>Vahit Keskin Showcase Project</p>
+        </div>
+        <div class="payment-badges">
+          <span title="Visa"><i class="fab fa-cc-visa"></i></span>
+          <span title="Mastercard"><i class="fab fa-cc-mastercard"></i></span>
+          <span title="Amex"><i class="fab fa-cc-amex"></i></span>
+          <span class="secure-badge"><i class="fas fa-lock"></i> SSL Secure</span>
+        </div>
       </div>
     </div>
   </footer>
