@@ -171,7 +171,7 @@ img {
 
 /* --- HEADER --- */
 header {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
@@ -397,11 +397,11 @@ header .container {
 
 /* --- ANA SAYFA (HOME VIEW) --- */
 .home-layout {
-  margin-top: var(--header-height);
+  margin-top: 1.5rem;
   margin-bottom: 4rem;
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 2.5rem;
 }
 
 /* Curated Campaigns / Slides */
@@ -642,7 +642,7 @@ header .container {
 
 /* --- MAĞAZA (SHOP VIEW) --- */
 .shop-layout {
-  margin-top: var(--header-height);
+  margin-top: 1.5rem;
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 2.5rem;
@@ -1025,7 +1025,7 @@ header .container {
 
 /* --- HAKKIMIZDA (ABOUT VIEW) --- */
 .about-layout {
-  margin-top: var(--header-height);
+  margin-top: 1.5rem;
   margin-bottom: 4rem;
   display: flex;
   flex-direction: column;
@@ -1140,7 +1140,7 @@ header .container {
 
 /* --- İLETİŞİM (CONTACT VIEW) --- */
 .contact-layout {
-  margin-top: var(--header-height);
+  margin-top: 1.5rem;
   margin-bottom: 4rem;
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -1284,7 +1284,7 @@ header .container {
    --- DEDICATED DETAIL.HTML PAGE STYLES ---
    ========================================== */
 .detail-layout {
-  margin-top: var(--header-height);
+  margin-top: 1.5rem;
   margin-bottom: 6rem;
   display: grid;
   grid-template-columns: 1.1fr 1.8fr;
@@ -1455,7 +1455,7 @@ header .container {
    --- DEDICATED ADMIN.HTML PAGE STYLES ---
    ========================================== */
 .admin-sidebar-layout {
-  margin-top: var(--header-height);
+  margin-top: 0;
   display: grid;
   grid-template-columns: 260px 1fr;
   min-height: calc(100vh - var(--header-height));
@@ -2932,7 +2932,7 @@ footer {
 
 /* --- HOME PAGE ADDITIONS --- */
 .testimonials-section, .blog-section, .benefits-section {
-  margin-top: 4rem;
+  margin-top: 0;
 }
 
 .testimonials-grid, .blog-grid, .benefits-grid {
@@ -3562,7 +3562,7 @@ footer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.2rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 0;
 }
 .campaign-box {
   padding: 1.2rem;
@@ -3616,7 +3616,7 @@ footer {
 
 /* Home Showcase Sections */
 .home-showcase-section {
-  margin-bottom: 3.5rem;
+  margin-bottom: 0;
 }
 .showcase-header {
   display: flex;
@@ -3649,7 +3649,7 @@ footer {
 .publisher-showcase-section {
   padding: 2rem;
   border-radius: 20px;
-  margin-bottom: 3.5rem;
+  margin-bottom: 0;
   text-align: center;
 }
 .publisher-title {
