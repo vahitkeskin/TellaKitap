@@ -3,7 +3,7 @@ const INITIAL_BOOKS = [
   // --- 1. Bilim Kurgu ---
   {
     id: 1,
-    title: "Cybernetic Dreams",
+    title: "Sihirli Tek Boynuzlu At",
     author: "Elara Vance",
     category: "Bilim Kurgu",
     price: 129.90,
@@ -137,146 +137,80 @@ const INITIAL_BOOKS = [
     reviews: []
   },
 
-  // --- 2. Doğa & Şiir ---
+  // --- 2. Çocuk Kitapları ---
   {
     id: 2,
     title: "Whispers of Nature",
     author: "Elara Vance",
-    category: "Doğa & Şiir",
+    category: "Çocuk Kitapları",
     price: 89.90,
     discountPrice: 74.90,
     rating: 4.6,
-    cover: "assets/covers/cover_2.svg",
-    publisher: "Yeryüzü Kitaplığı",
-    pages: 184,
-    year: 2024,
-    isbn: "978-605-112-98-3",
-    translator: "Zeynep Uysal",
-    language: "Türkçe",
-    binding: "Karton Kapak",
-    stock: 60,
-    badge: "%17 İndirim",
-    badgeType: "sale",
-    description: "Doğanın fısıltılarını, yaprakların dansını ve rüzgarın hikayelerini şiirsel bir dille anlatan modern bir meditasyon rehberi. Şehir hayatının karmaşasından kaçıp kendi içsel doğasını keşfetmek isteyenler için eşsiz bir başucu eseri.",
+    cover: "assets/covers/cover_kids_1.png"Doğanın fısıltılarını, yaprakların dansını ve rüzgarın hikayelerini şiirsel bir dille anlatan modern bir meditasyon rehberi. Şehir hayatının karmaşasından kaçıp kendi içsel doğasını keşfetmek isteyenler için eşsiz bir başucu eseri."Gökkuşağının üzerinden atlayan sevimli tek boynuzlu atın renkli ormandaki maceraları.",
     reviews: [
       { user: "Mehmet A.", rating: 5, comment: "Çok huzur verici bir kitap. Her akşam yatmadan birkaç sayfa okuyorum." }
     ]
   },
   {
     id: 7,
-    title: "Lost in the Forest",
+    title: "Gülümseyen Dinozor",
     author: "Marcus Thorne",
-    category: "Doğa & Şiir",
+    category: "Çocuk Kitapları",
     price: 95.00,
     discountPrice: 79.90,
     rating: 4.5,
-    cover: "assets/covers/cover_7.svg",
-    publisher: "Yeryüzü Kitaplığı",
-    pages: 210,
-    year: 2023,
-    isbn: "978-605-112-98-4",
-    translator: "Esra Kaya",
-    language: "Türkçe",
-    binding: "Karton Kapak",
-    stock: 33,
-    badge: "Tavsiye",
-    badgeType: "sale",
-    description: "Ormanın kalbine yapılan ruhsal bir yolculuk. Ağaçların iletişim ağlarından kuşların göç rotalarına, yazarın kendi deneyimleriyle harmanladığı lirik ve bilgilendirici doğa anlatısı.",
+    cover: "assets/covers/cover_kids_2.png"Ormanın kalbine yapılan ruhsal bir yolculuk. Ağaçların iletişim ağlarından kuşların göç rotalarına, yazarın kendi deneyimleriyle harmanladığı lirik ve bilgilendirici doğa anlatısı."Güneşli ve mutlu bir ormanda arkadaşlarıyla oyunlar oynayan küçük yeşil dinozorun hikayesi.",
     reviews: [{ user: "Derya U.", rating: 4, comment: "Doğa tasvirleri çok başarılı." }]
   },
   {
     id: 15,
-    title: "Mevsimlerin Şarkısı",
+    title: "Uzaycı Köpekçik",
     author: "Deniz Yılmaz",
-    category: "Doğa & Şiir",
+    category: "Çocuk Kitapları",
     price: 75.00,
     discountPrice: null,
     rating: 4.3,
-    cover: "assets/covers/cover_15.svg",
-    publisher: "Yeryüzü Kitaplığı",
-    pages: 120,
-    year: 2025,
-    isbn: "978-605-112-99-1",
-    translator: "Yok (Özgün Eser)",
-    language: "Türkçe",
-    binding: "Karton Kapak",
-    stock: 40,
-    badge: "",
-    badgeType: "",
-    description: "Dört mevsimin getirdiği duygusal ve görsel değişimleri naif şiirlerle ele alan, doğanın sanatsal bir kutlaması niteliğindeki şiir derlemesi.",
+    cover: "assets/covers/cover_kids_3.png"Dört mevsimin getirdiği duygusal ve görsel değişimleri naif şiirlerle ele alan, doğanın sanatsal bir kutlaması niteliğindeki şiir derlemesi."Yıldızların ve gezegenlerin arasında dolaşan meraklı astronot köpeğin uzay günlüğü.",
     reviews: []
   },
   {
     id: 16,
-    title: "Toprağın Kokusu",
+    title: "Ormanda Çay Partisi",
     author: "Marcus Thorne",
-    category: "Doğa & Şiir",
+    category: "Çocuk Kitapları",
     price: 110.00,
     discountPrice: 89.90,
     rating: 4.7,
-    cover: "assets/covers/cover_16.svg",
-    publisher: "Agora Akademi",
-    pages: 250,
-    year: 2025,
-    isbn: "978-605-885-33-5",
-    translator: "Kemal Güven",
-    language: "Türkçe",
-    binding: "Karton Kapak",
-    stock: 19,
-    badge: "Çok Satan",
-    badgeType: "hot",
-    description: "Tarımın tarihi, insanlığın toprakla olan kadim ilişkisi ve organik yaşam felsefesi üzerine yazılmış kapsamlı bir ekolojik inceleme.",
+    cover: "assets/covers/cover_kids_4.png"Tarımın tarihi, insanlığın toprakla olan kadim ilişkisi ve organik yaşam felsefesi üzerine yazılmış kapsamlı bir ekolojik inceleme."Sevimli orman hayvanlarının bir araya gelip çay eşliğinde kurabiyeler yediği neşeli bir gün.",
     reviews: [{ user: "Can H.", rating: 5, comment: "Toprağa olan bakış açımı tamamen değiştirdi." }]
   },
   {
     id: 17,
-    title: "Yabanın Çağrısı",
+    title: "Korsan Penguen'in Hazinesi",
     author: "Jack London",
-    category: "Doğa & Şiir",
+    category: "Çocuk Kitapları",
     price: 65.00,
     discountPrice: 55.00,
     rating: 4.8,
-    cover: "assets/covers/cover_17.svg",
-    publisher: "Klasik Yayınları",
-    pages: 160,
-    year: 2024,
-    isbn: "978-605-332-11-2",
-    translator: "Ömer Madra",
-    language: "Türkçe",
-    binding: "Karton Kapak",
-    stock: 75,
-    badge: "Klasik",
-    badgeType: "sale",
-    description: "Evcil bir köpeğin zorlu doğa koşullarında vahşileşmesini ve özgürlüğünü bulmasını anlatan, edebiyat tarihinin en güçlü vahşi doğa öykülerinden biri.",
+    cover: "assets/covers/cover_kids_5.png"Evcil bir köpeğin zorlu doğa koşullarında vahşileşmesini ve özgürlüğünü bulmasını anlatan, edebiyat tarihinin en güçlü vahşi doğa öykülerinden biri."Mavi denizlerde hazine arayan sevimli korsan penguenin eğlenceli ve heyecanlı yolculuğu.",
     reviews: []
   },
   {
     id: 18,
-    title: "Rüzgarla Konuşanlar",
+    title: "Canavarların Doğum Günü",
     author: "Deniz Yılmaz",
-    category: "Doğa & Şiir",
+    category: "Çocuk Kitapları",
     price: 80.00,
     discountPrice: null,
     rating: 4.1,
-    cover: "assets/covers/cover_18.svg",
-    publisher: "Yeryüzü Kitaplığı",
-    pages: 144,
-    year: 2023,
-    isbn: "978-605-112-99-9",
-    translator: "Yok (Özgün Eser)",
-    language: "Türkçe",
-    binding: "Karton Kapak",
-    stock: 25,
-    badge: "",
-    badgeType: "",
-    description: "Dağların zirvelerinden kanyonların derinliklerine uzanan, rüzgarın taşıdığı seslerin ve doğa efsanelerinin lirik bir anlatımı.",
+    cover: "assets/covers/cover_kids_6.png"Dağların zirvelerinden kanyonların derinliklerine uzanan, rüzgarın taşıdığı seslerin ve doğa efsanelerinin lirik bir anlatımı."Balonlar ve pastalarla dolu çok renkli ve sevimli canavarların muhteşem doğum günü partisi.",
     reviews: []
   },
 
   // --- 3. Felsefe ---
   {
     id: 3,
-    title: "The Silent Epoch",
+    title: "Sihirli Çiçek ve Robot",
     author: "Elara Vance",
     category: "Felsefe",
     price: 149.90,
@@ -773,93 +707,49 @@ const INITIAL_BOOKS = [
     description: "Siber-dünyanın içinde kurulan sanal inanç sistemleri ve dijital tarikatların gizemlerini ortaya çıkaran felsefi ve teknolojik bir başyapıt.",
     reviews: []
   },
-  // --- 2. Doğa & Şiir (4 books: 35, 36, 37, 38) ---
+  // --- 2. Çocuk Kitapları (4 books: 35, 36, 37, 38) ---
   {
     id: 35,
     title: "Dağların Ardındaki Rüzgar",
     author: "Deniz Yılmaz",
-    category: "Doğa & Şiir",
+    category: "Çocuk Kitapları",
     price: 85.00,
     discountPrice: null,
     rating: 4.6,
-    cover: "assets/covers/cover_35.svg",
-    publisher: "Yeryüzü Kitaplığı",
-    pages: 140,
-    year: 2025,
-    isbn: "978-605-112-99-34",
-    translator: "Yok (Özgün Eser)",
-    language: "Türkçe",
-    binding: "Karton Kapak",
-    stock: 30,
-    badge: "",
-    badgeType: "",
-    description: "Anadolu dağlarında esen rüzgarların, köylerin ve yaylaların sesini yansıtan samimi, lirik ve özgün şiir derlemesi.",
+    cover: "assets/covers/cover_kids_7.png"Anadolu dağlarında esen rüzgarların, köylerin ve yaylaların sesini yansıtan samimi, lirik ve özgün şiir derlemesi."Geleceğin dünyasında sihirli, parlayan bir çiçek bulan küçük robotun kalpleri ısıtan hikayesi.",
     reviews: []
   },
   {
     id: 36,
-    title: "Güz Yaprakları",
+    title: "Cesur Fare ve Dostu Kedi",
     author: "Deniz Yılmaz",
-    category: "Doğa & Şiir",
+    category: "Çocuk Kitapları",
     price: 78.00,
     discountPrice: 65.00,
     rating: 4.3,
-    cover: "assets/covers/cover_36.svg",
-    publisher: "Yeryüzü Kitaplığı",
-    pages: 110,
-    year: 2024,
-    isbn: "978-605-112-99-35",
-    translator: "Yok (Özgün Eser)",
-    language: "Türkçe",
-    binding: "Karton Kapak",
-    stock: 45,
-    badge: "Tavsiye",
-    badgeType: "sale",
-    description: "Sonbaharın hüznünü, dökülen yaprakların felsefi anlamını ve doğanın kış uykusuna hazırlanışını anlatan zarif şiirler.",
+    cover: "assets/covers/cover_kids_8.png"Sonbaharın hüznünü, dökülen yaprakların felsefi anlamını ve doğanın kış uykusuna hazırlanışını anlatan zarif şiirler."Sihirli nehirleri aşarken kedi dostunun sırtında dünyayı keşfeden minik farenin cesaret öyküsü.",
     reviews: []
   },
   {
     id: 37,
-    title: "Denizin Şarkısı",
+    title: "Uçan Filin Hayalleri",
     author: "Marcus Thorne",
-    category: "Doğa & Şiir",
+    category: "Çocuk Kitapları",
     price: 115.00,
     discountPrice: 95.00,
     rating: 4.7,
-    cover: "assets/covers/cover_37.svg",
-    publisher: "Agora Akademi",
-    pages: 230,
-    year: 2025,
-    isbn: "978-605-885-33-36",
-    translator: "Zeynep Uysal",
-    language: "Türkçe",
-    binding: "Ciltli",
-    stock: 20,
-    badge: "Çok Satan",
-    badgeType: "hot",
-    description: "Okyanusların derinlikleri, deniz canlılarının gizemli dünyası ve suyun insan ruhu üzerindeki yatıştırıcı gücüne dair lirik bir anlatı.",
+    cover: "assets/covers/cover_kids_9.png"Okyanusların derinlikleri, deniz canlılarının gizemli dünyası ve suyun insan ruhu üzerindeki yatıştırıcı gücüne dair lirik bir anlatı."Renkli balonlara tutunarak gökyüzünde uçan tatlı yavru filin neşeli Afrika macerası.",
     reviews: []
   },
   {
     id: 38,
-    title: "Toprak Ana Ninnisi",
+    title: "Denizkızı ve Mercan Şatosu",
     author: "Jack London",
-    category: "Doğa & Şiir",
+    category: "Çocuk Kitapları",
     price: 69.90,
     discountPrice: null,
     rating: 4.5,
-    cover: "assets/covers/cover_38.svg",
-    publisher: "Klasik Yayınları",
-    pages: 150,
-    year: 2024,
-    isbn: "978-605-332-11-37",
-    translator: "Ömer Madra",
-    language: "Türkçe",
-    binding: "Karton Kapak",
-    stock: 60,
-    badge: "Klasik",
-    badgeType: "sale",
-    description: "Doğanın vahşi ve koruyucu yönlerini şiirsel ve masalsı bir dille anlatan, insanın toprakla kurduğu derin bağın hikayesi.",
+    cover: "assets/covers/cover_kids_10.png"Doğanın vahşi ve koruyucu yönlerini şiirsel ve masalsı bir dille anlatan, insanın toprakla kurduğu derin bağın hikayesi."Derin okyanuslarda yunuslar ve sevimli balıklarla birlikte yaşayan denizkızının renkli dünyası.",
     reviews: []
   },
   // --- 3. Felsefe (4 books: 39, 40, 41, 42) ---
@@ -1711,6 +1601,22 @@ function setupSharedEventListeners() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
+
+  // Bind FAQ accordion click toggles
+  const faqQuestions = document.querySelectorAll(".faq-question");
+  faqQuestions.forEach(q => {
+    q.addEventListener("click", () => {
+      const item = q.parentElement;
+      const isActive = item.classList.contains("active");
+      
+      // Close all items
+      document.querySelectorAll(".faq-item").forEach(i => i.classList.remove("active"));
+      
+      if (!isActive) {
+        item.classList.add("active");
+      }
+    });
+  });
 }
 
 // --- RENDER DYNAMIC CART Math & Progress Bar ---
@@ -2670,7 +2576,7 @@ function renderAdminView() {
     dashboard.style.display = "flex";
     renderAdminActivePanel();
   } else {
-    loginGate.style.display = "block";
+    loginGate.style.display = "flex";
     dashboard.style.display = "none";
   }
 }
