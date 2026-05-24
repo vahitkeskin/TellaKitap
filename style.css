@@ -647,7 +647,7 @@ header .container {
   grid-template-columns: 280px 1fr;
   gap: 2.5rem;
   align-items: start;
-  margin-bottom: 5rem;
+  margin-bottom: 2.5rem;
 }
 
 /* Category Slider in Shop View */
@@ -1026,14 +1026,14 @@ header .container {
 /* --- HAKKIMIZDA (ABOUT VIEW) --- */
 .about-layout {
   margin-top: 0.5rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
 }
 
 .about-hero {
-  padding: 4.5rem 3rem;
+  padding: 3rem;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -1152,10 +1152,10 @@ header .container {
 /* --- İLETİŞİM (CONTACT VIEW) --- */
 .contact-layout {
   margin-top: 0.5rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   display: grid;
   grid-template-columns: 1.2fr 1fr;
-  gap: 3rem;
+  gap: 2rem;
 }
 
 .contact-card {
@@ -1296,10 +1296,10 @@ header .container {
    ========================================== */
 .detail-layout {
   margin-top: 0.5rem;
-  margin-bottom: 6rem;
+  margin-bottom: 2.5rem;
   display: grid;
   grid-template-columns: 1.1fr 1.8fr;
-  gap: 3.5rem;
+  gap: 2.5rem;
 }
 
 .detail-left {
@@ -1450,8 +1450,8 @@ header .container {
 
 .similar-section {
   border-top: 1px solid var(--border-color);
-  padding-top: 4rem;
-  margin-bottom: 5rem;
+  padding-top: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .similar-grid {
@@ -2524,7 +2524,7 @@ dialog::backdrop {
 footer {
   background: var(--bg-surface-solid);
   border-top: 1px solid var(--border-color);
-  padding: 5rem 0 3rem 0;
+  padding: 3rem 0 2rem 0;
   color: var(--text-secondary);
 }
 
@@ -2532,7 +2532,7 @@ footer {
   display: grid;
   grid-template-columns: 1.5fr repeat(3, 1fr);
   gap: 3rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 
 .footer-brand h3 {
@@ -3177,7 +3177,7 @@ footer {
 
 /* --- ABOUT PAGE TEAM SECTION --- */
 .team-section {
-  margin-top: 4rem;
+  margin-top: 0;
 }
 
 .team-grid {
