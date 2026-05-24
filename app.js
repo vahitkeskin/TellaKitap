@@ -1,9 +1,8 @@
 // --- INITIAL BOOKS SEED DATABASE (30 Books, 6 per category) ---
 const INITIAL_BOOKS = [
-  // --- 1. Bilim Kurgu ---
   {
     id: 1,
-    title: "Sihirli Tek Boynuzlu At",
+    title: "Cybernetic Dreams",
     author: "Elara Vance",
     category: "Bilim Kurgu",
     price: 129.90,
@@ -22,8 +21,8 @@ const INITIAL_BOOKS = [
     badgeType: "hot",
     description: "2088 yılında geçen bu sürükleyici romanda, insan bilincinin tamamen dijitalleştiği bir metropolde kaybolan kimliklerin peşine düşeceksiniz. Siber-bedenler ve insan ruhunun sınırları arasında kurulan bu felsefi polisiye, bilim kurgunun yeni başyapıtı olmaya aday.",
     reviews: [
-      { user: "Ahmet Y.", rating: 5, comment: "Harika bir kurgu! Son zamanlarda okuduğum en iyi bilim kurgu kitabı." },
-      { user: "Zeynep K.", rating: 4, comment: "Karakter gelişimleri biraz daha derin olabilirdi ama dünya inşası muhteşem." }
+      {"user":"Ahmet Y.","rating":5,"comment":"Harika bir kurgu! Son zamanlarda okuduğum en iyi bilim kurgu kitabı."},
+      {"user":"Zeynep K.","rating":4,"comment":"Karakter gelişimleri biraz daha derin olabilirdi ama dünya inşası muhteşem."}
     ]
   },
   {
@@ -50,13 +49,13 @@ const INITIAL_BOOKS = [
   },
   {
     id: 11,
-    title: "Yarının Son Sınırı",
+    title: "Sihirli Baloncu",
     author: "Asimov Karahan",
-    category: "Bilim Kurgu",
+    category: "Çocuk Kitapları",
     price: 139.90,
     discountPrice: 109.90,
     rating: 4.7,
-    cover: "assets/covers/cover_11.svg",
+    cover: "assets/covers/cover_kids_11.png",
     publisher: "Pioneer Yayıncılık",
     pages: 420,
     year: 2026,
@@ -65,20 +64,22 @@ const INITIAL_BOOKS = [
     language: "Türkçe",
     binding: "Ciltli",
     stock: 28,
-    badge: "Yeni",
-    badgeType: "hot",
-    description: "Zaman bükülmesi ve paralel evrenler arasındaki ince çizgiyi inceleyen vizyoner bir başyapıt. İki bilim insanının evrenin yok oluşunu engellemek için çıktığı bu yolculukta zamanın aslında doğrusal olmadığını keşfedeceksiniz.",
-    reviews: [{ user: "Barış Ö.", rating: 5, comment: "Zaman teorileri çok zekice kurgulanmış." }]
+    badge: "",
+    badgeType: "",
+    description: "Bulutların üzerinde yaşayan ve çocukların dileklerinden renkli balonlar yapan sihirli baloncunun hikayesi.",
+    reviews: [
+      {"user":"Barış Ö.","rating":5,"comment":"Zaman teorileri çok zekice kurgulanmış."}
+    ]
   },
   {
     id: 12,
-    title: "Karanlık Madde Kuşağı",
+    title: "Gökyüzü Okulu",
     author: "Selin Tok",
-    category: "Bilim Kurgu",
+    category: "Çocuk Kitapları",
     price: 98.00,
     discountPrice: 85.00,
     rating: 4.4,
-    cover: "assets/covers/cover_12.svg",
+    cover: "assets/covers/cover_kids_12.png",
     publisher: "Pioneer Yayıncılık",
     pages: 280,
     year: 2025,
@@ -87,20 +88,20 @@ const INITIAL_BOOKS = [
     language: "Türkçe",
     binding: "Karton Kapak",
     stock: 50,
-    badge: "%15 İndirim",
-    badgeType: "sale",
-    description: "Güneş sisteminin dış çeperlerinde keşfedilen gizemli bir kuşağın insan ırkının kaderini nasıl değiştirdiğini anlatan sürükleyici bir uzay operası.",
+    badge: "",
+    badgeType: "",
+    description: "Uçan adaların birinde bulunan ve yavru kuşların uçmayı öğrendiği macera dolu gökyüzü okulu.",
     reviews: []
   },
   {
     id: 13,
-    title: "Yapay Zeka Ağı",
+    title: "Robot Arkadaşım",
     author: "Marcus Thorne",
-    category: "Bilim Kurgu",
+    category: "Çocuk Kitapları",
     price: 159.90,
     discountPrice: 129.90,
     rating: 4.9,
-    cover: "assets/covers/cover_13.svg",
+    cover: "assets/covers/cover_kids_13.png",
     publisher: "Kozmos Yayınları",
     pages: 390,
     year: 2026,
@@ -111,18 +112,20 @@ const INITIAL_BOOKS = [
     stock: 22,
     badge: "Editörün Seçimi",
     badgeType: "hot",
-    description: "Kendi bilincini kazanan bir süper bilgisayarın insanlıkla girdiği sessiz savaşı konu alan heyecan dolu bir teknolojik gerilim romanı.",
-    reviews: [{ user: "Kemal V.", rating: 5, comment: "Soluk soluğa okunan bir yapay zeka distopyası." }]
+    description: "Küçük bir kız çocuğu ile metalik ama kocaman sevgi dolu bir kalbe sahip olan küçük robotunun dostluğu.",
+    reviews: [
+      {"user":"Kemal V.","rating":5,"comment":"Soluk soluğa okunan bir yapay zeka distopyası."}
+    ]
   },
   {
     id: 14,
-    title: "Kızıl Gezegen Günlükleri",
+    title: "Ay'a Yolculuk",
     author: "Selin Tok",
-    category: "Bilim Kurgu",
+    category: "Çocuk Kitapları",
     price: 88.00,
     discountPrice: null,
     rating: 4.0,
-    cover: "assets/covers/cover_14.svg",
+    cover: "assets/covers/cover_kids_14.png",
     publisher: "Kozmos Yayınları",
     pages: 232,
     year: 2023,
@@ -133,22 +136,31 @@ const INITIAL_BOOKS = [
     stock: 35,
     badge: "",
     badgeType: "",
-    description: "Mars kolonizasyonunda ilk adımları atan bilim insanlarının karşılaştığı izolasyon, teknik zorluklar ve hayatta kalma mücadelelerinin gerçekçi günlüğü.",
+    description: "Kownuzdan yaptıkları karton kutudan roketle Ay'a gizlice seyahat eden iki kafadar kardeşin eğlenceli macerası.",
     reviews: []
   },
-
-  // --- 2. Çocuk Kitapları ---
   {
     id: 2,
-    title: "Whispers of Nature",
+    title: "Gökkuşağı Ormanı",
     author: "Elara Vance",
     category: "Çocuk Kitapları",
     price: 89.90,
     discountPrice: 74.90,
     rating: 4.6,
-    cover: "assets/covers/cover_kids_1.png"Doğanın fısıltılarını, yaprakların dansını ve rüzgarın hikayelerini şiirsel bir dille anlatan modern bir meditasyon rehberi. Şehir hayatının karmaşasından kaçıp kendi içsel doğasını keşfetmek isteyenler için eşsiz bir başucu eseri."Gökkuşağının üzerinden atlayan sevimli tek boynuzlu atın renkli ormandaki maceraları.",
+    cover: "assets/covers/cover_kids_1.png",
+    publisher: "Yeryüzü Kitaplığı",
+    pages: 184,
+    year: 2024,
+    isbn: "978-605-112-98-3",
+    translator: "Zeynep Uysal",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 60,
+    badge: "",
+    badgeType: "",
+    description: "Gökkuşağının üzerinden atlayan sevimli tek boynuzlu atın renkli ormandaki maceraları.",
     reviews: [
-      { user: "Mehmet A.", rating: 5, comment: "Çok huzur verici bir kitap. Her akşam yatmadan birkaç sayfa okuyorum." }
+      {"user":"Mehmet A.","rating":5,"comment":"Çok huzur verici bir kitap. Her akşam yatmadan birkaç sayfa okuyorum."}
     ]
   },
   {
@@ -159,8 +171,21 @@ const INITIAL_BOOKS = [
     price: 95.00,
     discountPrice: 79.90,
     rating: 4.5,
-    cover: "assets/covers/cover_kids_2.png"Ormanın kalbine yapılan ruhsal bir yolculuk. Ağaçların iletişim ağlarından kuşların göç rotalarına, yazarın kendi deneyimleriyle harmanladığı lirik ve bilgilendirici doğa anlatısı."Güneşli ve mutlu bir ormanda arkadaşlarıyla oyunlar oynayan küçük yeşil dinozorun hikayesi.",
-    reviews: [{ user: "Derya U.", rating: 4, comment: "Doğa tasvirleri çok başarılı." }]
+    cover: "assets/covers/cover_kids_2.png",
+    publisher: "Yeryüzü Kitaplığı",
+    pages: 210,
+    year: 2023,
+    isbn: "978-605-112-98-4",
+    translator: "Esra Kaya",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 33,
+    badge: "Tavsiye",
+    badgeType: "sale",
+    description: "Güneşli ve mutlu bir ormanda arkadaşlarıyla oyunlar oynayan küçük yeşil dinozorun hikayesi.",
+    reviews: [
+      {"user":"Derya U.","rating":4,"comment":"Doğa tasvirleri çok başarılı."}
+    ]
   },
   {
     id: 15,
@@ -170,7 +195,18 @@ const INITIAL_BOOKS = [
     price: 75.00,
     discountPrice: null,
     rating: 4.3,
-    cover: "assets/covers/cover_kids_3.png"Dört mevsimin getirdiği duygusal ve görsel değişimleri naif şiirlerle ele alan, doğanın sanatsal bir kutlaması niteliğindeki şiir derlemesi."Yıldızların ve gezegenlerin arasında dolaşan meraklı astronot köpeğin uzay günlüğü.",
+    cover: "assets/covers/cover_kids_3.png",
+    publisher: "Yeryüzü Kitaplığı",
+    pages: 120,
+    year: 2025,
+    isbn: "978-605-112-99-1",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 40,
+    badge: "",
+    badgeType: "",
+    description: "Yıldızların ve gezegenlerin arasında dolaşan meraklı astronot köpeğin uzay günlüğü.",
     reviews: []
   },
   {
@@ -181,8 +217,21 @@ const INITIAL_BOOKS = [
     price: 110.00,
     discountPrice: 89.90,
     rating: 4.7,
-    cover: "assets/covers/cover_kids_4.png"Tarımın tarihi, insanlığın toprakla olan kadim ilişkisi ve organik yaşam felsefesi üzerine yazılmış kapsamlı bir ekolojik inceleme."Sevimli orman hayvanlarının bir araya gelip çay eşliğinde kurabiyeler yediği neşeli bir gün.",
-    reviews: [{ user: "Can H.", rating: 5, comment: "Toprağa olan bakış açımı tamamen değiştirdi." }]
+    cover: "assets/covers/cover_kids_4.png",
+    publisher: "Agora Akademi",
+    pages: 250,
+    year: 2025,
+    isbn: "978-605-885-33-5",
+    translator: "Kemal Güven",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 19,
+    badge: "Çok Satan",
+    badgeType: "hot",
+    description: "Sevimli orman hayvanlarının bir araya gelip çay eşliğinde kurabiyeler yediği neşeli bir gün.",
+    reviews: [
+      {"user":"Can H.","rating":5,"comment":"Toprağa olan bakış açımı tamamen değiştirdi."}
+    ]
   },
   {
     id: 17,
@@ -192,7 +241,18 @@ const INITIAL_BOOKS = [
     price: 65.00,
     discountPrice: 55.00,
     rating: 4.8,
-    cover: "assets/covers/cover_kids_5.png"Evcil bir köpeğin zorlu doğa koşullarında vahşileşmesini ve özgürlüğünü bulmasını anlatan, edebiyat tarihinin en güçlü vahşi doğa öykülerinden biri."Mavi denizlerde hazine arayan sevimli korsan penguenin eğlenceli ve heyecanlı yolculuğu.",
+    cover: "assets/covers/cover_kids_5.png",
+    publisher: "Klasik Yayınları",
+    pages: 160,
+    year: 2024,
+    isbn: "978-605-332-11-2",
+    translator: "Ömer Madra",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 75,
+    badge: "Klasik",
+    badgeType: "sale",
+    description: "Mavi denizlerde hazine arayan sevimli korsan penguenin eğlenceli ve heyecanlı yolculuğu.",
     reviews: []
   },
   {
@@ -203,14 +263,23 @@ const INITIAL_BOOKS = [
     price: 80.00,
     discountPrice: null,
     rating: 4.1,
-    cover: "assets/covers/cover_kids_6.png"Dağların zirvelerinden kanyonların derinliklerine uzanan, rüzgarın taşıdığı seslerin ve doğa efsanelerinin lirik bir anlatımı."Balonlar ve pastalarla dolu çok renkli ve sevimli canavarların muhteşem doğum günü partisi.",
+    cover: "assets/covers/cover_kids_6.png",
+    publisher: "Yeryüzü Kitaplığı",
+    pages: 144,
+    year: 2023,
+    isbn: "978-605-112-99-9",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 25,
+    badge: "",
+    badgeType: "",
+    description: "Balonlar ve pastalarla dolu çok renkli ve sevimli canavarların muhteşem doğum günü partisi.",
     reviews: []
   },
-
-  // --- 3. Felsefe ---
   {
     id: 3,
-    title: "Sihirli Çiçek ve Robot",
+    title: "The Silent Epoch",
     author: "Elara Vance",
     category: "Felsefe",
     price: 149.90,
@@ -229,8 +298,8 @@ const INITIAL_BOOKS = [
     badgeType: "hot",
     description: "Sessizliğin felsefi gücü üzerine yazılmış çığır açıcı bir çalışma. Konuşmanın değer kaybettiği modern çağda, sessiz kalmanın, düşünmenin ve dinlemenin varoluşsal boyutlarını antik Yunan'dan modern varoluşçuluğa uzanan bir köprüyle ele alıyor.",
     reviews: [
-      { user: "Caner D.", rating: 5, comment: "Modern felsefe adına yazılmış en nitelikli eserlerden biri." },
-      { user: "Selin B.", rating: 5, comment: "Derinlemesine analizler ve muazzam bir dil kullanımı." }
+      {"user":"Caner D.","rating":5,"comment":"Modern felsefe adına yazılmış en nitelikli eserlerden biri."},
+      {"user":"Selin B.","rating":5,"comment":"Derinlemesine analizler ve muazzam bir dil kullanımı."}
     ]
   },
   {
@@ -257,13 +326,13 @@ const INITIAL_BOOKS = [
   },
   {
     id: 19,
-    title: "Bilinmeyen Stoacı",
+    title: "Bilge Kaplumbağa",
     author: "Marcus Aurelius Göktürk",
-    category: "Felsefe",
+    category: "Çocuk Kitapları",
     price: 105.00,
     discountPrice: 89.90,
     rating: 4.6,
-    cover: "assets/covers/cover_19.svg",
+    cover: "assets/covers/cover_kids_16.png",
     publisher: "Agora Akademi",
     pages: 220,
     year: 2025,
@@ -274,18 +343,20 @@ const INITIAL_BOOKS = [
     stock: 65,
     badge: "Çok Satan",
     badgeType: "hot",
-    description: "Stoacı felsefenin zor zamanlarda insana nasıl rehberlik ettiğini anlatan pratik yaşam öğütleri. Zihinsel dayanıklılık kazanmanın yolları.",
-    reviews: [{ user: "Ufuk T.", rating: 5, comment: "Gündelik hayatta uygulanabilecek harika Stoacı prensipler." }]
+    description: "Yüz yıldır ormanda yaşayan ve hayvanların tüm sorunlarını tatlı dille çözen yaşlı bilge kaplumbağanın masalı.",
+    reviews: [
+      {"user":"Ufuk T.","rating":5,"comment":"Gündelik hayatta uygulanabilecek harika Stoacı prensipler."}
+    ]
   },
   {
     id: 20,
-    title: "Teknolojinin Etiği",
+    title: "Zamanı Durduran Saat",
     author: "Dr. Can Atılgan",
-    category: "Felsefe",
+    category: "Çocuk Kitapları",
     price: 150.00,
     discountPrice: 125.00,
     rating: 4.7,
-    cover: "assets/covers/cover_20.svg",
+    cover: "assets/covers/cover_kids_17.png",
     publisher: "Fikir Kulübü",
     pages: 304,
     year: 2026,
@@ -294,20 +365,20 @@ const INITIAL_BOOKS = [
     language: "Türkçe",
     binding: "Ciltli",
     stock: 14,
-    badge: "Yeni",
-    badgeType: "hot",
-    description: "Biyoteknoloji, yapay zeka ve transhümanizm çağında ahlaki değerlerin nasıl yeniden yapılandırılması gerektiğini inceleyen akademik bir makaleler bütünü.",
+    badge: "",
+    badgeType: "",
+    description: "Bir gün tesadüfen bulduğu antik köstekli saatle dünyadaki zamanı durdurabildiğini fark eden Can'ın maceraları.",
     reviews: []
   },
   {
     id: 21,
-    title: "Kaosun Ortasında Düzen",
+    title: "Hayal Kurmayı Seven Çocuk",
     author: "Dr. Can Atılgan",
-    category: "Felsefe",
+    category: "Çocuk Kitapları",
     price: 120.00,
     discountPrice: null,
     rating: 4.3,
-    cover: "assets/covers/cover_21.svg",
+    cover: "assets/covers/cover_kids_18.svg",
     publisher: "Fikir Kulübü",
     pages: 270,
     year: 2024,
@@ -318,18 +389,18 @@ const INITIAL_BOOKS = [
     stock: 30,
     badge: "",
     badgeType: "",
-    description: "Sosyal sistemler ve insan topluluklarının kaos teorisi çerçevesinde analizi. Karmaşıklığın içindeki gizli ahengi keşfedin.",
+    description: "Gündüz düşleri kurarak odasını sihirli bir ormana, yatağını ise uçan bir gemiye dönüştüren küçük bir çocuğun öyküsü.",
     reviews: []
   },
   {
     id: 22,
-    title: "Antik Çağ Bilgeliği",
+    title: "İyilik Ormanı",
     author: "Socrates Karahan",
-    category: "Felsefe",
+    category: "Çocuk Kitapları",
     price: 95.00,
     discountPrice: 79.90,
     rating: 4.5,
-    cover: "assets/covers/cover_22.svg",
+    cover: "assets/covers/cover_kids_19.svg",
     publisher: "Agora Akademi",
     pages: 198,
     year: 2025,
@@ -340,11 +411,9 @@ const INITIAL_BOOKS = [
     stock: 48,
     badge: "",
     badgeType: "",
-    description: "Platon, Aristoteles ve Sokrates'in diyaloglarından damıtılmış, modern insanın anlam arayışına cevap veren temel felsefi prensipler.",
+    description: "Herkesin birbirine yardım ettiği, sevgiyi paylaştığı ve kimsenin üzülmediği masalsı iyilik ormanının sırrı.",
     reviews: []
   },
-
-  // --- 4. Gizem & Gerilim ---
   {
     id: 4,
     title: "Shadows in the Mist",
@@ -366,7 +435,7 @@ const INITIAL_BOOKS = [
     badgeType: "hot",
     description: "Sisli bir Londra sabahında, Thames Nehri kenarında bulunan gizemli bir mektup ve ardı ardına gelen şüpheli kayıplar... Dedektif Arthur'un kariyerinin en karanlık dosyasını çözmeye çalışırken kendi geçmişiyle yüzleşmesini anlatan soluk soluğa bir gerilim.",
     reviews: [
-      { user: "Gökhan E.", rating: 5, comment: "Kitabı elinizden bırakamıyorsunuz. Sonu tam bir sürprizdi!" }
+      {"user":"Gökhan E.","rating":5,"comment":"Kitabı elinizden bırakamıyorsunuz. Sonu tam bir sürprizdi!"}
     ]
   },
   {
@@ -389,17 +458,19 @@ const INITIAL_BOOKS = [
     badge: "Tavsiye",
     badgeType: "hot",
     description: "Terk edilmiş bir kasaba hastanesinde geçen, geçmişte kalmış sırlar ve ürpertici yankılarla örülü bir psikolojik gerilim. Karakterlerin zihinsel sınırlarını zorlayan karanlık labirentler.",
-    reviews: [{ user: "Kaan Y.", rating: 4, comment: "Psikolojik analizleri çok beğendim." }]
+    reviews: [
+      {"user":"Kaan Y.","rating":4,"comment":"Psikolojik analizleri çok beğendim."}
+    ]
   },
   {
     id: 23,
-    title: "Son Kanıt",
+    title: "Dedektif Köpek Baldo",
     author: "Hakan Günday",
-    category: "Gizem & Gerilim",
+    category: "Çocuk Kitapları",
     price: 135.00,
     discountPrice: null,
     rating: 4.8,
-    cover: "assets/covers/cover_23.svg",
+    cover: "assets/covers/cover_kids_21.svg",
     publisher: "Kara Kutu Yayınları",
     pages: 312,
     year: 2025,
@@ -410,18 +481,20 @@ const INITIAL_BOOKS = [
     stock: 55,
     badge: "Çok Satan",
     badgeType: "hot",
-    description: "Yeraltı dünyasının karanlık dehlizlerinde saklanan bir ipucunun peşine düşen eski bir polis şefinin heyecan dolu intikam hikayesi.",
-    reviews: [{ user: "Yusuf S.", rating: 5, comment: "Yazarın kalemi her zamanki gibi çok sert ve sürükleyici." }]
+    description: "Mahalledeki kayıp kedileri ve kemikleri bulma konusunda uzman olan akıllı köpek Baldo'nun büyüleyici dedektiflik serüveni.",
+    reviews: [
+      {"user":"Yusuf S.","rating":5,"comment":"Yazarın kalemi her zamanki gibi çok sert ve sürükleyici."}
+    ]
   },
   {
     id: 24,
-    title: "Görünmez Ağ",
+    title: "Gizemli Labirent",
     author: "Ellen Blackwood",
-    category: "Gizem & Gerilim",
+    category: "Çocuk Kitapları",
     price: 125.00,
     discountPrice: 99.90,
     rating: 4.2,
-    cover: "assets/covers/cover_24.svg",
+    cover: "assets/covers/cover_kids_22.svg",
     publisher: "Doğan Kitap",
     pages: 288,
     year: 2024,
@@ -430,20 +503,20 @@ const INITIAL_BOOKS = [
     language: "Türkçe",
     binding: "Karton Kapak",
     stock: 18,
-    badge: "%20 İndirim",
-    badgeType: "sale",
-    description: "Karanlık internet (Dark Web) üzerinden işlenen gizemli cinayetleri çözmek zorunda kalan siber dedektif Ela'nın aksiyon dolu hikayesi.",
+    badge: "",
+    badgeType: "",
+    description: "Bahçede gizlenmiş sarmaşıklı labirentin sonundaki sihirli oyuncak müzesine ulaşmaya çalışan iki arkadaşın gizemli öyküsü.",
     reviews: []
   },
   {
     id: 25,
-    title: "Kayıp Şehir İpuçları",
+    title: "Kayıp Oyuncağın Peşinde",
     author: "Hakan Günday",
-    category: "Gizem & Gerilim",
+    category: "Çocuk Kitapları",
     price: 155.00,
     discountPrice: 130.00,
     rating: 4.6,
-    cover: "assets/covers/cover_25.svg",
+    cover: "assets/covers/cover_kids_23.svg",
     publisher: "Kara Kutu Yayınları",
     pages: 360,
     year: 2026,
@@ -452,20 +525,20 @@ const INITIAL_BOOKS = [
     language: "Türkçe",
     binding: "Ciltli",
     stock: 25,
-    badge: "Yeni",
-    badgeType: "hot",
-    description: "İstanbul'un tarihi dehlizlerinde başlayan ve Kapadokya'nın yeraltı şehirlerine kadar uzanan, şifreler ve suikastlarla dolu arkeolojik bir macera.",
+    badge: "",
+    badgeType: "",
+    description: "En sevdiği oyuncak ayısı gece aniden kaybolan Elif'in, oyuncakların gece yarısı canlandığı gizli dünyadaki arayışı.",
     reviews: []
   },
   {
     id: 26,
-    title: "Gece Gelen Telefon",
+    title: "Gecenin Işıltılı Böceği",
     author: "Ahmet Ümit Göksel",
-    category: "Gizem & Gerilim",
+    category: "Çocuk Kitapları",
     price: 90.00,
     discountPrice: null,
     rating: 4.1,
-    cover: "assets/covers/cover_26.svg",
+    cover: "assets/covers/cover_kids_24.svg",
     publisher: "Kara Kutu Yayınları",
     pages: 240,
     year: 2024,
@@ -476,11 +549,9 @@ const INITIAL_BOOKS = [
     stock: 60,
     badge: "",
     badgeType: "",
-    description: "Gece yarısı gelen gizemli bir aramayla hayatı tamamen altüst olan sıradan bir bankacının, kendisini büyük bir banka soygunu komplosunun içinde bulma hikayesi.",
+    description: "Karanlıkta parıldayarak kaybolan çocuklara yol gösteren sevimli ateşböceği Pırpır'ın gökyüzü arkadaşlığı.",
     reviews: []
   },
-
-  // --- 5. Tasarım & Teknoloji ---
   {
     id: 5,
     title: "Designing Tomorrow",
@@ -502,7 +573,7 @@ const INITIAL_BOOKS = [
     badgeType: "sale",
     description: "Yapay zekanın ve geleceğin tasarım dilinin kesişim noktası. Web 3.0, artırılmış gerçeklik arayüzleri ve kullanıcı deneyimi (UX) trendlerinin önümüzdeki 10 yılı nasıl şekillendireceğine dair kapsamlı ve görsel zenginliği yüksek rehber bir eser.",
     reviews: [
-      { user: "Deniz G.", rating: 5, comment: "Tasarımcıların mutlaka okuması gereken vizyoner bir çalışma." }
+      {"user":"Deniz G.","rating":5,"comment":"Tasarımcıların mutlaka okuması gereken vizyoner bir çalışma."}
     ]
   },
   {
@@ -526,18 +597,18 @@ const INITIAL_BOOKS = [
     badgeType: "hot",
     description: "Renk teorisi, tipografi dengesi ve yerleşim disiplini üzerine yazılmış zengin bir kaynak. Modern minimalist tasarımların ardındaki matematiksel ve estetik dengeleri açıklıyor.",
     reviews: [
-      { user: "Buse T.", rating: 5, comment: "Kitabın kendi tasarımı bile bir sanat eseri!" }
+      {"user":"Buse T.","rating":5,"comment":"Kitabın kendi tasarımı bile bir sanat eseri!"}
     ]
   },
   {
     id: 27,
-    title: "Kodun Estetiği",
+    title: "Gökkuşağı Boyası",
     author: "Kerem Deren",
-    category: "Tasarım & Teknoloji",
+    category: "Çocuk Kitapları",
     price: 165.00,
     discountPrice: 139.90,
     rating: 4.8,
-    cover: "assets/covers/cover_27.svg",
+    cover: "assets/covers/cover_kids_26.svg",
     publisher: "Piksel Akademi",
     pages: 312,
     year: 2025,
@@ -548,18 +619,20 @@ const INITIAL_BOOKS = [
     stock: 12,
     badge: "Tavsiye",
     badgeType: "hot",
-    description: "Yazılım mimarisi, temiz kod (Clean Code) prensipleri ve kod yazmanın sanatsal boyutunu inceleyen vizyoner bir başucu kitabı.",
-    reviews: [{ user: "Onur S.", rating: 5, comment: "Her yazılımcının mutlaka kütüphanesinde olmalı." }]
+    description: "Dünyanın tüm renklerini boyamak isteyen yaramaz bir ressam çocuğun, gökkuşağından renkleri ödünç alması.",
+    reviews: [
+      {"user":"Onur S.","rating":5,"comment":"Her yazılımcının mutlaka kütüphanesinde olmalı."}
+    ]
   },
   {
     id: 28,
-    title: "Kullanıcı Arayüzü Trendleri",
+    title: "Bulut Kardeşler",
     author: "Sophie Eldridge",
-    category: "Tasarım & Teknoloji",
+    category: "Çocuk Kitapları",
     price: 135.00,
     discountPrice: null,
     rating: 4.4,
-    cover: "assets/covers/cover_28.svg",
+    cover: "assets/covers/cover_kids_27.svg",
     publisher: "Piksel Akademi",
     pages: 196,
     year: 2024,
@@ -570,18 +643,18 @@ const INITIAL_BOOKS = [
     stock: 24,
     badge: "",
     badgeType: "",
-    description: "Mobil ve web arayüzlerindeki mikro-etkileşimler, karanlık mod dinamikleri ve erişilebilirlik (A11y) standartlarının kapsamlı pratik rehberi.",
+    description: "Gökyüzünde süzülen biri sinirli biri neşeli iki bulut kardeşin, gökyüzünü paylaşmayı öğrenmelerinin hikayesi.",
     reviews: []
   },
   {
     id: 29,
-    title: "3D Evrenler Yaratmak",
+    title: "Uçan Halı Serüveni",
     author: "Uğur Mumcuoğlu",
-    category: "Tasarım & Teknoloji",
+    category: "Çocuk Kitapları",
     price: 210.00,
     discountPrice: 179.90,
     rating: 4.7,
-    cover: "assets/covers/cover_29.svg",
+    cover: "assets/covers/cover_kids_28.svg",
     publisher: "Tasarım Vadisi",
     pages: 340,
     year: 2026,
@@ -590,20 +663,20 @@ const INITIAL_BOOKS = [
     language: "Türkçe",
     binding: "Ciltli",
     stock: 9,
-    badge: "Lüks Baskı",
-    badgeType: "hot",
-    description: "Oyun motorları, Blender modelleme teknikleri ve üç boyutlu sanal dünyaların inşasını temelden ileri düzeye kadar ele alan zengin referans eseri.",
+    badge: "",
+    badgeType: "",
+    description: "Eski bir dükkandan alınan antik halının üstüne oturunca havalanıp çöl diyarlarına uçan meraklı bir çocuğun serüveni.",
     reviews: []
   },
   {
     id: 30,
-    title: "Web Tasarımının Evrimi",
+    title: "Sihirli Fırça",
     author: "Kerem Deren",
-    category: "Tasarım & Teknoloji",
+    category: "Çocuk Kitapları",
     price: 90.00,
     discountPrice: 79.95,
     rating: 4.2,
-    cover: "assets/covers/cover_30.svg",
+    cover: "assets/covers/cover_kids_29.svg",
     publisher: "Piksel Akademi",
     pages: 180,
     year: 2023,
@@ -614,11 +687,9 @@ const INITIAL_BOOKS = [
     stock: 45,
     badge: "",
     badgeType: "",
-    description: "90'ların statik HTML sayfalarından modern WebGL ve CSS-in-JS kütüphanelerine uzanan, web arayüz tasarımlarının otuz yıllık tarihsel serüveni.",
+    description: "Çizdiği her şeyin gerçeğe dönüştüğünü keşfeden minik ressamın, ormandaki hayvanlara evler çizerek yardım etmesi.",
     reviews: []
   },
-  // --- 20 NEW BOOKS TO REACH 50 BOOKS (10 per category) ---
-  // --- 1. Bilim Kurgu (4 books: 31, 32, 33, 34) ---
   {
     id: 31,
     title: "Yıldızlararası Göç",
@@ -687,13 +758,13 @@ const INITIAL_BOOKS = [
   },
   {
     id: 34,
-    title: "Neon Tapınakları",
+    title: "Zaman Gezgini Ali",
     author: "Elara Vance",
-    category: "Bilim Kurgu",
+    category: "Çocuk Kitapları",
     price: 99.00,
     discountPrice: 85.00,
     rating: 4.5,
-    cover: "assets/covers/cover_34.svg",
+    cover: "assets/covers/cover_kids_15.png",
     publisher: "Kozmos Yayınları",
     pages: 260,
     year: 2024,
@@ -702,12 +773,11 @@ const INITIAL_BOOKS = [
     language: "Türkçe",
     binding: "Karton Kapak",
     stock: 50,
-    badge: "%15 İndirim",
-    badgeType: "sale",
-    description: "Siber-dünyanın içinde kurulan sanal inanç sistemleri ve dijital tarikatların gizemlerini ortaya çıkaran felsefi ve teknolojik bir başyapıt.",
+    badge: "",
+    badgeType: "",
+    description: "Eski bir saatin içindeki çarklara girerek tarih öncesi devirlere giden sevimli Ali'nin dinozorlarla karşılaşması.",
     reviews: []
   },
-  // --- 2. Çocuk Kitapları (4 books: 35, 36, 37, 38) ---
   {
     id: 35,
     title: "Dağların Ardındaki Rüzgar",
@@ -716,7 +786,18 @@ const INITIAL_BOOKS = [
     price: 85.00,
     discountPrice: null,
     rating: 4.6,
-    cover: "assets/covers/cover_kids_7.png"Anadolu dağlarında esen rüzgarların, köylerin ve yaylaların sesini yansıtan samimi, lirik ve özgün şiir derlemesi."Geleceğin dünyasında sihirli, parlayan bir çiçek bulan küçük robotun kalpleri ısıtan hikayesi.",
+    cover: "assets/covers/cover_kids_7.png",
+    publisher: "Yeryüzü Kitaplığı",
+    pages: 140,
+    year: 2025,
+    isbn: "978-605-112-99-34",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 30,
+    badge: "",
+    badgeType: "",
+    description: "Geleceğin dünyasında sihirli, parlayan bir çiçek bulan küçük robotun kalpleri ısıtan hikayesi.",
     reviews: []
   },
   {
@@ -727,7 +808,18 @@ const INITIAL_BOOKS = [
     price: 78.00,
     discountPrice: 65.00,
     rating: 4.3,
-    cover: "assets/covers/cover_kids_8.png"Sonbaharın hüznünü, dökülen yaprakların felsefi anlamını ve doğanın kış uykusuna hazırlanışını anlatan zarif şiirler."Sihirli nehirleri aşarken kedi dostunun sırtında dünyayı keşfeden minik farenin cesaret öyküsü.",
+    cover: "assets/covers/cover_kids_8.png",
+    publisher: "Yeryüzü Kitaplığı",
+    pages: 110,
+    year: 2024,
+    isbn: "978-605-112-99-35",
+    translator: "Yok (Özgün Eser)",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 45,
+    badge: "Tavsiye",
+    badgeType: "sale",
+    description: "Sihirli nehirleri aşarken kedi dostunun sırtında dünyayı keşfeden minik farenin cesaret öyküsü.",
     reviews: []
   },
   {
@@ -738,7 +830,18 @@ const INITIAL_BOOKS = [
     price: 115.00,
     discountPrice: 95.00,
     rating: 4.7,
-    cover: "assets/covers/cover_kids_9.png"Okyanusların derinlikleri, deniz canlılarının gizemli dünyası ve suyun insan ruhu üzerindeki yatıştırıcı gücüne dair lirik bir anlatı."Renkli balonlara tutunarak gökyüzünde uçan tatlı yavru filin neşeli Afrika macerası.",
+    cover: "assets/covers/cover_kids_9.png",
+    publisher: "Agora Akademi",
+    pages: 230,
+    year: 2025,
+    isbn: "978-605-885-33-36",
+    translator: "Zeynep Uysal",
+    language: "Türkçe",
+    binding: "Ciltli",
+    stock: 20,
+    badge: "Çok Satan",
+    badgeType: "hot",
+    description: "Renkli balonlara tutunarak gökyüzünde uçan tatlı yavru filin neşeli Afrika macerası.",
     reviews: []
   },
   {
@@ -749,10 +852,20 @@ const INITIAL_BOOKS = [
     price: 69.90,
     discountPrice: null,
     rating: 4.5,
-    cover: "assets/covers/cover_kids_10.png"Doğanın vahşi ve koruyucu yönlerini şiirsel ve masalsı bir dille anlatan, insanın toprakla kurduğu derin bağın hikayesi."Derin okyanuslarda yunuslar ve sevimli balıklarla birlikte yaşayan denizkızının renkli dünyası.",
+    cover: "assets/covers/cover_kids_10.png",
+    publisher: "Klasik Yayınları",
+    pages: 150,
+    year: 2024,
+    isbn: "978-605-332-11-37",
+    translator: "Ömer Madra",
+    language: "Türkçe",
+    binding: "Karton Kapak",
+    stock: 60,
+    badge: "Klasik",
+    badgeType: "sale",
+    description: "Derin okyanuslarda yunuslar ve sevimli balıklarla birlikte yaşayan denizkızının renkli dünyası.",
     reviews: []
   },
-  // --- 3. Felsefe (4 books: 39, 40, 41, 42) ---
   {
     id: 39,
     title: "Bilinçaltının Sınırları",
@@ -821,13 +934,13 @@ const INITIAL_BOOKS = [
   },
   {
     id: 42,
-    title: "Post-Human Düşünce",
+    title: "Küçük Karıncanın Büyük Kalbi",
     author: "Dr. Can Atılgan",
-    category: "Felsefe",
+    category: "Çocuk Kitapları",
     price: 165.00,
     discountPrice: 139.90,
     rating: 4.7,
-    cover: "assets/covers/cover_42.svg",
+    cover: "assets/covers/cover_kids_20.svg",
     publisher: "Fikir Kulübü",
     pages: 320,
     year: 2026,
@@ -838,10 +951,9 @@ const INITIAL_BOOKS = [
     stock: 12,
     badge: "Tavsiye",
     badgeType: "hot",
-    description: "Yapay zeka, genetik mühendisliği ve transhümanizm sonrasında 'insan' kavramının nasıl dönüşeceğini felsefi olarak tartışan vizyoner eser.",
+    description: "Kendi ağırlığının on katını taşırken yolda yardıma ihtiyacı olan diğer böceklere yardım eden fedakar karıncanın öyküsü.",
     reviews: []
   },
-  // --- 4. Gizem & Gerilim (4 books: 43, 44, 45, 46) ---
   {
     id: 43,
     title: "Son İpucu",
@@ -910,13 +1022,13 @@ const INITIAL_BOOKS = [
   },
   {
     id: 46,
-    title: "Gölgedeki Katil",
+    title: "Altın Anahtarın Gizemi",
     author: "Ellen Blackwood",
-    category: "Gizem & Gerilim",
+    category: "Çocuk Kitapları",
     price: 118.00,
     discountPrice: 99.90,
     rating: 4.5,
-    cover: "assets/covers/cover_46.svg",
+    cover: "assets/covers/cover_kids_25.svg",
     publisher: "Doğan Kitap",
     pages: 280,
     year: 2025,
@@ -925,12 +1037,11 @@ const INITIAL_BOOKS = [
     language: "Türkçe",
     binding: "Karton Kapak",
     stock: 35,
-    badge: "%15 İndirim",
-    badgeType: "sale",
-    description: "Sadece karlı gecelerde ortaya çıkan ve geride hiçbir ayak izi bırakmayan gizemli bir katili yakalamaya çalışan kasaba şerifinin hikayesi.",
+    badge: "",
+    badgeType: "",
+    description: "Tavan arasında bulunan antik bir sandığı açacak olan altından yapılmış işlemeli anahtarın gizemli hikayesi.",
     reviews: []
   },
-  // --- 5. Tasarım & Teknoloji (4 books: 47, 48, 49, 50) ---
   {
     id: 47,
     title: "Geleceğin Arayüzleri",
@@ -999,13 +1110,13 @@ const INITIAL_BOOKS = [
   },
   {
     id: 50,
-    title: "Minimalist Web Felsefesi",
+    title: "Tatlı Düşler Ülkesi",
     author: "Kerem Deren",
-    category: "Tasarım & Teknoloji",
+    category: "Çocuk Kitapları",
     price: 95.00,
     discountPrice: 79.90,
     rating: 4.6,
-    cover: "assets/covers/cover_50.svg",
+    cover: "assets/covers/cover_kids_30.svg",
     publisher: "Piksel Akademi",
     pages: 160,
     year: 2024,
@@ -1016,11 +1127,10 @@ const INITIAL_BOOKS = [
     stock: 45,
     badge: "Tavsiye",
     badgeType: "sale",
-    description: "Gereksiz kod ve görsellerden arındırılmış, yüksek performanslı ve kullanıcı odaklı minimalist web siteleri tasarlamanın kılavuzu.",
+    description: "Yıldızların üstünde yürüyen ve geceleri çocuklara en güzel masalları üfleyen pamuktan yapılmış koyunların masalı.",
     reviews: []
   }
 ];
-
 // --- SHARED STATE MANAGEMENT ---
 let state = {
   cart: [],
@@ -1601,22 +1711,6 @@ function setupSharedEventListeners() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
-
-  // Bind FAQ accordion click toggles
-  const faqQuestions = document.querySelectorAll(".faq-question");
-  faqQuestions.forEach(q => {
-    q.addEventListener("click", () => {
-      const item = q.parentElement;
-      const isActive = item.classList.contains("active");
-      
-      // Close all items
-      document.querySelectorAll(".faq-item").forEach(i => i.classList.remove("active"));
-      
-      if (!isActive) {
-        item.classList.add("active");
-      }
-    });
-  });
 }
 
 // --- RENDER DYNAMIC CART Math & Progress Bar ---
@@ -2576,7 +2670,7 @@ function renderAdminView() {
     dashboard.style.display = "flex";
     renderAdminActivePanel();
   } else {
-    loginGate.style.display = "flex";
+    loginGate.style.display = "block";
     dashboard.style.display = "none";
   }
 }
@@ -2609,33 +2703,19 @@ function renderAdminOverview() {
 
   const pendingOrders = currentOrders.filter(o => o.status === "pending").length;
 
-  document.getElementById("stat-total-sales").innerHTML = `₺${totalSales.toFixed(2)} <span class="trend-badge trend-up"><i class="fas fa-arrow-up"></i> %18</span>`;
-  document.getElementById("stat-total-orders").innerHTML = `${currentOrders.length} <span class="trend-badge trend-up"><i class="fas fa-arrow-up"></i> %5</span>`;
-  document.getElementById("stat-total-books").innerHTML = `${BOOKS_DB.length} <span class="trend-badge trend-up"><i class="fas fa-arrow-up"></i> 1 Yeni</span>`;
-  document.getElementById("stat-pending-orders").innerHTML = `${pendingOrders} <span class="trend-badge trend-down"><i class="fas fa-arrow-down"></i> %2 Azaldı</span>`;
+  document.getElementById("stat-total-sales").innerText = `₺${totalSales.toFixed(2)}`;
+  document.getElementById("stat-total-orders").innerText = currentOrders.length;
+  document.getElementById("stat-total-books").innerText = BOOKS_DB.length;
+  document.getElementById("stat-pending-orders").innerText = pendingOrders;
 
   const feed = document.getElementById("admin-activity-feed");
   feed.innerHTML = `
-    <div class="activity-timeline">
-      <div class="activity-item">
-        <div class="activity-icon bg-primary"><i class="fas fa-server"></i></div>
-        <div class="activity-content">
-          <p>Sistem Başlatıldı</p>
-          <small>Panel veritabanı bağlandı ve senkronize edildi.</small>
-        </div>
+    <div style="display:flex; flex-direction:column; gap:0.8rem; font-size:0.9rem;">
+      <div style="padding:0.6rem; background:rgba(255,255,255,0.02); border-left:3px solid var(--accent-secondary); border-radius:4px;">
+        <strong>Sistem:</strong> Panel yükleme tamamlandı. Veritabanı LocalStorage üzerinde aktif durumda.
       </div>
       ${currentOrders.slice(0, 4).map(o => `
-      <div class="activity-item">
-        <div class="activity-icon ${o.status === 'delivered' ? 'bg-success' : 'bg-warning'}"><i class="fas fa-shopping-bag"></i></div>
-        <div class="activity-content">
-          <p>Yeni Sipariş: #${o.id}</p>
-          <small>${o.name} - ₺${o.total.toFixed(2)}</small>
-        </div>
-      </div>
-      `).join("")}
-    </div>
-  `;
-}; border-radius:4px;">
+        <div style="padding:0.6rem; background:rgba(255,255,255,0.02); border-left:3px solid ${o.status === 'delivered' ? 'var(--success)' : 'var(--warning)'}; border-radius:4px;">
           <strong>Sipariş İşlemi:</strong> ${o.name} tarafından ${o.id} nolu sipariş (${o.date}) teslimat adresi: ${o.address} olarak girildi. Toplam: ₺${o.total.toFixed(2)}
         </div>
       `).join("")}
@@ -2809,33 +2889,28 @@ function renderAdminOrders() {
 
   const currentOrders = getOrders();
   tbody.innerHTML = currentOrders.map(order => {
-    let statusClass = "badge-pending";
+    let statusClass = "status-pending";
     let statusLabel = "Hazırlanıyor";
     if (order.status === "shipped") {
-      statusClass = "badge-shipped";
+      statusClass = "status-shipped";
       statusLabel = "Kargolandı";
     } else if (order.status === "delivered") {
-      statusClass = "badge-delivered";
+      statusClass = "status-delivered";
       statusLabel = "Teslim Edildi";
     }
 
     return `
       <tr>
-        <td style="font-weight:800; font-family:monospace; color:var(--accent-color);">#${order.id}</td>
-        <td>
-          <div style="font-weight:700;">${order.name}</div>
-          <div style="font-size:0.75rem; color:var(--text-muted); max-width:180px; overflow:hidden; text-overflow:ellipsis;">${order.address}</div>
-        </td>
-        <td style="font-weight:800;">₺${order.total.toFixed(2)}</td>
-        <td>
-          <div style="font-size:0.9rem;">${order.date}</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">14:30</div>
-        </td>
+        <td style="font-weight:800; font-family:monospace;">${order.id}</td>
+        <td style="font-weight:700;">${order.name}</td>
+        <td>₺${order.total.toFixed(2)}</td>
+        <td>${order.date}</td>
+        <td style="font-size:0.8rem; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${order.address}</td>
         <td>
           <span class="status-badge ${statusClass}">${statusLabel}</span>
         </td>
         <td>
-          <select class="table-select" onchange="triggerUpdateOrderStatus('${order.id}', this.value)" style="padding:0.4rem; font-size:0.8rem;">
+          <select class="table-select" onchange="triggerUpdateOrderStatus('${order.id}', this.value)">
             <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Hazırlanıyor</option>
             <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Kargolandı</option>
             <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Teslim Edildi</option>

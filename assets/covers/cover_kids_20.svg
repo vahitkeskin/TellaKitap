@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="grad-cover_kids_20.svg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4fc79;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#96e6a1;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 3D Spine Shading overlay -->
+    <linearGradient id="spine-shading" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.55"/>
+      <stop offset="2%" stop-color="#000000" stop-opacity="0.30"/>
+      <stop offset="6%" stop-color="#ffffff" stop-opacity="0.10"/>
+      <stop offset="10%" stop-color="#ffffff" stop-opacity="0.0"/>
+      <stop offset="90%" stop-color="#000000" stop-opacity="0.0"/>
+      <stop offset="97%" stop-color="#000000" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.50"/>
+    </linearGradient>
+    
+    <!-- Tactile Paper Texture Filter -->
+    <filter id="paper-texture" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="3" result="noise" />
+      <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.06 0" in="noise" result="coloredNoise" />
+      <feBlend mode="multiply" in="SourceGraphic" in2="coloredNoise" />
+    </filter>
+
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <g filter="url(#paper-texture)">
+    <!-- Cover Background -->
+    <rect width="300" height="450" fill="url(#grad-cover_kids_20.svg)" />
+    
+    <!-- 3D Spine shading -->
+    <rect width="300" height="450" fill="url(#spine-shading)" />
+    
+    <!-- Vertical Book Joint line -->
+    <line x1="20" y1="0" x2="20" y2="450" stroke="rgba(0,0,0,0.3)" stroke-width="1.2" />
+    <line x1="21" y1="0" x2="21" y2="450" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+    <rect x="0" y="0" width="20" height="450" fill="rgba(255,255,255,0.02)" />
+
+    <!-- Cute Graphics -->
+    
+      <!-- Big red apple and small green caterpillar -->
+      <g transform="translate(150, 220)">
+        <circle cx="0" cy="0" r="45" fill="#ef4444" filter="url(#shadow)"/>
+        <!-- Stem & leaf -->
+        <path d="M0,-45 Q5,-60 15,-55" fill="none" stroke="#78350f" stroke-width="4"/>
+        <path d="M5,-50 Q20,-65 25,-45 Z" fill="#22c55e"/>
+        <!-- Caterpillar -->
+        <circle cx="-35" cy="15" r="10" fill="#4ade80"/>
+        <circle cx="-25" cy="15" r="9" fill="#22c55e"/>
+        <circle cx="-15" cy="15" r="9" fill="#4ade80"/>
+        <circle cx="-5" cy="15" r="8" fill="#22c55e"/>
+        <!-- Eyes -->
+        <circle cx="-38" cy="12" r="1.5" fill="#000000"/>
+        <path d="M-37,17 Q-35,19 -33,17" fill="none" stroke="#000000" stroke-width="1"/>
+      </g>
+    
+
+    <!-- Frame -->
+    <rect x="15" y="15" width="270" height="420" rx="12" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    <rect x="18" y="18" width="264" height="414" rx="10" fill="none" stroke="rgba(0,0,0,0.05)" stroke-width="1" />
+
+    <!-- Category (Top Header) -->
+    <text x="150" y="52" fill="rgba(30,41,59,0.6)" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="800" letter-spacing="4" text-anchor="middle">ÇOCUK KİTABI</text>
+
+    <!-- Title Backing Plate -->
+    <rect x="35" y="82" width="230" height="60" rx="8" fill="rgba(255,255,255,0.8)" filter="url(#shadow)"/>
+
+    <!-- Title -->
+    <text x="150" y="108" text-anchor="middle" fill="#1e293b" font-family="system-ui, -apple-system, sans-serif" font-size="17" font-weight="900" letter-spacing="-0.3">
+      <tspan x="150" dy="0">Küçük Karıncanın</tspan>
+      <tspan x="150" dy="20">Büyük Kalbi</tspan>
+    </text>
+
+    <!-- Author (Bottom) -->
+    <text x="150" y="405" fill="#1e293b" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5" text-anchor="middle">AGORA AKADEMI</text>
+  </g>
+</svg>
