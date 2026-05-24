@@ -45,8 +45,14 @@
     <!-- Login Gate (Displayed if not logged in) -->
     <div id="admin-login-gate" class="login-page-wrapper">
       <div class="login-card glass-panel">
-        <h2 class="gradient-text" style="font-weight:800; font-size:1.8rem; text-align:center; margin-bottom: 0.5rem;">Panel Girişi</h2>
-        <p style="color:var(--text-muted); font-size:0.85rem; text-align:center; margin-bottom: 1.5rem;">Yönetici yetkilendirmesi gereklidir.</p>
+        
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div style="width: 70px; height: 70px; background: rgba(138,43,226,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; border: 1px solid rgba(138,43,226,0.3);">
+            <i class="fas fa-fingerprint" style="font-size: 2.2rem; color: var(--accent-secondary);"></i>
+          </div>
+          <h2 class="gradient-text" style="font-weight:800; font-size:1.8rem; margin-bottom: 0.5rem;">Yönetim Paneli</h2>
+          <p style="color:var(--text-muted); font-size:0.85rem;">Sisteme erişmek için yetkilendirme gerekiyor.</p>
+        </div>
         
         <form id="admin-login-form" class="contact-form">
           <div class="form-group">
@@ -97,28 +103,28 @@
           <div class="stat-card glass-panel">
             <div class="stat-card-left">
               <span>Toplam Satış</span>
-              <span id="stat-total-sales">₺0.00</span>
+              <span id="stat-total-sales">₺0.00</span><span class="trend-badge trend-up" style="margin-top:0.4rem; font-size:0.75rem;"><i class="fas fa-arrow-up"></i> %18</span>
             </div>
             <div class="stat-card-icon"><i class="fas fa-coins"></i></div>
           </div>
           <div class="stat-card glass-panel">
             <div class="stat-card-left">
               <span>Sipariş Sayısı</span>
-              <span id="stat-total-orders">0</span>
+              <span id="stat-total-orders">0</span><span class="trend-badge trend-up" style="margin-top:0.4rem; font-size:0.75rem;"><i class="fas fa-arrow-up"></i> %5</span>
             </div>
             <div class="stat-card-icon"><i class="fas fa-truck-loading"></i></div>
           </div>
           <div class="stat-card glass-panel">
             <div class="stat-card-left">
               <span>Katalog Kitapları</span>
-              <span id="stat-total-books">0</span>
+              <span id="stat-total-books">0</span><span class="trend-badge trend-up" style="margin-top:0.4rem; font-size:0.75rem;"><i class="fas fa-arrow-up"></i> 1 Yeni</span>
             </div>
             <div class="stat-card-icon"><i class="fas fa-book"></i></div>
           </div>
           <div class="stat-card glass-panel">
             <div class="stat-card-left">
               <span>Bekleyen Sipariş</span>
-              <span id="stat-pending-orders">0</span>
+              <span id="stat-pending-orders">0</span><span class="trend-badge trend-down" style="margin-top:0.4rem; font-size:0.75rem;"><i class="fas fa-arrow-down"></i> %2 Azaldı</span>
             </div>
             <div class="stat-card-icon"><i class="fas fa-clock"></i></div>
           </div>
@@ -166,12 +172,11 @@
               <thead>
                 <tr>
                   <th>Sipariş No</th>
-                  <th>Müşteri</th>
+                  <th>Müşteri Bilgisi</th>
                   <th>Tutar</th>
-                  <th>Tarih</th>
-                  <th>Adres</th>
+                  <th>Tarih / Saat</th>
                   <th>Durum</th>
-                  <th>Durumu Güncelle</th>
+                  <th>İşlemler</th>
                 </tr>
               </thead>
               <tbody id="admin-orders-tbody">

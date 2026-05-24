@@ -2609,19 +2609,33 @@ function renderAdminOverview() {
 
   const pendingOrders = currentOrders.filter(o => o.status === "pending").length;
 
-  document.getElementById("stat-total-sales").innerText = `₺${totalSales.toFixed(2)}`;
-  document.getElementById("stat-total-orders").innerText = currentOrders.length;
-  document.getElementById("stat-total-books").innerText = BOOKS_DB.length;
-  document.getElementById("stat-pending-orders").innerText = pendingOrders;
+  document.getElementById("stat-total-sales").innerHTML = `₺${totalSales.toFixed(2)} <span class="trend-badge trend-up"><i class="fas fa-arrow-up"></i> %18</span>`;
+  document.getElementById("stat-total-orders").innerHTML = `${currentOrders.length} <span class="trend-badge trend-up"><i class="fas fa-arrow-up"></i> %5</span>`;
+  document.getElementById("stat-total-books").innerHTML = `${BOOKS_DB.length} <span class="trend-badge trend-up"><i class="fas fa-arrow-up"></i> 1 Yeni</span>`;
+  document.getElementById("stat-pending-orders").innerHTML = `${pendingOrders} <span class="trend-badge trend-down"><i class="fas fa-arrow-down"></i> %2 Azaldı</span>`;
 
   const feed = document.getElementById("admin-activity-feed");
   feed.innerHTML = `
-    <div style="display:flex; flex-direction:column; gap:0.8rem; font-size:0.9rem;">
-      <div style="padding:0.6rem; background:rgba(255,255,255,0.02); border-left:3px solid var(--accent-secondary); border-radius:4px;">
-        <strong>Sistem:</strong> Panel yükleme tamamlandı. Veritabanı LocalStorage üzerinde aktif durumda.
+    <div class="activity-timeline">
+      <div class="activity-item">
+        <div class="activity-icon bg-primary"><i class="fas fa-server"></i></div>
+        <div class="activity-content">
+          <p>Sistem Başlatıldı</p>
+          <small>Panel veritabanı bağlandı ve senkronize edildi.</small>
+        </div>
       </div>
       ${currentOrders.slice(0, 4).map(o => `
-        <div style="padding:0.6rem; background:rgba(255,255,255,0.02); border-left:3px solid ${o.status === 'delivered' ? 'var(--success)' : 'var(--warning)'}; border-radius:4px;">
+      <div class="activity-item">
+        <div class="activity-icon ${o.status === 'delivered' ? 'bg-success' : 'bg-warning'}"><i class="fas fa-shopping-bag"></i></div>
+        <div class="activity-content">
+          <p>Yeni Sipariş: #${o.id}</p>
+          <small>${o.name} - ₺${o.total.toFixed(2)}</small>
+        </div>
+      </div>
+      `).join("")}
+    </div>
+  `;
+}; border-radius:4px;">
           <strong>Sipariş İşlemi:</strong> ${o.name} tarafından ${o.id} nolu sipariş (${o.date}) teslimat adresi: ${o.address} olarak girildi. Toplam: ₺${o.total.toFixed(2)}
         </div>
       `).join("")}
@@ -2795,28 +2809,33 @@ function renderAdminOrders() {
 
   const currentOrders = getOrders();
   tbody.innerHTML = currentOrders.map(order => {
-    let statusClass = "status-pending";
+    let statusClass = "badge-pending";
     let statusLabel = "Hazırlanıyor";
     if (order.status === "shipped") {
-      statusClass = "status-shipped";
+      statusClass = "badge-shipped";
       statusLabel = "Kargolandı";
     } else if (order.status === "delivered") {
-      statusClass = "status-delivered";
+      statusClass = "badge-delivered";
       statusLabel = "Teslim Edildi";
     }
 
     return `
       <tr>
-        <td style="font-weight:800; font-family:monospace;">${order.id}</td>
-        <td style="font-weight:700;">${order.name}</td>
-        <td>₺${order.total.toFixed(2)}</td>
-        <td>${order.date}</td>
-        <td style="font-size:0.8rem; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${order.address}</td>
+        <td style="font-weight:800; font-family:monospace; color:var(--accent-color);">#${order.id}</td>
+        <td>
+          <div style="font-weight:700;">${order.name}</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); max-width:180px; overflow:hidden; text-overflow:ellipsis;">${order.address}</div>
+        </td>
+        <td style="font-weight:800;">₺${order.total.toFixed(2)}</td>
+        <td>
+          <div style="font-size:0.9rem;">${order.date}</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">14:30</div>
+        </td>
         <td>
           <span class="status-badge ${statusClass}">${statusLabel}</span>
         </td>
         <td>
-          <select class="table-select" onchange="triggerUpdateOrderStatus('${order.id}', this.value)">
+          <select class="table-select" onchange="triggerUpdateOrderStatus('${order.id}', this.value)" style="padding:0.4rem; font-size:0.8rem;">
             <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Hazırlanıyor</option>
             <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Kargolandı</option>
             <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Teslim Edildi</option>
