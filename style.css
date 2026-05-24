@@ -397,8 +397,8 @@ header .container {
 
 /* --- ANA SAYFA (HOME VIEW) --- */
 .home-layout {
-  margin-top: 1.5rem;
-  margin-bottom: 4rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
@@ -642,7 +642,7 @@ header .container {
 
 /* --- MAĞAZA (SHOP VIEW) --- */
 .shop-layout {
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 2.5rem;
@@ -1025,7 +1025,7 @@ header .container {
 
 /* --- HAKKIMIZDA (ABOUT VIEW) --- */
 .about-layout {
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   margin-bottom: 4rem;
   display: flex;
   flex-direction: column;
@@ -1033,7 +1033,7 @@ header .container {
 }
 
 .about-hero {
-  padding: 4rem 3rem;
+  padding: 2.5rem 3rem;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -1140,7 +1140,7 @@ header .container {
 
 /* --- İLETİŞİM (CONTACT VIEW) --- */
 .contact-layout {
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   margin-bottom: 4rem;
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -1284,7 +1284,7 @@ header .container {
    --- DEDICATED DETAIL.HTML PAGE STYLES ---
    ========================================== */
 .detail-layout {
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   margin-bottom: 6rem;
   display: grid;
   grid-template-columns: 1.1fr 1.8fr;
@@ -2458,8 +2458,8 @@ dialog::backdrop {
   background: rgba(255,255,255,0.02);
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
-  padding: 4rem 0;
-  margin-bottom: 4rem;
+  padding: 2.5rem 0;
+  margin-bottom: 2rem;
 }
 
 [data-theme="light"] .features-section {
@@ -2906,26 +2906,78 @@ footer {
 .login-card {
   width: 100%;
   max-width: 420px;
-  padding: 2.5rem;
-  border-radius: 16px;
-  background: var(--bg-surface-solid);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  padding: 3rem 2.5rem;
+  border-radius: 24px;
+  background: rgba(22, 28, 45, 0.45);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(138, 43, 226, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  gap: 1.2rem;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
   margin: 1.5rem;
+  animation: loginCardFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+[data-theme="light"] .login-card {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 40px rgba(138, 43, 226, 0.05);
 }
 
 .login-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  transform: translateY(-5px);
+  border-color: rgba(138, 43, 226, 0.3);
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 50px rgba(138, 43, 226, 0.15);
+}
+
+[data-theme="light"] .login-card:hover {
+  border-color: rgba(138, 43, 226, 0.2);
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.2), 0 0 50px rgba(138, 43, 226, 0.08);
+}
+
+@keyframes loginCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form Fields with Icon Styling */
+.input-with-icon {
+  position: relative;
+  width: 100%;
+}
+
+.input-with-icon .field-icon {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  pointer-events: none;
+  transition: var(--transition-fast);
+  z-index: 10;
+}
+
+.input-with-icon .form-control {
+  padding-left: 3rem !important;
+}
+
+.input-with-icon .form-control:focus ~ .field-icon {
+  color: var(--accent-secondary);
 }
 
 @media (max-width: 500px) {
   .login-card {
-    padding: 1.8rem 1.2rem;
+    padding: 2.2rem 1.5rem;
     margin: 1rem;
   }
 }

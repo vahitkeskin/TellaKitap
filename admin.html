@@ -17,6 +17,45 @@
 </head>
 <body>
 
+  <!-- Login Gate (Displayed if not logged in) -->
+  <div id="admin-login-gate" class="login-page-wrapper">
+    <div class="login-card glass-panel">
+      
+      <div style="text-align: center; margin-bottom: 1rem;">
+        <div style="width: 70px; height: 70px; background: rgba(138,43,226,0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem auto; border: 1px solid rgba(138,43,226,0.2); box-shadow: 0 0 20px rgba(138,43,226,0.15);">
+          <i class="fas fa-user-shield" style="font-size: 2rem; color: var(--accent-secondary);"></i>
+        </div>
+        <h2 class="gradient-text" style="font-weight:900; font-size:1.9rem; margin-bottom: 0.4rem; letter-spacing: -0.5px;">Yönetici Girişi</h2>
+        <p style="color:var(--text-muted); font-size:0.85rem;">Panele erişmek için kimlik doğrulaması gereklidir.</p>
+      </div>
+      
+      <form id="admin-login-form" class="contact-form">
+        <div class="form-group">
+          <label for="admin-username">Kullanıcı Adı</label>
+          <div class="input-with-icon">
+            <i class="fas fa-user field-icon"></i>
+            <input type="text" id="admin-username" class="form-control" placeholder="Kullanıcı adı girin" required autocomplete="off">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 0.8rem;">
+          <label for="admin-password">Şifre</label>
+          <div class="input-with-icon">
+            <i class="fas fa-lock field-icon"></i>
+            <input type="password" id="admin-password" class="form-control" placeholder="••••" required autocomplete="off">
+          </div>
+        </div>
+        <button type="submit" class="gradient-btn" style="width:100%; margin-top:1.2rem; border-radius:12px; font-weight:700; padding: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          Giriş Yap <i class="fas fa-sign-in-alt"></i>
+        </button>
+        <div style="text-align: center; margin-top: 1.2rem; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
+          <span onclick="autoFillAdminCredentials()" style="font-size: 0.82rem; color: var(--accent-secondary); cursor: pointer; font-weight: 600; transition: var(--transition-fast);" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+            <i class="fas fa-magic"></i> Bilgileri Otomatik Doldur
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- --- HEADER NAVIGATION --- -->
   <header class="glass-panel scrolled">
     <div class="container">
@@ -42,33 +81,6 @@
   <!-- ================= MAIN ADMIN LAYOUT ================= -->
   <main class="admin-sidebar-layout">
     
-    <!-- Login Gate (Displayed if not logged in) -->
-    <div id="admin-login-gate" class="login-page-wrapper">
-      <div class="login-card glass-panel">
-        
-        <div style="text-align: center; margin-bottom: 1.5rem;">
-          <div style="width: 70px; height: 70px; background: rgba(138,43,226,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; border: 1px solid rgba(138,43,226,0.3);">
-            <i class="fas fa-fingerprint" style="font-size: 2.2rem; color: var(--accent-secondary);"></i>
-          </div>
-          <h2 class="gradient-text" style="font-weight:800; font-size:1.8rem; margin-bottom: 0.5rem;">Yönetim Paneli</h2>
-          <p style="color:var(--text-muted); font-size:0.85rem;">Sisteme erişmek için yetkilendirme gerekiyor.</p>
-        </div>
-        
-        <form id="admin-login-form" class="contact-form">
-          <div class="form-group">
-            <label for="admin-username">Kullanıcı Adı</label>
-            <input type="text" id="admin-username" class="form-control" placeholder="admin" required autocomplete="off">
-          </div>
-          <div class="form-group">
-            <label for="admin-password">Şifre</label>
-            <input type="password" id="admin-password" class="form-control" placeholder="••••" required autocomplete="off">
-          </div>
-          <button type="submit" class="gradient-btn" style="width:100%; margin-top:1rem; border-radius:10px; font-weight:700;">Giriş Yap</button>
-          <button type="button" class="secondary-btn" onclick="autoFillAdminCredentials()" style="width:100%; font-size:0.8rem; padding:0.5rem; margin-top:0.8rem; justify-content:center;">Otomatik Doldur (admin/admin)</button>
-        </form>
-      </div>
-    </div>
-
     <!-- Admin Side Menu (Visible after Login) -->
     <aside class="admin-sidebar">
       <div style="padding-bottom:1.5rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border-color); text-align:center;">
