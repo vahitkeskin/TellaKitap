@@ -67,6 +67,7 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   scrollbar-gutter: stable;
+  overflow-x: hidden;
 }
 
 body {
@@ -1472,7 +1473,7 @@ header .container {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100vw;
+  right: 0;
   background: var(--bg-surface-solid);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -2741,6 +2742,9 @@ footer {
 @media (max-width: 768px) {
   :root {
     --header-height: 70px;
+  }
+  .form-control, .sort-select, .search-bar, .coupon-input, select, input, textarea {
+    font-size: 16px !important;
   }
   body {
     padding-bottom: calc(64px + env(safe-area-inset-bottom)); /* Dynamic spacing to prevent overlap with bottom navigation bar */
