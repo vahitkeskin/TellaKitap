@@ -668,7 +668,7 @@ header .container {
 
 /* --- MAĞAZA (SHOP VIEW) --- */
 .page-hero-banner {
-  padding: 2.5rem 3rem;
+  padding: 1.5rem 2.5rem;
   background: linear-gradient(135deg, rgba(22, 28, 45, 0.45), rgba(138, 43, 226, 0.05));
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -683,7 +683,7 @@ header .container {
 }
 
 .shop-layout {
-  margin-top: 0;
+  margin-top: 0.5rem;
   flex-direction: column;
   gap: 2rem;
   margin-bottom: 1.5rem;
@@ -1077,7 +1077,7 @@ header .container {
 
 /* --- HAKKIMIZDA (ABOUT VIEW) --- */
 .about-layout {
-  margin-top: 0;
+  margin-top: 0.5rem;
   margin-bottom: 1.5rem;
   flex-direction: column;
   gap: 2rem;
@@ -1197,7 +1197,7 @@ header .container {
 
 /* --- İLETİŞİM (CONTACT VIEW) --- */
 .contact-layout {
-  margin-top: 0;
+  margin-top: 0.5rem;
   margin-bottom: 0;
   flex-direction: column;
   gap: 2rem;
@@ -2747,6 +2747,9 @@ footer {
 @media (max-width: 768px) {
   :root {
     --header-height: 70px;
+  }
+  .page-hero-banner {
+    padding: 1.2rem 1.2rem;
   }
   .form-control, .sort-select, .search-bar, .coupon-input, select, input, textarea {
     font-size: 16px !important;
