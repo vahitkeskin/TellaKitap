@@ -390,6 +390,7 @@ header .container {
   animation: fadeInUp 0.5s forwards cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+.home-layout.active,
 .shop-layout.active,
 .about-layout.active,
 .contact-layout.active {
@@ -407,7 +408,6 @@ header .container {
 .home-layout {
   margin-top: 0.5rem;
   margin-bottom: 0;
-  display: flex;
   flex-direction: column;
   gap: 2.5rem;
 }
