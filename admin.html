@@ -19,39 +19,35 @@
 
   <!-- Login Gate (Displayed if not logged in) -->
   <div id="admin-login-gate" class="login-page-wrapper">
-    <div class="login-card glass-panel">
+    <div class="login-card glass-panel" style="border: 1px solid var(--border-color); box-shadow: var(--card-shadow);">
       
-      <div style="text-align: center; margin-bottom: 1rem;">
-        <div style="width: 70px; height: 70px; background: rgba(138,43,226,0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem auto; border: 1px solid rgba(138,43,226,0.2); box-shadow: 0 0 20px rgba(138,43,226,0.15);">
-          <i class="fas fa-user-shield" style="font-size: 2rem; color: var(--accent-secondary);"></i>
-        </div>
-        <h2 class="gradient-text" style="font-weight:900; font-size:1.9rem; margin-bottom: 0.4rem; letter-spacing: -0.5px;">Yönetici Girişi</h2>
-        <p style="color:var(--text-muted); font-size:0.85rem;">Panele erişmek için kimlik doğrulaması gereklidir.</p>
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <a href="index.html" class="logo" style="justify-content: center; margin-bottom: 1.2rem; display: flex; gap: 10px; font-size: 2rem; font-weight: 800; text-decoration: none; color: var(--text-primary); align-items: center;">
+          <i class="fas fa-book-open" style="color: var(--accent-color); font-size: 1.8rem;"></i>
+          <span>Tella<span class="gradient-text">Kitap</span></span>
+        </a>
+        <h2 class="gradient-text" style="font-weight: 900; font-size: 1.6rem; margin-bottom: 0.4rem; letter-spacing: -0.5px;">Yönetici Girişi</h2>
+        <p style="color: var(--text-secondary); font-size: 0.85rem;">Sistem paneline erişmek için kimlik doğrulaması gereklidir.</p>
       </div>
       
       <form id="admin-login-form" class="contact-form">
         <div class="form-group">
-          <label for="admin-username">Kullanıcı Adı</label>
+          <label for="admin-username" style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary); margin-bottom: 0.5rem; display: block;">Kullanıcı Adı</label>
           <div class="input-with-icon">
             <i class="fas fa-user field-icon"></i>
-            <input type="text" id="admin-username" class="form-control" placeholder="Kullanıcı adı girin" required autocomplete="off">
+            <input type="text" id="admin-username" class="form-control" placeholder="Kullanıcı adı girin" value="admin" required autocomplete="off" style="border-radius: 10px;">
           </div>
         </div>
-        <div class="form-group" style="margin-top: 0.8rem;">
-          <label for="admin-password">Şifre</label>
+        <div class="form-group" style="margin-top: 1rem;">
+          <label for="admin-password" style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary); margin-bottom: 0.5rem; display: block;">Şifre</label>
           <div class="input-with-icon">
             <i class="fas fa-lock field-icon"></i>
-            <input type="password" id="admin-password" class="form-control" placeholder="••••" required autocomplete="off">
+            <input type="password" id="admin-password" class="form-control" placeholder="••••" value="admin" required autocomplete="off" style="border-radius: 10px;">
           </div>
         </div>
-        <button type="submit" class="gradient-btn" style="width:100%; margin-top:1.2rem; border-radius:12px; font-weight:700; padding: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <button type="submit" class="gradient-btn" style="width: 100%; margin-top: 1.5rem; border-radius: 12px; font-weight: 700; padding: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem;">
           Giriş Yap <i class="fas fa-sign-in-alt"></i>
         </button>
-        <div style="text-align: center; margin-top: 1.2rem; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
-          <span onclick="autoFillAdminCredentials()" style="font-size: 0.82rem; color: var(--accent-secondary); cursor: pointer; font-weight: 600; transition: var(--transition-fast);" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
-            <i class="fas fa-magic"></i> Bilgileri Otomatik Doldur
-          </span>
-        </div>
       </form>
     </div>
   </div>

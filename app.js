@@ -2764,7 +2764,7 @@ function renderAdminView() {
     dashboard.style.display = "flex";
     renderAdminActivePanel();
   } else {
-    loginGate.style.display = "block";
+    loginGate.style.display = "flex";
     dashboard.style.display = "none";
   }
 }
