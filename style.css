@@ -74,6 +74,7 @@ body {
   background-color: var(--bg-app);
   color: var(--text-primary);
   min-height: 100vh;
+  min-height: 100dvh;
   line-height: 1.6;
   overflow-x: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
@@ -388,6 +389,12 @@ header .container {
   animation: fadeInUp 0.5s forwards cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+.shop-layout.active,
+.about-layout.active,
+.contact-layout.active {
+  display: flex;
+}
+
 @keyframes fadeInUp {
   to {
     opacity: 1;
@@ -676,7 +683,6 @@ header .container {
 
 .shop-layout {
   margin-top: 0;
-  display: flex;
   flex-direction: column;
   gap: 2rem;
   margin-bottom: 1.5rem;
@@ -1067,7 +1073,6 @@ header .container {
 .about-layout {
   margin-top: 0;
   margin-bottom: 1.5rem;
-  display: flex;
   flex-direction: column;
   gap: 2rem;
 }
@@ -1188,7 +1193,6 @@ header .container {
 .contact-layout {
   margin-top: 0;
   margin-bottom: 0;
-  display: flex;
   flex-direction: column;
   gap: 2rem;
 }
@@ -1554,11 +1558,11 @@ header .container {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  width: 100vw;
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   background: var(--bg-app);
   z-index: 9999;
 }
@@ -1580,9 +1584,9 @@ header .container {
   position: fixed;
   top: 0;
   right: 0;
+  bottom: 0;
   width: 440px;
-  max-width: 100vw;
-  height: 100vh;
+  max-width: 100%;
   z-index: 200;
   background: var(--bg-surface-solid);
   border-left: 1px solid var(--border-color);
@@ -1825,8 +1829,8 @@ header .container {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  right: 0;
+  bottom: 0;
   z-index: 190;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
@@ -1889,6 +1893,8 @@ dialog {
   margin: auto;
   max-width: 860px;
   width: 90vw;
+  max-height: 90vh;
+  max-height: 90dvh;
   background: var(--bg-surface-solid);
   border: 1px solid var(--border-color);
   border-radius: 20px;
@@ -1908,6 +1914,7 @@ dialog::backdrop {
   grid-template-columns: 1.1fr 1.8fr;
   gap: 2.5rem;
   max-height: 80vh;
+  max-height: 80dvh;
   overflow-y: auto;
   padding-right: 0.5rem;
 }
@@ -2761,10 +2768,18 @@ footer {
   }
   dialog {
     padding: 1.5rem;
+    max-height: 90vh !important;
+    max-height: 90dvh !important;
+    overflow-y: auto !important;
   }
   .dialog-layout {
     grid-template-columns: 1fr;
     max-height: 70vh;
+    max-height: 70dvh;
+  }
+  .admin-dialog-form {
+    grid-template-columns: 1fr !important;
+    gap: 0.8rem !important;
   }
   .dialog-title {
     font-size: 1.5rem;
@@ -3960,5 +3975,13 @@ footer {
 @media (max-width: 500px) {
   .testimonials-grid, .blog-grid, .benefits-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 360px) {
+  .credit-card-panel {
+    transform: scale(0.85);
+    transform-origin: center;
+    margin: -15px 0;
   }
 }
