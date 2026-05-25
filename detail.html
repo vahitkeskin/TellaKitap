@@ -2,7 +2,7 @@
 <html lang="tr" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>TellaKitap | Eser Detayları</title>
   
   <!-- SEO Meta Tags -->
@@ -16,7 +16,7 @@
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="details-page">
 
   <!-- --- HEADER NAVIGATION --- -->
   <header class="glass-panel scrolled">
@@ -146,7 +146,7 @@
             <span id="det-current-price" class="detail-current-price">₺0.00</span>
           </div>
           
-          <div style="display:flex; align-items:center; gap:1rem;">
+          <div class="detail-actions">
             <button id="det-fav-btn" class="secondary-btn" onclick="triggerDetailFavoriteToggle()">
               <i class="far fa-heart"></i> Favorilerime Ekle
             </button>
@@ -166,7 +166,7 @@
           <!-- Add Review Form -->
           <form id="det-review-form" class="add-review-form glass-panel" style="padding:2rem; margin-top:2.5rem; display:flex; flex-direction:column; gap:1.2rem; border:1px solid var(--border-color);">
             <h4 style="font-weight: 800; font-size: 1.2rem;" class="gradient-text">Düşüncelerinizi Paylaşın</h4>
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+            <div class="review-form-row">
               <div class="form-group" style="margin-bottom:0;">
                 <label for="d-rev-user">Adınız Soyadınız</label>
                 <input type="text" id="d-rev-user" class="form-control" placeholder="Örn: Vahit Keskin" required autocomplete="off">

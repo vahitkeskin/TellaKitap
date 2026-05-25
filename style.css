@@ -628,6 +628,24 @@ header .container {
   color: var(--text-primary);
 }
 
+/* --- MOBILE COMPONENT CLASSES --- */
+.spotlight-actions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.detail-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.review-form-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
 .quote-author {
   font-size: 0.95rem;
   font-weight: 700;
@@ -2792,7 +2810,7 @@ footer {
   font-weight: 600;
   gap: 3px;
   flex: 1;
-  height: 100%;
+  height: 64px;
   cursor: pointer;
   position: relative;
   transition: var(--transition-fast);
@@ -3898,5 +3916,49 @@ footer {
     flex-direction: column;
     text-align: center;
     align-items: center;
+  }
+  #wishlist-btn, #cart-btn {
+    display: none !important;
+  }
+  .spotlight-banner {
+    padding: 1.5rem 1.2rem;
+  }
+  .spotlight-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+  }
+  .spotlight-actions > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .spotlight-actions .gradient-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .detail-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+  .detail-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+  .review-form-row {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  body.details-page {
+    padding-bottom: calc(130px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* --- SMALL MOBILE RESPONSIVE EXTRA CONTROLS --- */
+@media (max-width: 500px) {
+  .testimonials-grid, .blog-grid, .benefits-grid {
+    grid-template-columns: 1fr;
   }
 }
