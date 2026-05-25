@@ -1362,10 +1362,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // --- THEME MANAGEMENT ---
 function initTheme() {
-  const savedTheme = localStorage.getItem("tella-theme") || "dark";
+  let savedTheme = localStorage.getItem("tella-theme");
+  if (!savedTheme) {
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    savedTheme = prefersDark ? "dark" : "light";
+  }
   state.theme = savedTheme;
   document.documentElement.setAttribute("data-theme", savedTheme);
   updateThemeIcon();
+
+  // Listen for system theme changes in real-time
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+    if (!localStorage.getItem("tella-theme")) {
+      const newTheme = e.matches ? "dark" : "light";
+      state.theme = newTheme;
+      document.documentElement.setAttribute("data-theme", newTheme);
+      updateThemeIcon();
+    }
+  });
 }
 
 function toggleTheme() {
@@ -2225,17 +2239,11 @@ function generateBookCardHTML(book) {
       <button class="${heartClass}" onclick="toggleFavorite(${book.id})" title="Favorilere Ekle">
         <i class="fas fa-heart"></i>
       </button>
-      <div class="book-cover-container">
-        <img class="book-cover" src="${book.cover}" alt="${book.title}" loading="lazy">
-        <div class="card-actions-overlay">
-          <a href="detail.html?id=${book.id}" class="overlay-btn view-detail-btn" title="Detayları İncele">
-            <i class="fas fa-eye"></i>
-          </a>
-          <button class="overlay-btn card-add-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
-            <i class="fas fa-shopping-bag"></i>
-          </button>
+      <a href="detail.html?id=${book.id}" class="book-cover-link">
+        <div class="book-cover-container">
+          <img class="book-cover" src="${book.cover}" alt="${book.title}" loading="lazy">
         </div>
-      </div>
+      </a>
       <h3 class="book-title"><a href="detail.html?id=${book.id}">${book.title}</a></h3>
       <p class="book-author">${book.author}</p>
       <div class="book-rating">
@@ -2417,17 +2425,11 @@ function renderCatalog() {
         <button class="${heartClass}" onclick="toggleFavorite(${book.id})" title="Favorilere Ekle">
           <i class="fas fa-heart"></i>
         </button>
-        <div class="book-cover-container">
-          <img class="book-cover" src="${book.cover}" alt="${book.title}" loading="lazy">
-          <div class="card-actions-overlay">
-            <a href="detail.html?id=${book.id}" class="overlay-btn view-detail-btn" title="Detayları İncele">
-              <i class="fas fa-eye"></i>
-            </a>
-            <button class="overlay-btn card-add-btn" onclick="addToCart(${book.id})" title="Sepete Ekle">
-              <i class="fas fa-shopping-bag"></i>
-            </button>
+        <a href="detail.html?id=${book.id}" class="book-cover-link">
+          <div class="book-cover-container">
+            <img class="book-cover" src="${book.cover}" alt="${book.title}" loading="lazy">
           </div>
-        </div>
+        </a>
         <h3 class="book-title"><a href="detail.html?id=${book.id}">${book.title}</a></h3>
         <p class="book-author">${book.author}</p>
         <div class="book-rating">

@@ -863,6 +863,11 @@ header .container {
   background: linear-gradient(135deg, var(--danger), #ff8a00);
 }
 
+.book-cover-link {
+  display: block;
+  width: 100%;
+}
+
 .book-cover-container {
   position: relative;
   width: 100%;
